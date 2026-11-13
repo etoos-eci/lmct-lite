@@ -200,7 +200,12 @@ button { cursor: pointer; }
 .event-card dt { padding: 1px 9px; border-radius: 7px; background: #EAF6F4; font-size: 13.5px; font-weight: 900; color: var(--teal-deep); white-space: nowrap; }
 .event-card dd { margin: 0; font-weight: 800; color: var(--ink); white-space: pre-line; }
 .event-card .ev-note { margin: 14px 0 0; padding: 10px 12px; border-radius: 12px; background: #F1F9E3; text-align: left; padding-left: calc(12px + 1.3em); text-indent: -1.3em; font-size: 14px; font-weight: 800; color: var(--ink); line-height: 1.45; }
-@media (prefers-reduced-motion: reduce) { .ev-top::after, .ev-prize .jar { animation: none; } }
+.ev-start { margin-top: 14px; }
+.ev-more { display: flex; align-items: center; justify-content: center; gap: 4px; width: 100%; margin: 10px 0 0; padding: 6px 0 0; background: none; border: 0; font-size: 14.5px; font-weight: 800; color: var(--teal-deep); }
+.ev-more svg { width: 18px; height: 18px; animation: ev-nudge 1.4s ease-in-out infinite; }
+@keyframes ev-nudge { 0%, 100% { transform: translateY(-2px); } 50% { transform: translateY(3px); } }
+.hero { scroll-margin-top: 72px; }
+@media (prefers-reduced-motion: reduce) { .ev-top::after, .ev-prize .jar, .ev-more svg { animation: none; } }
 .event-closed { margin: 0 0 14px; padding: 12px 14px; border-radius: 14px; background: #F1F3F3; border: 1px solid var(--line); text-align: center; font-size: 14.5px; font-weight: 700; color: var(--ink); line-height: 1.5; }
 .event-closed b { display: block; font-size: 16.5px; font-weight: 900; }
 .entry-note { margin: 0 0 14px; padding: 11px 14px; border-radius: 12px; background: #FFF8E1; border: 1px dashed #E2B23C; text-align: center; font-size: 15px; font-weight: 800; color: var(--ink); line-height: 1.5; }
@@ -433,6 +438,7 @@ button { cursor: pointer; }
   ICON_PATHS.globe = '<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>';
   ICON_PATHS['flask-conical'] = '<path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/>';
   ICON_PATHS.layers = '<path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/>';
+  ICON_PATHS['chevron-down'] = '<path d="m6 9 6 6 6-6"/>';
   ICON_PATHS.lightbulb = '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>';
   var JAR_SVG = '<svg viewBox="0 0 64 74" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="jar-body" x1="0" x2="1"><stop offset="0" stop-color="#FFF6C2"/><stop offset=".55" stop-color="#FFE98A"/><stop offset="1" stop-color="#F3CF55"/></linearGradient><linearGradient id="jar-lid" x1="0" x2="1"><stop offset="0" stop-color="#58C46A"/><stop offset="1" stop-color="#2E9447"/></linearGradient></defs>'
     + '<path d="M19 15h26l11 21-9 30q-15 5-30 0L8 36z" fill="url(#jar-body)" stroke="#D9B437" stroke-width="1.6" stroke-linejoin="round"/>'
@@ -803,7 +809,13 @@ button { cursor: pointer; }
         h('div', { class: 'ev-cut', 'aria-hidden': 'true' }),
         h('div', { class: 'ev-body' },
           h('dl', null, rows.reduce(function (acc, l) { return acc.concat([h('dt', null, l[0]), h('dd', null, l[1])]); }, [])),
-          h('p', { class: 'ev-note' }, eventState === 'off' ? '※ 바나나우유 이벤트는 11월 19일(목)부터 참여 가능합니다.' : '※ 선착순이 마감되면 이벤트가 먼저 끝날 수 있어요.')));
+          h('p', { class: 'ev-note' }, eventState === 'off' ? '※ 바나나우유 이벤트는 11월 19일(목)부터 참여 가능합니다.' : '※ 선착순이 마감되면 이벤트가 먼저 끝날 수 있어요.'),
+          h('button', { class: 'btn btn-primary ev-start', type: 'button', on: { click: function () { log('start'); goTo(0); } } }, '진단 시작하기 →'),
+          h('button', { class: 'ev-more', type: 'button', on: { click: function () {
+            log('cta', { value: 'event_more' });
+            var hero = app.querySelector('.hero');
+            if (hero) try { hero.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) { hero.scrollIntoView(); }
+          } } }, '어떤 진단인지 먼저 보기', h('span', { 'aria-hidden': 'true', style: 'display:flex', html: iconSvg('chevron-down') }))));
     }
     if (eventState === 'closed') return h('p', { class: 'event-closed' }, h('b', null, '이벤트가 마감되었어요'), '진단과 결과 확인은 그대로 이용할 수 있어요.');
     return null;
