@@ -172,6 +172,8 @@ button { cursor: pointer; }
 .gate-event span { display: block; margin-top: 2px; font-size: 13.5px; font-weight: 700; }
 .gate .card { text-align: left; border: 2px solid var(--hot); }
 .event-card { position: relative; padding: 0; border: 0; border-radius: 22px; overflow: hidden; background: #fff; box-shadow: var(--sh-lg); }
+.screen > .event-card:first-child, .screen > .event-closed:first-child { margin-top: 18px; }
+.screen > .event-card:first-child + .hero, .screen > .event-closed:first-child + .hero { margin-top: 0; }
 .ev-top { position: relative; overflow: hidden; padding: 18px 18px 20px; color: #fff; background: linear-gradient(135deg, #8FC230 0%, #7DB02A 55%, #6CA021 100%); }
 .ev-top::before { content: ""; position: absolute; right: -50px; top: -64px; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 255, 255, .34) 0%, rgba(255, 255, 255, 0) 68%); }
 .ev-top::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, rgba(255, 255, 255, 0) 38%, rgba(255, 255, 255, .32) 50%, rgba(255, 255, 255, 0) 62%); transform: translateX(-120%); animation: ev-shine 4.2s ease-in-out 1s infinite; }
@@ -771,11 +773,11 @@ button { cursor: pointer; }
   function renderIntro() {
     step = -1; backBtn.hidden = true;
     show(h('section', { class: 'screen' },
+      eventCard(),
       h('div', { class: 'hero' },
         h('span', { class: 'kicker' }, 'LMCT 학습진단'),
         h('h1', { html: '달라지는 수능<br><em>나만의 빈틈</em>을 확인하세요' }),
         h('p', null, '2028 수능에서 새로 공부할 부분과 나의 학습 유형을 바로 확인해 보세요')),
-      eventCard(),
       h('div', { class: 'card' },
         h('h2', { class: 'card-head', style: 'margin-bottom:14px' }, '이런 걸 알려 드려요!'),
         h('div', { class: 'values' },
