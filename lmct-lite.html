@@ -325,14 +325,15 @@ button { cursor: pointer; }
 
   var TAMGU = [
     ['saeyun', '생활과 윤리', 'soc', '윤리'], ['yunsa', '윤리와 사상', 'soc', '윤리'], ['hanji', '한국지리', 'soc', '지리'], ['seji', '세계지리', 'soc', '지리'],
-    ['dongasa', '동아시아사', 'soc', '역사'], ['sesa', '세계사', 'soc', '역사'], ['gyeongje', '경제', 'soc', '경제'], ['jeongbeop', '정치와 법', 'soc', '정치와 법'], ['samun', '사회문화', 'soc', '사회문화'],
+    ['dongasa', '동아시아사', 'soc', ''], ['sesa', '세계사', 'soc', ''], ['gyeongje', '경제', 'soc', '경제'], ['jeongbeop', '정치와 법', 'soc', '정치와 법'], ['samun', '사회문화', 'soc', '사회문화'],
     ['phy1', '물리학Ⅰ', 'sci', '물리'], ['chem1', '화학Ⅰ', 'sci', '화학'], ['bio1', '생명과학Ⅰ', 'sci', '생명'], ['earth1', '지구과학Ⅰ', 'sci', '지구'],
     ['phy2', '물리학Ⅱ', 'sci', '물리'], ['chem2', '화학Ⅱ', 'sci', '화학'], ['bio2', '생명과학Ⅱ', 'sci', '생명'], ['earth2', '지구과학Ⅱ', 'sci', '지구']
   ];
   var TAMGU_BY = {}; TAMGU.forEach(function (r) { TAMGU_BY[r[0]] = r; });
   var TAMGU_OPTS = TAMGU.map(function (r) { return [r[0], r[1]]; }).concat([['none', '탐구는 안 봤어요'], ['na', '잘 모르겠어요']]);
   var SCI_AREAS = { '물리': ['시스템과 상호작용의 역학 시스템', '환경과 에너지의 발전과 신재생 에너지'], '화학': ['물질과 규칙성의 원소와 화학 결합', '변화와 다양성의 산화 환원과 산 염기'], '생명': ['시스템과 상호작용의 생명 시스템', '변화와 다양성의 진화와 생물 다양성'], '지구': ['물질과 규칙성의 우주와 지구의 원소', '시스템과 상호작용의 지구 시스템', '환경과 에너지의 기후 변화'] };
-  var SOC_AREAS = { '윤리': ['인간, 사회, 환경과 행복', '사회 정의와 불평등(정의론)'], '지리': ['자연환경과 인간', '생활공간과 사회'], '사회문화': ['문화와 다양성', '사회 정의와 불평등(불평등 현상)'], '정치와 법': ['인권 보장과 헌법'], '경제': ['시장 경제와 지속 가능 발전'], '역사': ['세계화와 평화'] };
+  var SOC_AREAS = { '윤리': ['인간, 사회, 환경과 행복', '사회 정의와 불평등(정의론)'], '지리': ['자연환경과 인간', '생활공간과 사회'], '사회문화': ['문화와 다양성', '사회 정의와 불평등(불평등 현상)'], '정치와 법': ['인권 보장과 헌법'], '경제': ['시장 경제와 지속 가능 발전'] };
+  var SOC_EXTRA_UNITS = ['세계화와 평화'];
 
   var YEAR_OPTS_BASE = [['g3', '고3', 0], ['g2', '고2', 1], ['g1', '고1', 2], ['m3', '중3 이하', 3]];
   function schoolYear() { var d = new Date(); return d.getMonth() >= 2 ? d.getFullYear() : d.getFullYear() - 1; }
@@ -369,7 +370,7 @@ button { cursor: pointer; }
     { id: 'grade_math', phase: gradePhase, text: '수학 등급은?', opts: GRADE_OPTS },
     { id: 'grade_eng', phase: gradePhase, text: '영어 등급은?', opts: GRADE_OPTS },
     { id: 'grade_inq', phase: gradePhase, when: function (a) { return !isPost(a) || !(a.inq_subj && a.inq_subj[0] === 'none'); }, text: function (a) { return takesIntegrated(a) ? '탐구 등급은? (통합사회, 통합과학 평균)' : '탐구 등급은? (두 과목이면 평균)'; }, opts: GRADE_OPTS },
-    { id: 'soc_weak', phase: '통합사회', multi: true, max: 6, when: takesIntegrated, text: '통합사회에서 자신 없는 영역을 모두 골라 주세요.', hint: '여러 개 고를 수 있어요.',
+    { id: 'soc_weak', phase: '통합사회', multi: true, max: 5, when: takesIntegrated, text: '통합사회에서 자신 없는 영역을 모두 골라 주세요.', hint: '여러 개 고를 수 있어요.',
       opts: function () { return Object.keys(SOC_AREAS).map(function (k) { return [k, k]; }).concat(AREA_NONE); } },
     { id: 'sci_weak', phase: '통합과학', multi: true, max: 4, when: takesIntegrated, text: '통합과학에서 자신 없는 영역을 모두 골라 주세요.', hint: '여러 개 고를 수 있어요.',
       opts: function () { return Object.keys(SCI_AREAS).map(function (k) { return [k, k === '생명' ? '생명과학' : k === '지구' ? '지구과학' : k]; }).concat(AREA_NONE); } },
@@ -457,7 +458,7 @@ button { cursor: pointer; }
   function inqInfo(a) {
     var ids = (a.inq_subj || []).filter(function (v) { return TAMGU_BY[v]; });
     var taken = ids.map(function (v) { return TAMGU_BY[v]; });
-    return { none: !ids.length, names: taken.map(function (r) { return r[1]; }), socAreas: taken.filter(function (r) { return r[2] === 'soc'; }).map(function (r) { return r[3]; }), sciAreas: taken.filter(function (r) { return r[2] === 'sci'; }).map(function (r) { return r[3]; }) };
+    return { none: !ids.length, names: taken.map(function (r) { return r[1]; }), socAreas: taken.filter(function (r) { return r[2] === 'soc' && r[3]; }).map(function (r) { return r[3]; }), sciAreas: taken.filter(function (r) { return r[2] === 'sci'; }).map(function (r) { return r[3]; }) };
   }
   function hasBatchim(word) {
     var m = String(word).match(/[가-힣](?=[^가-힣]*$)/);
@@ -472,7 +473,7 @@ button { cursor: pointer; }
     var takenNames = (kind === 'sci' ? info.names.filter(function (n) { return /물리|화학|생명|지구/.test(n); }) : info.names.filter(function (n) { return !/물리|화학|생명|지구/.test(n); })).join(', ');
     var missing = Object.keys(AREAS).filter(function (k) { return covered.indexOf(k) < 0; });
     var subject = kind === 'sci' ? '통합과학' : '통합사회';
-    if (!covered.length) return kind === 'sci' ? GAPS.sci : GAPS.soc;
+    if (!covered.length) return kind === 'sci' ? GAPS.sci : takenNames ? Object.assign({}, GAPS.soc, { why: takenNames + ' 기준: 통합사회 전 영역을 새로 준비해야 해요.' }) : GAPS.soc;
     var coveredUnits = covered.map(function (k) { return AREAS[k].join(', '); }).join(', ');
     var missingUnits = missing.map(function (k) { return k + '(' + AREAS[k].join(', ') + ')'; }).join(', ');
     var order = missing.map(function (k) { return AREAS[k][0].replace(/^.*?의 /, '').replace(/\(.*\)$/, ''); });
@@ -705,10 +706,10 @@ button { cursor: pointer; }
   function gapRows(a) {
     var info = inqInfo(a);
     var noInq = info.none && (a.inq_subj || [])[0] === 'none';
-    function inqRow(name, AREAS, covered) {
-      var units = unitsByName(AREAS), names = Object.keys(units);
+    function inqRow(name, AREAS, covered, extra) {
+      var units = unitsByName(AREAS), names = Object.keys(units).concat(extra || []);
       if (info.none) return noInq ? row(name, names.length, names.length) : { name: name, v: null };
-      var missing = names.filter(function (k) { return !units[k].some(function (area) { return covered.indexOf(area) >= 0; }); }).length;
+      var missing = names.filter(function (k) { return !(units[k] || []).some(function (area) { return covered.indexOf(area) >= 0; }); }).length;
       return row(name, missing, names.length);
     }
     var g = GAP_UNITS;
@@ -719,7 +720,7 @@ button { cursor: pointer; }
       a.math_sel === 'none' ? row('수학 전체', g.mathAll.length, g.mathAll.length)
         : (a.math_sel === 'calc' || a.math_sel === 'geo') ? row('수학 확통', g.prob.length, g.prob.length)
         : a.math_sel === 'prob' ? row('수학 확통', 0, g.prob.length) : { name: '수학 확통', v: null },
-      inqRow('통합사회', SOC_AREAS, info.socAreas),
+      inqRow('통합사회', SOC_AREAS, info.socAreas, SOC_EXTRA_UNITS),
       inqRow('통합과학', SCI_AREAS, info.sciAreas)
     ].map(function (r, i) { r.subj = ['kor', 'math', 'soc', 'sci'][i]; r.zeroLabel = '수능에서 본 범위'; return r; });
   }
