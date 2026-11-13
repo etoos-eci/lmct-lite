@@ -817,13 +817,13 @@ button { cursor: pointer; }
     ));
   }
 
-  // 첫 화면 이벤트 안내. 진행 중이면 개요, 마감이면 종료 안내, 시작 전이면 아무것도 보이지 않는다.
+  // 첫 화면 이벤트 안내. 진행 중과 시작 전에는 개요(시작 전에는 참여 시작일을 덧붙임), 마감이면 종료 안내.
   function eventCard() {
-    if (eventState === 'open') return h('div', { class: 'card event-card' },
+    if (eventState === 'open' || eventState === 'off') return h('div', { class: 'card event-card' },
       h('span', { class: 'ev-kicker' }, 'EVENT'),
       h('h2', null, EVENT.title),
       h('dl', null, EVENT.lines.reduce(function (acc, l) { return acc.concat([h('dt', null, l[0]), h('dd', null, l[1])]); }, [])),
-      h('p', { class: 'ev-note' }, '선착순이 마감되면 이벤트가 먼저 끝날 수 있어요.'));
+      h('p', { class: 'ev-note' }, eventState === 'off' ? '11월 19일(목)부터 참여할 수 있어요. 그 전의 진단은 이벤트 참여로 인정되지 않아요.' : '선착순이 마감되면 이벤트가 먼저 끝날 수 있어요.'));
     if (eventState === 'closed') return h('p', { class: 'event-closed' }, h('b', null, '이벤트가 마감되었어요'), '진단과 결과 확인은 그대로 이용할 수 있어요.');
     return null;
   }
