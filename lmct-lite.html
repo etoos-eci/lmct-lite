@@ -200,8 +200,7 @@ button { cursor: pointer; }
 .event-card dt { padding: 1px 9px; border-radius: 7px; background: #EAF6F4; font-size: 13.5px; font-weight: 900; color: var(--teal-deep); white-space: nowrap; }
 .event-card dd { margin: 0; font-weight: 800; color: var(--ink); white-space: pre-line; }
 .event-card .ev-note { margin: 14px 0 0; padding: 10px 12px; border-radius: 12px; background: #F1F9E3; text-align: left; padding-left: calc(12px + 1.3em); text-indent: -1.3em; font-size: 14px; font-weight: 800; color: var(--ink); line-height: 1.45; }
-.ev-start { margin-top: 14px; }
-.ev-more { display: flex; align-items: center; justify-content: center; gap: 4px; width: 100%; margin: 10px 0 0; padding: 6px 0 0; background: none; border: 0; font-size: 14.5px; font-weight: 800; color: var(--teal-deep); }
+.ev-more { display: flex; align-items: center; justify-content: center; gap: 4px; width: 100%; margin: 12px 0 0; padding: 6px 0 0; background: none; border: 0; font-size: 14.5px; font-weight: 800; color: var(--teal-deep); }
 .ev-more svg { width: 18px; height: 18px; animation: ev-nudge 1.4s ease-in-out infinite; }
 @keyframes ev-nudge { 0%, 100% { transform: translateY(-2px); } 50% { transform: translateY(3px); } }
 .hero { scroll-margin-top: 72px; }
@@ -810,12 +809,11 @@ button { cursor: pointer; }
         h('div', { class: 'ev-body' },
           h('dl', null, rows.reduce(function (acc, l) { return acc.concat([h('dt', null, l[0]), h('dd', null, l[1])]); }, [])),
           h('p', { class: 'ev-note' }, eventState === 'off' ? '※ 바나나우유 이벤트는 11월 19일(목)부터 참여 가능합니다.' : '※ 선착순이 마감되면 이벤트가 먼저 끝날 수 있어요.'),
-          h('button', { class: 'btn btn-primary ev-start', type: 'button', on: { click: function () { log('start'); goTo(0); } } }, '진단 시작하기 →'),
           h('button', { class: 'ev-more', type: 'button', on: { click: function () {
             log('cta', { value: 'event_more' });
             var hero = app.querySelector('.hero');
             if (hero) try { hero.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) { hero.scrollIntoView(); }
-          } } }, '어떤 진단인지 먼저 보기', h('span', { 'aria-hidden': 'true', style: 'display:flex', html: iconSvg('chevron-down') }))));
+          } } }, 'LMCT 진단 시작해 보기', h('span', { 'aria-hidden': 'true', style: 'display:flex', html: iconSvg('chevron-down') }))));
     }
     if (eventState === 'closed') return h('p', { class: 'event-closed' }, h('b', null, '이벤트가 마감되었어요'), '진단과 결과 확인은 그대로 이용할 수 있어요.');
     return null;
