@@ -166,7 +166,7 @@ button { cursor: pointer; }
 .gate-title { margin: 0 0 10px; font-size: 23px; font-weight: 900; line-height: 1.38; letter-spacing: -.6px; }
 .gate-title span { display: block; color: var(--ink); }
 .gate-title em { display: block; font-style: normal; color: var(--teal); }
-.gate-sub { margin: 0 0 12px; font-size: 15.5px; font-weight: 700; line-height: 1.55; }
+.gate-sub { margin: 0 0 12px; font-size: 15.5px; font-weight: 700; line-height: 1.55; text-align: left; white-space: pre-line; }
 .gate-event { margin: 0 0 14px; padding: 10px 12px; border-radius: 12px; background: #FFF8E1; border: 1px dashed #E2B23C; font-size: 14.5px; font-weight: 800; }
 .gate-event b { display: block; font-size: 17px; font-weight: 900; }
 .gate-event span { display: block; margin-top: 2px; font-size: 13.5px; font-weight: 700; }
@@ -1331,9 +1331,9 @@ button { cursor: pointer; }
     return h('div', { class: 'gate' },
       evOpen ? h('div', { class: 'stamp', 'aria-hidden': 'true' }, h('span', null, 'EVENT'), h('span', null, '무료 공개')) : null,
       h('h3', { class: 'gate-title' }, h('span', null, '\u2018' + (gapCount ? '내 빈틈 ' + gapCount + '곳, 어디인지 궁금하죠?' : post ? '잠깐! 진짜 결과는 지금부터예요' : weak + ' 빈틈, 어디부터 메울지 궁금하죠?') + '\u2019')),
-      h('p', { class: 'gate-sub' }, post && gapCount ? '2028 수능에서 새로 공부할 부분 ' + gapCount + '곳과 무엇부터 할지, 이름과 휴대폰 번호를 남기면 바로 열려요.'
-        : post ? '빈틈 과목별 처방까지, 이름과 휴대폰 번호를 남기면 바로 열려요.'
-        : '수능까지 남은 기간별 계획과 ' + weak + ' 빈틈부터 메우는 순서까지, 이름과 휴대폰 번호를 남기면 바로 열려요.'),
+      h('p', { class: 'gate-sub' }, post && gapCount ? '2028 수능에서 새로 공부할 부분 ' + gapCount + '곳과 무엇부터 할지,\n이름과 휴대폰 번호를 남기면 바로 열려요.'
+        : post ? '빈틈 과목별 처방까지,\n이름과 휴대폰 번호를 남기면 바로 열려요.'
+        : '수능까지 남은 기간별 계획과 ' + weak + ' 빈틈부터 메우는 순서까지,\n이름과 휴대폰 번호를 남기면 바로 열려요.'),
       evOpen ? h('p', { class: 'gate-event' }, h('b', null, EVENT.prize), h('span', null, '선착순 1,000명, 1인 1회. 휴대폰 문자로 보내 드려요.'))
         : eventState === 'closed' ? h('p', { class: 'event-closed' }, h('b', null, '이벤트가 마감되었어요'), '결과는 그대로 볼 수 있어요.') : null,
       h('div', { class: 'card' }, form));
