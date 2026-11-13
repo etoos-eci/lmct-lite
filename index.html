@@ -196,8 +196,8 @@ button { cursor: pointer; }
 .ev-body { padding: 16px 18px 18px; }
 .event-card dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 9px 12px; align-items: baseline; font-size: 15.5px; line-height: 1.5; }
 .event-card dt { padding: 1px 9px; border-radius: 7px; background: #EAF6F4; font-size: 13.5px; font-weight: 900; color: var(--teal-deep); white-space: nowrap; }
-.event-card dd { margin: 0; font-weight: 800; color: var(--ink); }
-.event-card .ev-note { margin: 14px 0 0; padding: 10px 12px; border-radius: 12px; background: #F1F9E3; text-align: center; font-size: 14px; font-weight: 800; color: var(--ink); line-height: 1.45; }
+.event-card dd { margin: 0; font-weight: 800; color: var(--ink); white-space: pre-line; }
+.event-card .ev-note { margin: 14px 0 0; padding: 10px 12px; border-radius: 12px; background: #F1F9E3; text-align: left; padding-left: calc(12px + 1.3em); text-indent: -1.3em; font-size: 14px; font-weight: 800; color: var(--ink); line-height: 1.45; }
 @media (prefers-reduced-motion: reduce) { .ev-top::after, .ev-prize .jar { animation: none; } }
 .event-closed { margin: 0 0 14px; padding: 12px 14px; border-radius: 14px; background: #F1F3F3; border: 1px solid var(--line); text-align: center; font-size: 14.5px; font-weight: 700; color: var(--ink); line-height: 1.5; }
 .event-closed b { display: block; font-size: 16.5px; font-weight: 900; }
@@ -546,7 +546,7 @@ button { cursor: pointer; }
 
   var EVENT = {
     title: 'LMCT 체험하고 바나나우유 GET!', titleHtml: 'LMCT 체험하고<br><em>바나나우유 GET!</em>', start: '2026-11-19T00:00:00+09:00', end: '2026-12-31T23:59:59+09:00', prize: 'GS 바나나우유 모바일 상품권',
-    lines: [['기간', '11.19(목) ~ 12.31(목)'], ['대상', 'LMCT 진단 마치고 연락처 남긴 학생 (선착순 1,000명)'], ['선정', '선착순 1,000명 (1인 1회)'], ['상품', 'GS 바나나우유 모바일 상품권'], ['지급', '11.30(월) 1차, 이후 12.31(목)까지 문자로 순차 발송']]
+    lines: [['기간', '11.19(목) ~ 12.31(목)'], ['대상', 'LMCT 진단 마치고 연락처 남긴 학생\n(선착순 1,000명)'], ['선정', '선착순 1,000명 (1인 1회)'], ['상품', 'GS 바나나우유 모바일 상품권'], ['지급', '11.30(월) 1차, 이후 12.31(목)까지 문자로 순차 발송']]
   };
   var eventState = (function () {
     var forced = params.get('event');
@@ -801,7 +801,7 @@ button { cursor: pointer; }
         h('div', { class: 'ev-cut', 'aria-hidden': 'true' }),
         h('div', { class: 'ev-body' },
           h('dl', null, rows.reduce(function (acc, l) { return acc.concat([h('dt', null, l[0]), h('dd', null, l[1])]); }, [])),
-          h('p', { class: 'ev-note' }, eventState === 'off' ? '바나나우유 이벤트는 11월 19일(목)부터 참여 가능합니다.' : '선착순이 마감되면 이벤트가 먼저 끝날 수 있어요.')));
+          h('p', { class: 'ev-note' }, eventState === 'off' ? '※ 바나나우유 이벤트는 11월 19일(목)부터 참여 가능합니다.' : '※ 선착순이 마감되면 이벤트가 먼저 끝날 수 있어요.')));
     }
     if (eventState === 'closed') return h('p', { class: 'event-closed' }, h('b', null, '이벤트가 마감되었어요'), '진단과 결과 확인은 그대로 이용할 수 있어요.');
     return null;
