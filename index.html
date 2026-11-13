@@ -170,31 +170,32 @@ button { cursor: pointer; }
 .gate-event span { display: block; margin-top: 2px; font-size: 13.5px; font-weight: 700; }
 .gate .card { text-align: left; border: 2px solid var(--hot); }
 .event-card { position: relative; padding: 0; border: 0; border-radius: 22px; overflow: hidden; background: #fff; box-shadow: var(--sh-lg); }
-.ev-top { position: relative; overflow: hidden; padding: 20px 18px 22px; color: var(--hot-ink); background: linear-gradient(135deg, #FFE27A 0%, #FFCB45 52%, #FFB627 100%); }
-.ev-top::before { content: ""; position: absolute; right: -46px; top: -56px; width: 190px; height: 190px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 255, 255, .7) 0%, rgba(255, 255, 255, 0) 68%); }
-.ev-top::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, rgba(255, 255, 255, 0) 38%, rgba(255, 255, 255, .5) 50%, rgba(255, 255, 255, 0) 62%); transform: translateX(-120%); animation: ev-shine 4.2s ease-in-out 1s infinite; }
+.ev-top { position: relative; overflow: hidden; padding: 18px 18px 20px; color: #fff; background: linear-gradient(135deg, #8FC230 0%, #7DB02A 55%, #6CA021 100%); }
+.ev-top::before { content: ""; position: absolute; right: -50px; top: -64px; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 255, 255, .34) 0%, rgba(255, 255, 255, 0) 68%); }
+.ev-top::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, rgba(255, 255, 255, 0) 38%, rgba(255, 255, 255, .32) 50%, rgba(255, 255, 255, 0) 62%); transform: translateX(-120%); animation: ev-shine 4.2s ease-in-out 1s infinite; }
 @keyframes ev-shine { 0% { transform: translateX(-120%); } 38%, 100% { transform: translateX(120%); } }
 .ev-top > * { position: relative; z-index: 1; }
-.ev-badges { display: flex; align-items: center; gap: 7px; margin-bottom: 10px; }
-.ev-kicker { display: inline-block; padding: 4px 11px; border-radius: 999px; background: var(--teal-deep); color: #fff; font-size: 12.5px; font-weight: 900; letter-spacing: .1em; }
-.ev-dday { display: inline-block; padding: 3px 10px; border-radius: 999px; background: #fff; color: #C2410C; border: 1.5px solid #C2410C; font-size: 12.5px; font-weight: 900; letter-spacing: .02em; }
-.event-card h2 { margin: 0 0 14px; font-size: 27px; font-weight: 900; letter-spacing: -.9px; line-height: 1.24; }
-.event-card h2 em { font-style: normal; background: linear-gradient(transparent 58%, rgba(255, 255, 255, .85) 58%); padding: 0 3px; margin-left: -3px; }
-.ev-prize { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 16px; background: rgba(255, 255, 255, .78); box-shadow: 0 6px 18px rgba(160, 100, 0, .16); }
-.ev-prize .ico { flex: 0 0 auto; width: 50px; height: 50px; border-radius: 50%; display: grid; place-items: center; background: var(--teal-deep); color: #FFE27A; animation: ev-bob 2.6s ease-in-out infinite; }
+.ev-badges { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; margin-bottom: 12px; }
+.ev-kicker { display: inline-block; padding: 4px 11px; border-radius: 999px; background: #fff; color: #2F6B12; font-size: 12.5px; font-weight: 900; letter-spacing: .1em; }
+.ev-dday { display: inline-block; padding: 4px 10px; border-radius: 999px; background: #FFE14D; color: #2B4A0A; font-size: 12.5px; font-weight: 900; letter-spacing: .02em; }
+.ev-bubble { position: relative; margin-left: auto; padding: 6px 13px; border-radius: 999px; background: #1F5A2A; border: 1.5px solid #E9F7C8; color: #fff; font-size: 14px; font-weight: 900; letter-spacing: -.2px; white-space: nowrap; }
+.ev-bubble::after { content: ""; position: absolute; left: 16px; bottom: -8px; width: 13px; height: 13px; background: #1F5A2A; border-right: 1.5px solid #E9F7C8; border-bottom: 1.5px solid #E9F7C8; border-bottom-right-radius: 3px; transform: skewX(28deg) rotate(45deg); }
+.event-card h2 { margin: 0 0 14px; font-size: 31px; font-weight: 900; letter-spacing: -1px; line-height: 1.2; color: #E4FBB0; text-shadow: 0 2px 0 #4E8A12, 0 5px 10px rgba(30, 70, 0, .28); }
+.event-card h2 em { font-style: normal; color: #FFE14D; text-shadow: 0 2px 0 #C58E00, 0 5px 10px rgba(30, 70, 0, .28); }
+.ev-prize { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 16px; background: rgba(255, 255, 255, .95); color: var(--ink); box-shadow: 0 6px 18px rgba(30, 70, 0, .2); }
+.ev-prize .ico { flex: 0 0 auto; width: 50px; height: 50px; border-radius: 50%; display: grid; place-items: center; background: #FFE14D; color: #2F6B12; animation: ev-bob 2.6s ease-in-out infinite; }
 .ev-prize .ico svg { width: 27px; height: 27px; }
 @keyframes ev-bob { 0%, 100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-3px) rotate(4deg); } }
 .ev-prize b { display: block; font-size: 17.5px; font-weight: 900; line-height: 1.3; letter-spacing: -.4px; }
-.ev-prize span.lim { display: inline-block; margin-top: 4px; font-size: 14px; font-weight: 800; }
-.ev-prize span.lim strong { font-size: 17px; font-weight: 900; color: #C2410C; }
-.ev-cut { position: relative; height: 0; border-top: 2px dashed #E9C25A; }
+.ev-prize span.lim { display: inline-block; margin-top: 3px; font-size: 14px; font-weight: 800; color: #2F6B12; }
+.ev-cut { position: relative; height: 0; border-top: 2px dashed #C6DE9A; }
 .ev-cut::before, .ev-cut::after { content: ""; position: absolute; top: -11px; width: 20px; height: 20px; border-radius: 50%; background: var(--paper); }
 .ev-cut::before { left: -10px; } .ev-cut::after { right: -10px; }
 .ev-body { padding: 16px 18px 18px; }
 .event-card dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 9px 12px; align-items: baseline; font-size: 15.5px; line-height: 1.5; }
 .event-card dt { padding: 1px 9px; border-radius: 7px; background: #EAF6F4; font-size: 13.5px; font-weight: 900; color: var(--teal-deep); white-space: nowrap; }
 .event-card dd { margin: 0; font-weight: 800; color: var(--ink); }
-.event-card .ev-note { margin: 14px 0 0; padding: 10px 12px; border-radius: 12px; background: #FFF6D6; text-align: center; font-size: 14px; font-weight: 800; color: var(--ink); line-height: 1.45; }
+.event-card .ev-note { margin: 14px 0 0; padding: 10px 12px; border-radius: 12px; background: #F1F9E3; text-align: center; font-size: 14px; font-weight: 800; color: var(--ink); line-height: 1.45; }
 @media (prefers-reduced-motion: reduce) { .ev-top::after, .ev-prize .ico { animation: none; } }
 .event-closed { margin: 0 0 14px; padding: 12px 14px; border-radius: 14px; background: #F1F3F3; border: 1px solid var(--line); text-align: center; font-size: 14.5px; font-weight: 700; color: var(--ink); line-height: 1.5; }
 .event-closed b { display: block; font-size: 16.5px; font-weight: 900; }
@@ -465,8 +466,7 @@ button { cursor: pointer; }
     prob: { subj: 'math', title: '수학 확률과 통계', tag: '새로 공부', why: '미적분, 기하로 봤다면 확통이 빈틈이에요. 2028 수학은 확통 포함 공통.', lines: [['경우의 수', '순열, 조합부터'], ['확률, 통계', '경우의 수 다음 차례로'], ['시간 옮기기', '미적분, 기하 시간을 확통으로', 'tip']] },
     math_none: { subj: 'math', title: '수학 전체', tag: '새로 공부', why: '수학을 안 봤다면 2028 수학(대수, 미적분Ⅰ, 확률과 통계) 전체를 새로 준비해야 해요.', lines: [['대수', '지수로그, 삼각함수, 수열부터'], ['미적분Ⅰ', '극한, 미분, 적분'], ['확률과 통계', '경우의 수부터, 마지막에']] },
     prob_na: { subj: 'math', title: '수학 확률과 통계', tag: '확인 필요', why: '작년 수학 선택과목을 확인하세요. 미적분, 기하였다면 확통이 새 범위.', lines: [['미적, 기하면', '경우의 수부터'], ['확통이면', '공백 없음'], ['세 과목 공통', '대수, 미적분Ⅰ, 확통', 'tip']] },
-    calc1: { subj: 'math', title: '수학 대수, 미적분Ⅰ', tag: '이름만 바뀜', why: '대수는 수학Ⅰ, 미적분Ⅰ은 수학Ⅱ와 거의 같아요.', lines: [['약한 단원', '공통이라 흔들리던 곳 메우기'], ['교재 그대로', '지금 쓰던 교재 사용', 'tip'], ['예시 문항', '기출이 없으니 평가원 기준', 'tip']] },
-    sci: { subj: 'sci', title: '통합과학', tag: '새로 공부', why: '과탐을 안 봤다면 통합과학을 새로 준비해야 해요.', lines: [['과학의 기초', '물질과 규칙성까지 먼저(진입 쉬움)'], ['시스템과 상호작용', '이어서 변화와 다양성, 환경과 에너지'], ['주 1단원', '물화생지 번갈아 개념 + 기출 10문항', 'tip']] },
+    sci: { subj: 'sci', title: '통합과학', tag: '새로 공부', why: '과탐을 안 봤다면 통합과학을 새로 준비해야 해요.', lines: [['과학의 기초', '물질과 규칙성까지 먼저'], ['시스템과 상호작용', '이어서 변화와 다양성, 환경과 에너지'], ['주 1단원', '물화생지 번갈아 개념 + 기출 10문항', 'tip']] },
     soc: { subj: 'soc', title: '통합사회', tag: '새로 공부', why: '사탐을 안 봤다면 통합사회를 새로 준비해야 해요.', lines: [['통합적 관점', '행복까지 먼저(전체의 틀)'], ['인권과 헌법', '이어서 시장 경제, 정의와 불평등'], ['자료 읽기', '단원마다 개념 10개 + 자료 5문항', 'tip']] },
     inq_na: { subj: 'base', title: '통합사회, 통합과학', tag: '확인 필요', why: '수능에서 본 탐구 과목을 확인하세요. 안 본 영역이 새로 준비할 범위예요.', lines: [['과목 확인', '응시한 탐구 과목부터'], ['단원 이름', '교과서 목차로 범위 훑기', 'tip']] },
     inq_none: { subj: 'base', title: '통합사회, 통합과학', tag: '둘 다 새로 공부', why: '탐구를 안 봤다면 두 과목 모두 새로 준비해야 해요.', lines: [['첫 단원부터', '통합사회는 통합적 관점, 통합과학은 과학의 기초'], ['요일 나누기', '한 과목씩 개념 1단원 + 기출 10문항', 'tip'], ['단원 이름', '기출이 없으니 교과서 목차부터', 'tip']] }
@@ -539,7 +539,7 @@ button { cursor: pointer; }
 
   var EVENT = {
     title: 'LMCT 체험하고 바나나우유 GET!', titleHtml: 'LMCT 체험하고<br><em>바나나우유 GET!</em>', start: '2026-11-19T00:00:00+09:00', end: '2026-12-31T23:59:59+09:00', prize: 'GS 바나나우유 모바일 상품권',
-    lines: [['기간', '11.19(목) ~ 12.31(목)'], ['대상', '진단을 마치고 연락처를 남긴 분'], ['선정', '선착순 1,000명 (1인 1회)'], ['상품', 'GS 바나나우유 모바일 상품권'], ['지급', '11.30(월) 1차, 이후 12.31(목)까지 문자 발송']]
+    lines: [['기간', '11.19(목) ~ 12.31(목)'], ['대상', 'LMCT 진단 마치고 연락처 남긴 학생 (선착순 1,000명)'], ['선정', '선착순 1,000명 (1인 1회)'], ['상품', 'GS 바나나우유 모바일 상품권'], ['지급', '11.30(월) 1차, 이후 12.31(목)까지 문자 발송']]
   };
   var eventState = (function () {
     var forced = params.get('event');
@@ -786,11 +786,11 @@ button { cursor: pointer; }
       var rows = EVENT.lines.filter(function (l) { return l[0] !== '선정' && l[0] !== '상품'; });
       return h('div', { class: 'card event-card' },
         h('div', { class: 'ev-top' },
-          h('div', { class: 'ev-badges' }, h('span', { class: 'ev-kicker' }, 'EVENT'), h('span', { class: 'ev-dday' }, eventState === 'open' ? '진행 중' : days > 0 ? 'D-' + days : 'OPEN')),
+          h('div', { class: 'ev-badges' }, h('span', { class: 'ev-kicker' }, 'EVENT'), h('span', { class: 'ev-dday' }, eventState === 'open' ? '진행 중' : days > 0 ? 'D-' + days : 'OPEN'), h('span', { class: 'ev-bubble' }, '선착순 1,000명 시-작!')),
           h('h2', { html: EVENT.titleHtml }),
           h('div', { class: 'ev-prize' },
             h('span', { class: 'ico', 'aria-hidden': 'true', html: iconSvg('milk') }),
-            h('div', null, h('b', null, EVENT.prize), h('span', { class: 'lim', html: '선착순 <strong>1,000명</strong>, 1인 1회' })))),
+            h('div', null, h('b', null, EVENT.prize), h('span', { class: 'lim' }, '1인 1회, 소진 시 종료')))),
         h('div', { class: 'ev-cut', 'aria-hidden': 'true' }),
         h('div', { class: 'ev-body' },
           h('dl', null, rows.reduce(function (acc, l) { return acc.concat([h('dt', null, l[0]), h('dd', null, l[1])]); }, [])),
@@ -1117,7 +1117,7 @@ button { cursor: pointer; }
         while (unitPx > 34 && x.measureText(unitName).width > R - L) { unitPx -= 2; x.font = f(900, unitPx); }
         text(unitName, L, cy + 230, f(900, unitPx), '#0E7C77');
         var old = ex && ex.suneung < 2028;
-        text(!old ? '국어, 수학, 탐구 모두 공통인 첫 개정 수능.' : ex.done ? '올해 수능은 끝났어요.' : '올해 수능은 지금 교육과정으로 치러요.', L, cy + 310, f(700, 30), '#1F2325');
+        text(!old ? '국어, 수학, 탐구 모두 공통으로 보는 수능.' : ex.done ? '이번 수능은 끝났어요.' : '올해 수능은 지금 교육과정으로 치러요.', L, cy + 310, f(700, 30), '#1F2325');
         text(!old ? '지금 배우는 과정 그대로가 시험 범위예요.' : '2028 수능 준비는 \u2018N수 이상\u2019으로 진단해 보세요.', L, cy + 356, f(700, 30), '#1F2325');
       }
 
@@ -1230,7 +1230,7 @@ button { cursor: pointer; }
     if (ex && ex.suneung < 2028) {
       out.push(h('div', { class: 'card gapcard subj-base' },
         h('div', { class: 'course-top' }, subjBadge('base', ex.suneung + ' 수능'), h('span', { class: 'badge-soft hot' }, ex.done ? '시험 종료' : '올해 11월')),
-        h('p', { class: 'why' }, (ex.done ? '올해 수능은 끝났어요.' : '올해 수능은 지금 교육과정(선택과목 있음)으로 치러요.') + ' 2028 수능을 다시 준비한다면 처음 화면에서 \u2018N수 이상\u2019으로 진단해 보세요.')));
+        h('p', { class: 'why' }, (ex.done ? '이번 수능은 끝났어요.' : '올해 수능은 지금 교육과정(선택과목 있음)으로 치러요.') + ' 2028 수능을 다시 준비한다면 처음 화면에서 \u2018N수 이상\u2019으로 진단해 보세요.')));
     } else if (ex) {
       out.push(h('div', { class: 'card gapcard subj-base' },
         h('div', { class: 'course-top' }, subjBadge('base', ex.suneung + ' 수능까지'), h('span', { class: 'badge-soft hot' }, ex.months ? '약 ' + ex.months + '개월' : '이번 달')),
@@ -1385,7 +1385,7 @@ button { cursor: pointer; }
       h('div', { class: 'card', style: 'margin-top:14px' },
         h('span', { class: 'phase' }, TYPES[result.type].name),
         h('h2', { class: 'card-head', style: 'font-size:21px' }, '무료 상담 신청'),
-        h('p', { class: 'card-sub' }, '가까운 이투스247학원에서 연락드려 2028 수능 공백에 맞는 정밀진단과 맞춤 코스를 안내해 드려요.'),
+        h('p', { class: 'card-sub' }, '선택한 이투스247학원 지점에서 연락드려 정밀진단과 맞춤 코스를 안내해 드려요.'),
         form)
     ));
   }
