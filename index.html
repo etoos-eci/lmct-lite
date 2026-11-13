@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>이투스247 LMCT 학습진단</title>
-<meta name="description" content="공부 빈틈 3분 진단. 2028 수능에서 새로 공부할 부분과 나의 학습 유형을 바로 확인하세요.">
+<meta name="description" content="공부 빈틈 진단. 2028 수능에서 새로 공부할 부분과 나의 학습 유형을 바로 확인하세요.">
 <style>
 @font-face { font-family: 'Pretendard'; src: url('fonts/PretendardVariable.woff2') format('woff2-variations'), url('fonts/PretendardVariable.woff2') format('woff2'); font-weight: 45 920; font-display: swap; }
 :root {
@@ -169,13 +169,33 @@ button { cursor: pointer; }
 .gate-event b { display: block; font-size: 17px; font-weight: 900; }
 .gate-event span { display: block; margin-top: 2px; font-size: 13.5px; font-weight: 700; }
 .gate .card { text-align: left; border: 2px solid var(--hot); }
-.event-card { border: 2px solid var(--hot); background: #FFFBEC; }
-.event-card .ev-kicker { display: inline-block; padding: 3px 10px; border-radius: 999px; background: var(--hot); color: var(--hot-ink); font-size: 12.5px; font-weight: 900; letter-spacing: .08em; }
-.event-card h2 { margin: 8px 0 10px; font-size: 21px; font-weight: 900; letter-spacing: -.5px; line-height: 1.35; }
-.event-card dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; font-size: 15.5px; line-height: 1.5; }
-.event-card dt { font-weight: 900; color: var(--teal-deep); white-space: nowrap; }
-.event-card dd { margin: 0; font-weight: 700; color: var(--ink); }
-.event-card .ev-note { margin: 10px 0 0; font-size: 13.5px; font-weight: 700; color: var(--ink); }
+.event-card { position: relative; padding: 0; border: 0; border-radius: 22px; overflow: hidden; background: #fff; box-shadow: var(--sh-lg); }
+.ev-top { position: relative; overflow: hidden; padding: 20px 18px 22px; color: var(--hot-ink); background: linear-gradient(135deg, #FFE27A 0%, #FFCB45 52%, #FFB627 100%); }
+.ev-top::before { content: ""; position: absolute; right: -46px; top: -56px; width: 190px; height: 190px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 255, 255, .7) 0%, rgba(255, 255, 255, 0) 68%); }
+.ev-top::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, rgba(255, 255, 255, 0) 38%, rgba(255, 255, 255, .5) 50%, rgba(255, 255, 255, 0) 62%); transform: translateX(-120%); animation: ev-shine 4.2s ease-in-out 1s infinite; }
+@keyframes ev-shine { 0% { transform: translateX(-120%); } 38%, 100% { transform: translateX(120%); } }
+.ev-top > * { position: relative; z-index: 1; }
+.ev-badges { display: flex; align-items: center; gap: 7px; margin-bottom: 10px; }
+.ev-kicker { display: inline-block; padding: 4px 11px; border-radius: 999px; background: var(--teal-deep); color: #fff; font-size: 12.5px; font-weight: 900; letter-spacing: .1em; }
+.ev-dday { display: inline-block; padding: 3px 10px; border-radius: 999px; background: #fff; color: #C2410C; border: 1.5px solid #C2410C; font-size: 12.5px; font-weight: 900; letter-spacing: .02em; }
+.event-card h2 { margin: 0 0 14px; font-size: 27px; font-weight: 900; letter-spacing: -.9px; line-height: 1.24; }
+.event-card h2 em { font-style: normal; background: linear-gradient(transparent 58%, rgba(255, 255, 255, .85) 58%); padding: 0 3px; margin-left: -3px; }
+.ev-prize { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 16px; background: rgba(255, 255, 255, .78); box-shadow: 0 6px 18px rgba(160, 100, 0, .16); }
+.ev-prize .ico { flex: 0 0 auto; width: 50px; height: 50px; border-radius: 50%; display: grid; place-items: center; background: var(--teal-deep); color: #FFE27A; animation: ev-bob 2.6s ease-in-out infinite; }
+.ev-prize .ico svg { width: 27px; height: 27px; }
+@keyframes ev-bob { 0%, 100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-3px) rotate(4deg); } }
+.ev-prize b { display: block; font-size: 17.5px; font-weight: 900; line-height: 1.3; letter-spacing: -.4px; }
+.ev-prize span.lim { display: inline-block; margin-top: 4px; font-size: 14px; font-weight: 800; }
+.ev-prize span.lim strong { font-size: 17px; font-weight: 900; color: #C2410C; }
+.ev-cut { position: relative; height: 0; border-top: 2px dashed #E9C25A; }
+.ev-cut::before, .ev-cut::after { content: ""; position: absolute; top: -11px; width: 20px; height: 20px; border-radius: 50%; background: var(--paper); }
+.ev-cut::before { left: -10px; } .ev-cut::after { right: -10px; }
+.ev-body { padding: 16px 18px 18px; }
+.event-card dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 9px 12px; align-items: baseline; font-size: 15.5px; line-height: 1.5; }
+.event-card dt { padding: 1px 9px; border-radius: 7px; background: #EAF6F4; font-size: 13.5px; font-weight: 900; color: var(--teal-deep); white-space: nowrap; }
+.event-card dd { margin: 0; font-weight: 800; color: var(--ink); }
+.event-card .ev-note { margin: 14px 0 0; padding: 10px 12px; border-radius: 12px; background: #FFF6D6; text-align: center; font-size: 14px; font-weight: 800; color: var(--ink); line-height: 1.45; }
+@media (prefers-reduced-motion: reduce) { .ev-top::after, .ev-prize .ico { animation: none; } }
 .event-closed { margin: 0 0 14px; padding: 12px 14px; border-radius: 14px; background: #F1F3F3; border: 1px solid var(--line); text-align: center; font-size: 14.5px; font-weight: 700; color: var(--ink); line-height: 1.5; }
 .event-closed b { display: block; font-size: 16.5px; font-weight: 900; }
 .entry-note { margin: 0 0 14px; padding: 11px 14px; border-radius: 12px; background: #FFF8E1; border: 1px dashed #E2B23C; text-align: center; font-size: 15px; font-weight: 800; color: var(--ink); line-height: 1.5; }
@@ -409,6 +429,7 @@ button { cursor: pointer; }
   ICON_PATHS.globe = '<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>';
   ICON_PATHS['flask-conical'] = '<path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/>';
   ICON_PATHS.layers = '<path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/>';
+  ICON_PATHS.milk = '<path d="M8 2h8"/><path d="M9 2v2.789a4 4 0 0 1-.672 2.219l-.656.984A4 4 0 0 0 7 10.212V20a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-9.789a4 4 0 0 0-.672-2.219l-.656-.984A4 4 0 0 1 15 4.788V2"/><path d="M7 15a6.472 6.472 0 0 1 5 0 6.47 6.47 0 0 0 5 0"/>';
   ICON_PATHS.lightbulb = '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>';
   function iconSvg(name) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + ICON_PATHS[name] + '</svg>'; }
   var TYPES = {
@@ -518,7 +539,7 @@ button { cursor: pointer; }
   var SEND = !!ENDPOINT && (!IS_LOCAL || !!params.get('endpoint'));
 
   var EVENT = {
-    title: 'LMCT 체험하고 바나나우유 GET!', start: '2026-11-19T00:00:00+09:00', end: '2026-12-31T23:59:59+09:00', prize: 'GS 바나나우유 모바일 상품권',
+    title: 'LMCT 체험하고 바나나우유 GET!', titleHtml: 'LMCT 체험하고<br><em>바나나우유 GET!</em>', start: '2026-11-19T00:00:00+09:00', end: '2026-12-31T23:59:59+09:00', prize: 'GS 바나나우유 모바일 상품권',
     lines: [['기간', '11.19(목) ~ 12.31(목)'], ['대상', '진단을 마치고 연락처를 남긴 분'], ['선정', '선착순 1,000명 (1인 1회)'], ['상품', 'GS 바나나우유 모바일 상품권'], ['지급', '11.30(월) 1차, 이후 12.31(목)까지 문자 발송']]
   };
   var eventState = (function () {
@@ -745,27 +766,37 @@ button { cursor: pointer; }
     step = -1; backBtn.hidden = true;
     show(h('section', { class: 'screen' },
       h('div', { class: 'hero' },
-        h('span', { class: 'kicker' }, 'LMCT 빈틈 진단!'),
+        h('span', { class: 'kicker' }, 'LMCT 학습진단'),
         h('h1', { html: '달라지는 수능<br><em>나만의 빈틈</em>을 확인하세요' }),
-        h('p', null, '2028 수능에서 새로 공부할 부분과 나의 학습 유형을 바로 확인해보세요')),
+        h('p', null, '2028 수능에서 새로 공부할 부분과 나의 학습 유형을 바로 확인해 보세요')),
       eventCard(),
       h('div', { class: 'card' },
-        h('h2', { class: 'card-head', style: 'margin-bottom:14px' }, '이런걸 알려드려요!'),
+        h('h2', { class: 'card-head', style: 'margin-bottom:14px' }, '이런 걸 알려 드려요!'),
         h('div', { class: 'values' },
-          h('div', { class: 'value' }, h('div', { class: 'ico' }, '1'), h('div', null, h('h3', null, '2028 수능에서 새로 공부할 부분'), h('p', { html: '선택과목과 학년에 맞춰 <b>개정 수능의 공백</b>을 찾아 무엇부터 할지 알려 드립니다' }))),
-          h('div', { class: 'value' }, h('div', { class: 'ico' }, '2'), h('div', null, h('h3', null, '나의 학습 유형'), h('p', { html: '공부 방법과 실행력으로 <b>4가지 유형</b> 중 하나를 알려 드립니다' })))),
+          h('div', { class: 'value' }, h('div', { class: 'ico' }, '1'), h('div', null, h('h3', null, '2028 수능에서 새로 공부할 부분'), h('p', { html: '선택과목과 학년에 맞춰 <b>개정 수능의 공백</b>을 찾아 무엇부터 할지 알려 드려요' }))),
+          h('div', { class: 'value' }, h('div', { class: 'ico' }, '2'), h('div', null, h('h3', null, '나의 학습 유형'), h('p', { html: '공부 방법과 자기주도역량으로 <b>나에게 맞는 유형</b>을 알려 드려요' })))),
         h('button', { class: 'btn btn-primary', type: 'button', on: { click: function () { log('start'); goTo(0); } } }, '진단 시작하기 →'),
-        h('p', { class: 'hint' }, '최대한 솔직하게 골라주셔야 결과의 정확도가 상승돼요.')),
+        h('p', { class: 'hint' }, '솔직하게 고를수록 결과가 정확해져요.')),
       h('p', { class: 'foot' }, h('b', null, '이투스247학원'), ' LMCT 학습진단')
     ));
   }
 
   function eventCard() {
-    if (eventState === 'open' || eventState === 'off') return h('div', { class: 'card event-card' },
-      h('span', { class: 'ev-kicker' }, 'EVENT'),
-      h('h2', null, EVENT.title),
-      h('dl', null, EVENT.lines.reduce(function (acc, l) { return acc.concat([h('dt', null, l[0]), h('dd', null, l[1])]); }, [])),
-      h('p', { class: 'ev-note' }, eventState === 'off' ? '바나나우유 이벤트 참여는 11월 19일(목)부터 참여 가능합니다.' : '선착순이 마감되면 이벤트가 먼저 끝날 수 있어요.'));
+    if (eventState === 'open' || eventState === 'off') {
+      var days = Math.ceil((Date.parse(EVENT.start) - Date.now()) / 86400000);
+      var rows = EVENT.lines.filter(function (l) { return l[0] !== '선정' && l[0] !== '상품'; });
+      return h('div', { class: 'card event-card' },
+        h('div', { class: 'ev-top' },
+          h('div', { class: 'ev-badges' }, h('span', { class: 'ev-kicker' }, 'EVENT'), h('span', { class: 'ev-dday' }, eventState === 'open' ? '진행 중' : days > 0 ? 'D-' + days : 'OPEN')),
+          h('h2', { html: EVENT.titleHtml }),
+          h('div', { class: 'ev-prize' },
+            h('span', { class: 'ico', 'aria-hidden': 'true', html: iconSvg('milk') }),
+            h('div', null, h('b', null, EVENT.prize), h('span', { class: 'lim', html: '선착순 <strong>1,000명</strong>, 1인 1회' })))),
+        h('div', { class: 'ev-cut', 'aria-hidden': 'true' }),
+        h('div', { class: 'ev-body' },
+          h('dl', null, rows.reduce(function (acc, l) { return acc.concat([h('dt', null, l[0]), h('dd', null, l[1])]); }, [])),
+          h('p', { class: 'ev-note' }, eventState === 'off' ? '바나나우유 이벤트 참여는 11월 19일(목)부터 참여 가능합니다.' : '선착순이 마감되면 이벤트가 먼저 끝날 수 있어요.')));
+    }
     if (eventState === 'closed') return h('p', { class: 'event-closed' }, h('b', null, '이벤트가 마감되었어요'), '진단과 결과 확인은 그대로 이용할 수 있어요.');
     return null;
   }
@@ -895,7 +926,7 @@ button { cursor: pointer; }
           h('div', { class: 'axis-track' }, h('span', { style: 'width:' + Math.max(6, sdlPct) + '%' })),
           h('p', { class: 'axis-note' }, h('b', null, result.sdl + '점, ' + band.name + '.'), ' ' + band.tip)),
         h('div', { class: 'hook' }, h('span', { class: 'n' }, post ? String(gapCount) : '!'), h('span', null, post ? (gapCount ? '2028 수능에서 새로 공부할 부분 ' + gapCount + '곳. 아래에서 확인하세요' : '2028 수능 범위와 많이 겹쳐요. 아래에서 확인하세요') : '가장 큰 빈틈은 ' + weak + '. 아래에서 처방을 확인하세요')),
-        h('p', { class: 'basis' }, '근거: 혼자 공부, 인강 ' + result.indepCount + '/' + result.toolCount + ' (' + (result.independent ? '독립형' : '가이드형') + '), 자기주도역량 ' + result.sdl + '/25'));
+        h('p', { class: 'basis' }, '근거: 공부 방법과 자기주도역량 답변'));
 
     var overview = h('div', { class: 'card' },
         h('h3', { class: 'card-head' }, '한눈에 보기'),
@@ -932,9 +963,9 @@ button { cursor: pointer; }
       : preCards(ex, rows, unitId, unitName),
 
       h('div', { class: 'card locked' },
-        h('h3', { class: 'card-head' }, weak + ' 단원별 빈틈 지도와 주간 시간표'),
+        h('h3', { class: 'card-head' }, weak + ' 빈틈, 더 자세히 알고 싶다면'),
         h('div', { class: 'blur', 'aria-hidden': 'true' }, h('div', { style: 'width:92%' }), h('div', { style: 'width:70%' }), h('div', { style: 'width:84%' })),
-        h('div', { class: 'over' }, h('b', null, '정밀진단에서 확인해요'), h('span', null, '상담에서 자세히 안내해 드려요'))),
+        h('div', { class: 'over' }, h('b', null, '지점 상담에서 이어져요'), h('span', null, '정밀진단(LMTI, LMAT)도 안내해 드려요'))),
       h('div', { class: 'actions' },
         h('button', { class: 'btn btn-primary', type: 'button', on: { click: function () { log('cta', { value: 'consult' }); renderLead(); } } }, leadSent ? '상담 신청 완료' : '무료 상담 신청하고 정밀진단 안내받기'),
         h('div', { class: 'two' },
@@ -944,7 +975,7 @@ button { cursor: pointer; }
           h('a', { class: 'btn btn-ghost', href: HOME_URL, target: '_top', rel: 'noopener', on: { click: function () { log('cta', { value: 'home' }); } } }, '247 둘러보기'),
           h('button', { class: 'btn btn-ghost', type: 'button', on: { click: function () { log('cta', { value: 'retry' }); resetRun(); renderIntro(); } } }, '다시 하기'))),
       h('div', { id: 'shot' }),
-      h('p', { class: 'foot' }, '더 정확한 코스안내는 가까운 247 지점 상담과 정밀진단(LMTI, LMAT)를 이용해 보세요.')
+      h('p', { class: 'foot' }, '더 자세한 안내는 가까운 247 지점 상담과 정밀진단(LMTI, LMAT)에서 받아 보세요.')
     ));
     if (leadSent) app.querySelector('.btn-primary').disabled = true;
   }
@@ -1212,7 +1243,6 @@ button { cursor: pointer; }
     var weakRows = known.filter(function (r) { return r.n > 0; });
     if (rows.length) out.push(h('div', { class: 'card gapcard' },
       h('h3', { class: 'card-head' }, '통합사회, 통합과학 빈틈 영역'),
-      h('p', { class: 'card-sub' }, '자신 없다고 고른 영역 수예요. 기출이 없는 과목이라 빈틈이 그대로 드러나요.'),
       known.length ? gapBars(rows) : h('p', { class: 'why' }, '자신 없는 영역을 모른다고 골랐어요. 통합사회, 통합과학 전 영역을 고르게 한 번 훑어보세요.'),
       weakRows.map(function (r, i) {
         var AREAS = r.subj === 'sci' ? SCI_AREAS : SOC_AREAS;
@@ -1283,9 +1313,9 @@ button { cursor: pointer; }
     return h('div', { class: 'gate' },
       evOpen ? h('div', { class: 'stamp', 'aria-hidden': 'true' }, h('span', null, 'EVENT'), h('span', null, '무료 공개')) : null,
       h('h3', { class: 'gate-title' }, h('span', null, '\u2018' + (gapCount ? '내 빈틈 ' + gapCount + '곳, 어디인지 궁금하죠?' : post ? '잠깐! 진짜 결과는 지금부터예요' : weak + ' 빈틈, 어디부터 메울지 궁금하죠?') + '\u2019'), h('em', null, evOpen ? '이벤트 참여하고 전체 결과 보기' : '전체 결과 보기')),
-      h('p', { class: 'gate-sub' }, post && gapCount ? '2028 수능에서 새로 공부할 부분 ' + gapCount + '곳과 무엇부터 할지, 이름과 휴대폰 번호만 남기면 바로 열려요.'
-        : post ? '빈틈 과목별 처방까지, 이름과 휴대폰 번호만 남기면 바로 열려요.'
-        : '수능까지 남은 기간별 계획과 ' + weak + ' 빈틈부터 메우는 순서까지, 이름과 휴대폰 번호만 남기면 바로 열려요.'),
+      h('p', { class: 'gate-sub' }, post && gapCount ? '2028 수능에서 새로 공부할 부분 ' + gapCount + '곳과 무엇부터 할지, 이름과 휴대폰 번호를 남기면 바로 열려요.'
+        : post ? '빈틈 과목별 처방까지, 이름과 휴대폰 번호를 남기면 바로 열려요.'
+        : '수능까지 남은 기간별 계획과 ' + weak + ' 빈틈부터 메우는 순서까지, 이름과 휴대폰 번호를 남기면 바로 열려요.'),
       evOpen ? h('p', { class: 'gate-event' }, h('b', null, EVENT.prize), h('span', null, '선착순 1,000명, 1인 1회. 휴대폰 문자로 보내 드려요.'))
         : eventState === 'closed' ? h('p', { class: 'event-closed' }, h('b', null, '이벤트가 마감되었어요'), '결과는 그대로 볼 수 있어요.') : null,
       h('div', { class: 'card' }, form));
