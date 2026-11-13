@@ -310,12 +310,12 @@ button { cursor: pointer; }
     eng: [['eng_vocab', '어휘와 숙어'], ['eng_gram', '어법'], ['eng_blank', '빈칸 추론'], ['eng_order', '글의 순서와 문장 넣기'], ['eng_topic', '주제, 요지 찾기와 듣기'], ['eng_na', '잘 모르겠어요']],
     inq: [['inq_soc_concept', '사회탐구 개념 암기'], ['inq_soc_data', '사회탐구 자료, 도표 분석'], ['inq_sci_concept', '과학탐구 개념 이해'], ['inq_sci_calc', '과학탐구 계산과 그래프'], ['inq_na', '잘 모르겠어요']]
   };
-  // 재학생(2022 개정 과정)은 단원 이름이 다르다. 값(id)은 같아서 학습 포인트와 로그는 공유한다.
+  // 고2 이하(2022 개정 과정, 2028 수능부터)는 단원 이름이 다르다. 올해 수능을 보는 고3은 이전 과정 이름을 쓴다. 값(id)은 같아서 학습 포인트와 로그는 공유한다.
   var UNITS_PRE = {
     math: [['math_su1', '대수 (지수로그, 삼각함수, 수열)'], ['math_su2', '미적분Ⅰ (극한, 미분, 적분)'], ['math_prob', '확률과 통계'], ['math_na', '잘 모르겠어요']],
     inq: [['inq_soc_concept', '통합사회 개념'], ['inq_soc_data', '통합사회 자료, 도표 분석'], ['inq_sci_concept', '통합과학 개념 이해'], ['inq_sci_calc', '통합과학 계산과 그래프'], ['inq_na', '잘 모르겠어요']]
   };
-  function unitsFor(a) { return (!isPost(a) && UNITS_PRE[a.weak]) || UNITS[a.weak] || UNITS.kor; }
+  function unitsFor(a) { return (takesIntegrated(a) && UNITS_PRE[a.weak]) || UNITS[a.weak] || UNITS.kor; }
   // 빈틈 단원별 학습 포인트 한 줄
   var UNIT_POINT = {
     kor_read: '하루 지문 3개, 근거 문장 표시',
@@ -327,6 +327,7 @@ button { cursor: pointer; }
     math_su2: '극한과 미분 정의 설명 후 3점 기출',
     math_prob: '경우의 수 유형 분류, 풀이 틀 암기',
     math_calc: '2028은 선택과목 없음, 공통 세 과목에 집중',
+    math_calc_old: '선택과목 기출을 유형별로 정리',
     math_na: '틀린 문항의 단원 적어 보기',
     eng_vocab: '하루 50개, 다음 날 아침 복습',
     eng_gram: '출제 포인트 20개, 예문으로 정리',
@@ -394,7 +395,7 @@ button { cursor: pointer; }
     { id: 'grade_kor', phase: gradePhase, text: function (a) { return isPost(a) ? '수능에서 국어 등급은?' : '최근 모의고사에서 국어 등급은?'; }, hint: function (a) { return isPost(a) ? '가장 최근에 본 수능 기준으로 골라 주세요.' : '대략적으로 골라도 괜찮아요.'; }, opts: GRADE_OPTS },
     { id: 'grade_math', phase: gradePhase, text: '수학 등급은?', opts: GRADE_OPTS },
     { id: 'grade_eng', phase: gradePhase, text: '영어 등급은?', opts: GRADE_OPTS },
-    { id: 'grade_inq', phase: gradePhase, when: function (a) { return !isPost(a) || !(a.inq_subj && a.inq_subj[0] === 'none'); }, text: function (a) { return isPost(a) ? '탐구 등급은? (두 과목이면 평균)' : '탐구 등급은? (통합사회, 통합과학 평균)'; }, opts: GRADE_OPTS },
+    { id: 'grade_inq', phase: gradePhase, when: function (a) { return !isPost(a) || !(a.inq_subj && a.inq_subj[0] === 'none'); }, text: function (a) { return takesIntegrated(a) ? '탐구 등급은? (통합사회, 통합과학 평균)' : '탐구 등급은? (두 과목이면 평균)'; }, opts: GRADE_OPTS },
     { id: 'soc_weak', phase: '통합사회', multi: true, max: 6, when: takesIntegrated, text: '통합사회에서 자신 없는 영역을 모두 골라 주세요.', hint: '여러 개 고를 수 있어요.',
       opts: function () { return Object.keys(SOC_AREAS).map(function (k) { return [k, k]; }).concat(AREA_NONE); } },
     { id: 'sci_weak', phase: '통합과학', multi: true, max: 4, when: takesIntegrated, text: '통합과학에서 자신 없는 영역을 모두 골라 주세요.', hint: '여러 개 고를 수 있어요.',
@@ -472,16 +473,17 @@ button { cursor: pointer; }
   // 2028 수능(2022 개정 교육과정)에서 새로 공부할 부분. 작년 선택과목으로 정한다.
   // 2028 수능: 국어는 화법과 언어, 독서와 작문, 문학 공통 / 수학은 대수, 미적분Ⅰ, 확률과 통계 공통 / 탐구는 통합사회와 통합과학 공통
   var GAPS = {
-    gram: { subj: 'kor', title: '국어 언어(문법)', tag: '새로 공부', why: '화작으로 봤다면 문법이 빈틈이에요. 2028 국어는 문법 포함 공통.', lines: [['음운 변동', '교체, 탈락, 첨가, 축약부터'], ['단어와 문장', '형태소와 단어, 이어서 문장 구조'], ['매체는 제외', '새로 안 배워도 됨, 화작은 하던 대로', 'tip']] },
-    kor_none: { subj: 'kor', title: '국어 전체', tag: '새로 공부', why: '국어를 안 봤다면 2028 국어(화법과 언어, 독서와 작문, 문학) 전체가 처음이에요.', lines: [['기출 한 회', '문학, 독서로 현재 위치 확인'], ['문법 개념', '음운, 형태소, 문장부터'], ['매일 루틴', '지문 2개 + 문법 1단원', 'tip']] },
+    gram: { subj: 'kor', title: '국어 언어(문법)', tag: '새로 공부', why: '화작으로 봤다면 문법이 빈틈이에요. 2028 국어는 문법 포함 공통.', lines: [['음운 변동', '교체, 탈락, 첨가, 축약부터'], ['단어와 문장', '형태소와 단어, 이어서 문장 구조'], ['매체', '출제 범위 밖, 화작은 이어서 점검', 'tip']] },
+    kor_none: { subj: 'kor', title: '국어 전체', tag: '새로 공부', why: '국어를 안 봤다면 2028 국어(화법과 언어, 독서와 작문, 문학) 전체를 새로 준비해야 해요.', lines: [['기출 한 회', '문학, 독서로 현재 위치 확인'], ['문법 개념', '음운, 형태소, 문장부터'], ['매일 루틴', '지문 2개 + 문법 1단원', 'tip']] },
     gram_na: { subj: 'kor', title: '국어 언어(문법)', tag: '확인 필요', why: '작년 국어 선택과목을 확인하세요. 화작이었다면 문법이 새 범위.', lines: [['화작이면', '음운 변동부터 시작'], ['언매면', '복습만'], ['선택 없음', '2028 국어는 공통', 'tip']] },
     prob: { subj: 'math', title: '수학 확률과 통계', tag: '새로 공부', why: '미적분, 기하로 봤다면 확통이 빈틈이에요. 2028 수학은 확통 포함 공통.', lines: [['경우의 수', '순열, 조합부터'], ['확률, 통계', '경우의 수 다음 차례로'], ['시간 옮기기', '미적분, 기하 시간을 확통으로', 'tip']] },
-    math_none: { subj: 'math', title: '수학 전체', tag: '새로 공부', why: '수학을 안 봤다면 2028 수학(대수, 미적분Ⅰ, 확률과 통계) 전체가 처음이에요.', lines: [['대수', '지수로그, 삼각함수, 수열부터'], ['미적분Ⅰ', '극한, 미분, 적분'], ['확률과 통계', '경우의 수부터, 마지막에']] },
+    math_none: { subj: 'math', title: '수학 전체', tag: '새로 공부', why: '수학을 안 봤다면 2028 수학(대수, 미적분Ⅰ, 확률과 통계) 전체를 새로 준비해야 해요.', lines: [['대수', '지수로그, 삼각함수, 수열부터'], ['미적분Ⅰ', '극한, 미분, 적분'], ['확률과 통계', '경우의 수부터, 마지막에']] },
     prob_na: { subj: 'math', title: '수학 확률과 통계', tag: '확인 필요', why: '작년 수학 선택과목을 확인하세요. 미적분, 기하였다면 확통이 새 범위.', lines: [['미적, 기하면', '경우의 수부터'], ['확통이면', '공백 없음'], ['세 과목 공통', '대수, 미적분Ⅰ, 확통', 'tip']] },
     calc1: { subj: 'math', title: '수학 대수, 미적분Ⅰ', tag: '이름만 바뀜', why: '대수는 수학Ⅰ, 미적분Ⅰ은 수학Ⅱ와 거의 같아요.', lines: [['약한 단원', '공통이라 흔들리던 곳 메우기'], ['교재 그대로', '지금 쓰던 교재 사용', 'tip'], ['예시 문항', '기출이 없으니 평가원 기준', 'tip']] },
-    sci: { subj: 'sci', title: '통합과학', tag: '새로 공부', why: '과탐을 안 봤다면 통합과학 전체가 처음이에요.', lines: [['과학의 기초', '물질과 규칙성까지 먼저(진입 쉬움)'], ['시스템과 상호작용', '이어서 변화와 다양성, 환경과 에너지'], ['주 1단원', '물화생지 번갈아 개념 + 기출 10문항', 'tip']] },
-    soc: { subj: 'soc', title: '통합사회', tag: '새로 공부', why: '사탐을 안 봤다면 통합사회 전체가 처음이에요.', lines: [['통합적 관점', '행복까지 먼저(전체의 틀)'], ['인권과 헌법', '이어서 시장 경제, 정의와 불평등'], ['자료 읽기', '단원마다 개념 10개 + 자료 5문항', 'tip']] },
-    inq_none: { subj: 'base', title: '통합사회, 통합과학', tag: '둘 다 새로 공부', why: '탐구를 안 봤다면 두 과목 모두 처음이에요.', lines: [['첫 단원부터', '통합사회는 통합적 관점, 통합과학은 과학의 기초'], ['요일 나누기', '한 과목씩 개념 1단원 + 기출 10문항', 'tip'], ['단원 이름', '기출이 없으니 교과서 목차부터', 'tip']] }
+    sci: { subj: 'sci', title: '통합과학', tag: '새로 공부', why: '과탐을 안 봤다면 통합과학을 새로 준비해야 해요.', lines: [['과학의 기초', '물질과 규칙성까지 먼저(진입 쉬움)'], ['시스템과 상호작용', '이어서 변화와 다양성, 환경과 에너지'], ['주 1단원', '물화생지 번갈아 개념 + 기출 10문항', 'tip']] },
+    soc: { subj: 'soc', title: '통합사회', tag: '새로 공부', why: '사탐을 안 봤다면 통합사회를 새로 준비해야 해요.', lines: [['통합적 관점', '행복까지 먼저(전체의 틀)'], ['인권과 헌법', '이어서 시장 경제, 정의와 불평등'], ['자료 읽기', '단원마다 개념 10개 + 자료 5문항', 'tip']] },
+    inq_na: { subj: 'base', title: '통합사회, 통합과학', tag: '확인 필요', why: '수능에서 본 탐구 과목을 확인하세요. 안 본 영역이 새로 준비할 범위예요.', lines: [['과목 확인', '응시한 탐구 과목부터'], ['단원 이름', '교과서 목차로 범위 훑기', 'tip']] },
+    inq_none: { subj: 'base', title: '통합사회, 통합과학', tag: '둘 다 새로 공부', why: '탐구를 안 봤다면 두 과목 모두 새로 준비해야 해요.', lines: [['첫 단원부터', '통합사회는 통합적 관점, 통합과학은 과학의 기초'], ['요일 나누기', '한 과목씩 개념 1단원 + 기출 10문항', 'tip'], ['단원 이름', '기출이 없으니 교과서 목차부터', 'tip']] }
   };
   // 탐구1, 탐구2 답을 기존 형식(inq_subj 배열: 과목 id 최대 2개, 또는 ['none'], ['na'])으로 합친다. 계산과 로그는 이 값을 쓴다.
   function syncInq(a) {
@@ -513,12 +515,12 @@ button { cursor: pointer; }
     var missingUnits = missing.map(function (k) { return k + '(' + AREAS[k].join(', ') + ')'; }).join(', ');
     var order = missing.map(function (k) { return AREAS[k][0].replace(/^.*?의 /, '').replace(/\(.*\)$/, ''); });
     return {
-      subj: kind, title: subject, tag: missing.length ? '일부 공백' : '거의 덮임',
-      why: takenNames + ' 기준: ' + (missing.length ? missing.join(', ') + ' 영역이 빈틈이에요.' : '대부분 익숙한 범위예요.'),
+      subj: kind, title: subject, tag: missing.length ? '일부 공백' : '많이 겹침',
+      why: takenNames + ' 기준: ' + (missing.length ? missing.join(', ') + ' 영역이 빈틈이에요.' : '겹치는 범위가 많아요.'),
       lines: missing.length ? [
         [missing.length + '개 영역', missing.join(', ') + ' 먼저'],
         [order[0], order.length > 1 ? '다음 ' + order[1] + (order.length > 2 ? ' 등 ' + (order.length - 1) + '개' : '') : '이 단원만 새로'],
-        ['기출만', covered.join(', ') + ' 영역은 확인만', 'tip']
+        ['기출 점검', covered.join(', ') + ' 영역은 기출로 점검', 'tip']
       ] : [['전 영역', '기출 한 회로 점검'], ['틀린 단원', '개념만 복습'], ['예시 문항', '기출이 없으니 평가원 기준', 'tip']]
     };
   }
@@ -528,7 +530,7 @@ button { cursor: pointer; }
     if (a.kor_sel === 'hwajak') out.push(GAPS.gram); else if (a.kor_sel === 'none') out.push(GAPS.kor_none); else if (a.kor_sel === 'na') out.push(GAPS.gram_na);
     if (a.math_sel === 'calc' || a.math_sel === 'geo') out.push(GAPS.prob); else if (a.math_sel === 'none') out.push(GAPS.math_none); else if (a.math_sel === 'na') out.push(GAPS.prob_na);
     var info = inqInfo(a);
-    if (info.none) out.push(GAPS.inq_none);
+    if (info.none) out.push((a.inq_subj || [])[0] === 'none' ? GAPS.inq_none : GAPS.inq_na);
     else { out.push(areaGap('soc', info)); out.push(areaGap('sci', info)); }
     return out;
   }
@@ -560,7 +562,7 @@ button { cursor: pointer; }
   // 선착순과 중복 판정은 기록 서버(로거 v11)가 한다. 여기 값은 화면 안내용이고, 날짜는 서버 응답이 없을 때의 기본 판단에만 쓴다.
   var EVENT = {
     title: 'LMCT 체험하고 바나나우유 GET!', start: '2026-11-19T00:00:00+09:00', end: '2026-12-31T23:59:59+09:00', prize: 'GS 바나나우유 모바일 상품권',
-    lines: [['기간', '11.19(목) ~ 12.31(목)'], ['대상', 'LMCT 진단을 끝까지 마친 분'], ['선정', '선착순 1,000명 (1인 1회)'], ['상품', 'GS 바나나우유 모바일 상품권'], ['지급', '11.30(월) 1차, 이후 12.31(목)까지 문자 발송']]
+    lines: [['기간', '11.19(목) ~ 12.31(목)'], ['대상', '진단을 마치고 연락처를 남긴 분'], ['선정', '선착순 1,000명 (1인 1회)'], ['상품', 'GS 바나나우유 모바일 상품권'], ['지급', '11.30(월) 1차, 이후 12.31(목)까지 문자 발송']]
   };
   // open 진행 중, closed 마감(선착순, 기간 끝, 수동 종료), off 시작 전. ?event=open|closed|off 는 화면 미리보기용(참여 인정은 서버가 따로 판단)
   var eventState = (function () {
@@ -730,8 +732,8 @@ button { cursor: pointer; }
       var y = top + i * rowH, yb = y + 22;
       svg.appendChild(s('text', { x: 0, y: y + 14, class: 'lbl' }, r.name));
       // 퍼센트는 빼고 개수만: 100%가 긍정적으로 읽히는 것을 피한다(사용자 피드백).
-      var val = s('text', { x: W, y: y + 14, 'text-anchor': 'end', class: 'val' }, r.v == null ? (r.nullLabel || '선택과목 모름') : null);
-      if (r.v != null) {
+      var val = s('text', { x: W, y: y + 14, 'text-anchor': 'end', class: 'val' }, r.v == null ? (r.nullLabel || '선택과목 모름') : r.v === 0 && r.zeroLabel ? r.zeroLabel : null);
+      if (r.v != null && !(r.v === 0 && r.zeroLabel)) {
         val.appendChild(s('tspan', { class: 'cnt' }, r.n + '개'));
         val.appendChild(s('tspan', { class: 'of' }, ' (전체 ' + r.total + '개 ' + r.unit + ' 중)'));
       }
@@ -777,7 +779,7 @@ button { cursor: pointer; }
         : a.math_sel === 'prob' ? row('수학 확통', 0, g.prob.length) : { name: '수학 확통', v: null },
       inqRow('통합사회', SOC_AREAS, info.socAreas),
       inqRow('통합과학', SCI_AREAS, info.sciAreas)
-    ].map(function (r, i) { r.subj = ['kor', 'math', 'soc', 'sci'][i]; return r; });
+    ].map(function (r, i) { r.subj = ['kor', 'math', 'soc', 'sci'][i]; r.zeroLabel = '수능에서 본 범위'; return r; });
   }
 
   // 처방: 순서는 번호 붙은 가로 카드(키워드 크게), 전략('tip')은 그 아래 전구 아이콘 띠로 따로 보여 준다.
@@ -892,6 +894,8 @@ button { cursor: pointer; }
     if (q.id === 'status' && value === 'pre') ['kor_sel', 'math_sel', 'inq1', 'inq2', 'inq_subj'].forEach(function (k) { delete answers[k]; });
     if (q.id === 'status' && value === 'post') ['year', 'soc_weak', 'sci_weak'].forEach(function (k) { delete answers[k]; });
     if (q.id === 'year' && !takesIntegrated(answers)) ['soc_weak', 'sci_weak'].forEach(function (k) { delete answers[k]; });
+    // 학년에 따라 단원 선택지가 달라지므로 학년을 바꾸면 고른 단원은 지운다.
+    if (q.id === 'year') delete answers.unit;
     if (btn) btn.parentNode.querySelectorAll('.opt').forEach(function (b) { b.setAttribute('aria-pressed', String(b === btn)); });
     log('answer', { qid: q.id, value: Array.isArray(value) ? value.join('+') : value, q_no: activeQuestions(answers).indexOf(q) + 1 });
     setTimeout(function () {
@@ -958,7 +962,7 @@ button { cursor: pointer; }
           h('div', { class: 'axis-labels' }, h('span', null, '자기주도역량'), h('span', { class: 'pct' }, sdlPct + '%')),
           h('div', { class: 'axis-track' }, h('span', { style: 'width:' + Math.max(6, sdlPct) + '%' })),
           h('p', { class: 'axis-note' }, h('b', null, result.sdl + '점, ' + band.name + '.'), ' ' + band.tip)),
-        h('div', { class: 'hook' }, h('span', { class: 'n' }, post ? String(gapCount) : '!'), h('span', null, post ? (gapCount ? '2028 수능에서 새로 공부할 부분 ' + gapCount + '곳. 아래에서 확인하세요' : '2028 수능 새 범위 공백이 거의 없어요') : '가장 큰 빈틈은 ' + weak + '. 아래에서 처방을 확인하세요')),
+        h('div', { class: 'hook' }, h('span', { class: 'n' }, post ? String(gapCount) : '!'), h('span', null, post ? (gapCount ? '2028 수능에서 새로 공부할 부분 ' + gapCount + '곳. 아래에서 확인하세요' : '2028 수능 범위와 많이 겹쳐요. 아래에서 확인하세요') : '가장 큰 빈틈은 ' + weak + '. 아래에서 처방을 확인하세요')),
         h('p', { class: 'basis' }, '근거: 혼자 공부, 인강 ' + result.indepCount + '/' + result.toolCount + ' (' + (result.independent ? '독립형' : '가이드형') + '), 자기주도역량 ' + result.sdl + '/25'));
     // 히어로 카드까지만 먼저 보여 주고, 나머지는 이름과 휴대폰을 받은 뒤에 연다(lite-10).
 
@@ -1000,9 +1004,9 @@ button { cursor: pointer; }
       h('div', { class: 'card locked' },
         h('h3', { class: 'card-head' }, weak + ' 단원별 빈틈 지도와 주간 시간표'),
         h('div', { class: 'blur', 'aria-hidden': 'true' }, h('div', { style: 'width:92%' }), h('div', { style: 'width:70%' }), h('div', { style: 'width:84%' })),
-        h('div', { class: 'over' }, h('b', null, '정밀진단에서 열려요'), h('span', null, '상담 신청 시 전 단원 빈틈 지도까지'))),
+        h('div', { class: 'over' }, h('b', null, '정밀진단에서 확인해요'), h('span', null, '상담에서 자세히 안내해 드려요'))),
       h('div', { class: 'actions' },
-        h('button', { class: 'btn btn-primary', type: 'button', on: { click: function () { log('cta', { value: 'consult' }); renderLead(); } } }, leadSent ? '상담 신청 완료' : '무료 상담 신청하고 전문가와 함께 정밀진단 받기'),
+        h('button', { class: 'btn btn-primary', type: 'button', on: { click: function () { log('cta', { value: 'consult' }); renderLead(); } } }, leadSent ? '상담 신청 완료' : '무료 상담 신청하고 정밀진단 안내받기'),
         h('div', { class: 'two' },
           h('button', { class: 'btn btn-ghost', type: 'button', on: { click: share } }, '결과 공유하기'),
           h('button', { class: 'btn btn-ghost', type: 'button', on: { click: showImage } }, '이미지 저장')),
@@ -1137,7 +1141,7 @@ button { cursor: pointer; }
         var rows = post ? gapRows(answers) : pre, ry = cy + 124, rowH = (ch - 150) / Math.max(rows.length, 3), bw = R - L;
         rows.forEach(function (r) {
           text(r.name, L, ry + 28, f(800, 32), '#1F2325');
-          text(r.v == null ? (r.nullLabel || '선택과목 모름') : r.n + '개 / 전체 ' + r.total + '개', R, ry + 28, f(800, 30), '#1F2325', 'right');
+          text(r.v == null ? (r.nullLabel || '선택과목 모름') : r.v === 0 && r.zeroLabel ? r.zeroLabel : r.n + '개 / 전체 ' + r.total + '개', R, ry + 28, f(800, 30), '#1F2325', 'right');
           x.fillStyle = '#EFF4F1'; rr(L, ry + 44, bw, 16, 8); x.fill();
           if (r.v == null) { x.fillStyle = '#C9D3D0'; rr(L, ry + 44, bw * .5, 16, 8); x.fill(); }
           else if (r.v > 0) { x.fillStyle = COLORS[r.subj]; rr(L, ry + 44, Math.max(16, bw * r.v / 100), 16, 8); x.fill(); }
@@ -1306,10 +1310,12 @@ button { cursor: pointer; }
       }),
       known.length && !weakRows.length ? h('p', { class: 'note', style: 'text-align:left;margin-top:12px' }, '모두 자신 있다고 골랐어요. 평가원 예시 문항으로 실제 실력을 확인해 보세요.') : null));
     var subj = answers.weak === 'kor' || answers.weak === 'math' ? answers.weak : 'base';
+    // 올해 수능(선택과목 있음)을 보는 고3에게는 선택과목 단원의 안내를 따로 쓴다.
+    var point = (unitId === 'math_calc' && ex && ex.suneung < 2028 && UNIT_POINT.math_calc_old) || UNIT_POINT[unitId];
     out.push(h('div', { class: 'card gapcard subj-' + subj },
       h('div', { class: 'course-top' }, subjBadge(subj, SUBJECT[answers.weak] + ' 가장 큰 빈틈'), h('span', { class: 'badge-soft hot' }, '여기부터')),
-      h('p', { class: 'why' }, h('b', null, /_na$/.test(unitId) ? SUBJECT[answers.weak] + ' 전반' : unitName), ': ' + (UNIT_POINT[unitId] || '')),
-      stepCards([['이번 주부터', UNIT_POINT[unitId] || '틀린 문항의 단원 적어 보기'], ['같은 유형 기출 10문항', '틀린 문제만 사흘 뒤 다시'],
+      h('p', { class: 'why' }, h('b', null, /_na$/.test(unitId) ? SUBJECT[answers.weak] + ' 전반' : unitName), ': ' + (point || '')),
+      stepCards([['이번 주부터', point || '틀린 문항의 단원 적어 보기'], ['같은 유형 기출 10문항', '틀린 문제만 사흘 뒤 다시'],
         [STYLE_NAME[answers.style] || '나에게 맞는 방식', STYLE_TEXT[answers.style] || '개념과 문제를 번갈아', 'tip']])));
     return out;
   }
@@ -1456,8 +1462,8 @@ button { cursor: pointer; }
         h('span', { class: 'phase' }, '신청 완료'),
         h('h2', { class: 'card-head', style: 'font-size:21px' }, '상담 신청이 접수됐어요'),
         info
-          ? h('p', { class: 'card-sub' }, '영업일 기준 1~2일 안에 연락드릴게요. 바로 상담하고 싶으면 이투스247 ' + leadBranch + '에 전화하거나 홈페이지를 보세요.')
-          : h('p', { class: 'card-sub' }, '영업일 기준 1~2일 안에 연락드릴게요. 그동안 이투스247학원을 둘러보세요.'),
+          ? h('p', { class: 'card-sub' }, '지점에서 확인 후 연락드릴게요. 바로 상담하고 싶으면 이투스247 ' + leadBranch + '에 전화하거나 홈페이지를 보세요.')
+          : h('p', { class: 'card-sub' }, '확인 후 연락드릴게요. 그동안 이투스247학원을 둘러보세요.'),
         info ? h('p', { class: 'who' }, h('b', null, '이투스247 ' + leadBranch), h('br'), info[2]) : null,
         h('div', info ? { class: 'actions', style: 'margin-top:12px' } : { class: 'actions' },
           info ? h('a', { class: 'btn btn-primary', href: 'tel:' + info[0].replace(/\D/g, ''), on: { click: function () { log('cta', { value: 'tel' }); } } }, '전화 상담 ' + info[0]) : null,
