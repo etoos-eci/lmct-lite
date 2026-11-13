@@ -352,8 +352,7 @@ button { cursor: pointer; }
   var TAMGU_BY = {}; TAMGU.forEach(function (r) { TAMGU_BY[r[0]] = r; });
   var TAMGU_OPTS = TAMGU.map(function (r) { return [r[0], r[1]]; }).concat([['none', '탐구는 안 봤어요'], ['na', '잘 모르겠어요']]);
   var SCI_AREAS = { '물리': ['시스템과 상호작용의 역학 시스템', '환경과 에너지의 발전과 신재생 에너지'], '화학': ['물질과 규칙성의 원소와 화학 결합', '변화와 다양성의 산화 환원과 산 염기'], '생명': ['시스템과 상호작용의 생명 시스템', '변화와 다양성의 진화와 생물 다양성'], '지구': ['물질과 규칙성의 우주와 지구의 원소', '시스템과 상호작용의 지구 시스템', '환경과 에너지의 기후 변화'] };
-  var SOC_AREAS = { '윤리': ['인간, 사회, 환경과 행복', '사회 정의와 불평등(정의론)'], '지리': ['자연환경과 인간', '생활공간과 사회'], '사회문화': ['문화와 다양성', '사회 정의와 불평등(불평등 현상)'], '정치와 법': ['인권 보장과 헌법'], '경제': ['시장 경제와 지속 가능 발전'] };
-  var SOC_EXTRA_UNITS = ['세계화와 평화'];
+  var SOC_AREAS = { '윤리': ['인간, 사회, 환경과 행복', '사회 정의와 불평등(정의론)'], '지리': ['자연환경과 인간', '생활공간과 사회'], '사회문화': ['문화와 다양성', '사회 정의와 불평등(불평등 현상)'], '정치와 법': ['인권 보장과 헌법', '세계화와 평화'], '경제': ['시장 경제와 지속 가능 발전'] };
 
   var YEAR_OPTS_BASE = [['g3', '고3', 0], ['g2', '고2', 1], ['g1', '고1', 2], ['m3', '중3 이하', 3]];
   function schoolYear() { var d = new Date(); return d.getMonth() >= 2 ? d.getFullYear() : d.getFullYear() - 1; }
@@ -727,10 +726,10 @@ button { cursor: pointer; }
   function gapRows(a) {
     var info = inqInfo(a);
     var noInq = info.none && (a.inq_subj || [])[0] === 'none';
-    function inqRow(name, AREAS, covered, extra) {
-      var units = unitsByName(AREAS), names = Object.keys(units).concat(extra || []);
+    function inqRow(name, AREAS, covered) {
+      var units = unitsByName(AREAS), names = Object.keys(units);
       if (info.none) return noInq ? row(name, names.length, names.length) : { name: name, v: null };
-      var missing = names.filter(function (k) { return !(units[k] || []).some(function (area) { return covered.indexOf(area) >= 0; }); }).length;
+      var missing = names.filter(function (k) { return !units[k].some(function (area) { return covered.indexOf(area) >= 0; }); }).length;
       return row(name, missing, names.length);
     }
     var g = GAP_UNITS;
@@ -741,7 +740,7 @@ button { cursor: pointer; }
       a.math_sel === 'none' ? row('수학 전체', g.mathAll.length, g.mathAll.length)
         : (a.math_sel === 'calc' || a.math_sel === 'geo') ? row('수학 확통', g.prob.length, g.prob.length)
         : a.math_sel === 'prob' ? row('수학 확통', 0, g.prob.length) : { name: '수학 확통', v: null },
-      inqRow('통합사회', SOC_AREAS, info.socAreas, SOC_EXTRA_UNITS),
+      inqRow('통합사회', SOC_AREAS, info.socAreas),
       inqRow('통합과학', SCI_AREAS, info.sciAreas)
     ].map(function (r, i) { r.subj = ['kor', 'math', 'soc', 'sci'][i]; r.zeroLabel = '수능에서 본 범위'; return r; });
   }
