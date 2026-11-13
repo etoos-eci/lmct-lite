@@ -266,7 +266,7 @@ button { cursor: pointer; }
 .chart .bar[class*="subj-"] { fill: var(--s); }
 .subj-kor { --s: #B8325A; --s-tint: #FBEAF0; --s-ink: #8A1F42; --s-mark: rgba(184, 50, 90, .18); }
 .subj-math { --s: #2563EB; --s-tint: #EAF1FE; --s-ink: #1D4CB8; --s-mark: rgba(37, 99, 235, .16); }
-.subj-soc { --s: #A1459C; --s-tint: #F8EBF7; --s-ink: #7A2F76; --s-mark: rgba(161, 69, 156, .18); }
+.subj-soc { --s: #D9730D; --s-tint: #FDF0E0; --s-ink: #9A4D05; --s-mark: rgba(217, 115, 13, .2); }
 .subj-sci { --s: #5B9A2E; --s-tint: #EEF6E7; --s-ink: #3D6A1C; --s-mark: rgba(91, 154, 46, .22); }
 .subj-base { --s: #0E7C77; --s-tint: #E6F4F2; --s-ink: #0A5F5C; --s-mark: rgba(14, 124, 119, .18); }
 .subj-badge { display: inline-flex; align-items: center; gap: 7px; background: var(--s-tint); color: var(--s-ink); border: 1px solid var(--s-tint); border-radius: 999px; padding: 6px 15px 6px 11px; font-size: 15.5px; font-weight: 900; letter-spacing: -.2px; }
@@ -280,6 +280,9 @@ button { cursor: pointer; }
 .tip-label { font-size: 11.5px; font-weight: 900; color: #8A5A00; letter-spacing: .02em; }
 .tip-kw { font-size: 16px; font-weight: 900; color: var(--ink); line-height: 1.35; }
 .tip-sub { font-size: 13.5px; font-weight: 700; color: var(--ink); opacity: .8; line-height: 1.45; }
+.badge-soft.part { background: #FFF1C9; border-color: #EFCB6B; color: var(--hot-ink); }
+.badge-soft.ok { background: #EAF6E0; border-color: #BCDDA0; color: #2F6B12; }
+.badge-soft.check { background: #EEF1F4; border-color: #CFD6DD; color: var(--ink); }
 .badge-soft.hot { background: var(--hot); border-color: transparent; color: var(--hot-ink); box-shadow: 0 4px 12px rgba(233, 162, 27, .3); }
 </style>
 </head>
@@ -974,7 +977,7 @@ button { cursor: pointer; }
         h('p', { class: 'note', style: 'text-align:left;margin-top:12px' }, '대수, 미적분Ⅰ은 수학Ⅰ, Ⅱ와 범위가 많이 겹쳐요. 약한 단원은 다시 점검해 보세요.'))].concat(
         gapList.map(function (g) {
           return h('div', { class: 'card gapcard subj-' + g.subj },
-            h('div', { class: 'course-top' }, subjBadge(g.subj, g.title), h('span', { class: 'badge-soft' + (/새로 공부/.test(g.tag) ? ' hot' : '') }, g.tag)),
+            h('div', { class: 'course-top' }, subjBadge(g.subj, g.title), h('span', { class: 'badge-soft' + (/새로 공부/.test(g.tag) ? ' hot' : /일부 공백/.test(g.tag) ? ' part' : /겹침/.test(g.tag) ? ' ok' : ' check') }, g.tag)),
             h('p', { class: 'why' }, g.why),
             stepCards(g.lines));
         }))
@@ -1107,7 +1110,7 @@ button { cursor: pointer; }
       var ex = post ? null : examOf(answers.year);
       text(post ? '2028 수능에서 새로 공부할 부분' : preKnown ? '통합사회, 통합과학 빈틈 영역' : (ex ? ex.suneung : 2028) + (ex && ex.done ? ' 수능 이후, 이렇게 준비해요' : ' 수능, 이렇게 준비해요'), L, cy + 76, f(900, 40), '#0A5F5C');
       if (post || preKnown) {
-        var COLORS = { kor: '#B8325A', math: '#2563EB', soc: '#A1459C', sci: '#5B9A2E' };
+        var COLORS = { kor: '#B8325A', math: '#2563EB', soc: '#D9730D', sci: '#5B9A2E' };
         var rows = post ? gapRows(answers) : pre, ry = cy + 124, rowH = (ch - 150) / Math.max(rows.length, 3), bw = R - L;
         rows.forEach(function (r) {
           text(r.name, L, ry + 28, f(800, 32), '#1F2325');
@@ -1266,7 +1269,7 @@ button { cursor: pointer; }
         var AREAS = r.subj === 'sci' ? SCI_AREAS : SOC_AREAS;
         var label = function (k) { return k === '생명' ? '생명과학' : k === '지구' ? '지구과학' : k; };
         return h('div', { class: 'gap subj-' + r.subj },
-          h('div', { class: 'course-top' }, subjBadge(r.subj, r.name), h('span', { class: 'badge-soft' + (r.n * 2 >= r.total ? ' hot' : '') }, r.n + '개 영역')),
+          h('div', { class: 'course-top' }, subjBadge(r.subj, r.name), h('span', { class: 'badge-soft' + (r.n * 2 >= r.total ? ' hot' : ' part') }, r.n + '개 영역')),
           h('p', { class: 'why' }, r.n >= r.total ? '전 영역이 빈틈이에요. 개념 1회독부터 시작하세요.' : r.areas.map(label).join(', ') + ' 영역부터 메우세요.'),
           stepCards(r.areas.slice(0, 3).map(function (k) { return [label(k), AREAS[k].join(', ')]; }).concat(i === weakRows.length - 1 ? [['평가원 예시 문항', '기출이 없으니 모의고사와 함께 풀어요.', 'tip']] : [])));
       }),
