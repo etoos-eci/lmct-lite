@@ -823,7 +823,7 @@ button { cursor: pointer; }
       h('span', { class: 'ev-kicker' }, 'EVENT'),
       h('h2', null, EVENT.title),
       h('dl', null, EVENT.lines.reduce(function (acc, l) { return acc.concat([h('dt', null, l[0]), h('dd', null, l[1])]); }, [])),
-      h('p', { class: 'ev-note' }, eventState === 'off' ? '11월 19일(목)부터 참여할 수 있어요. 그 전의 진단은 이벤트 참여로 인정되지 않아요.' : '선착순이 마감되면 이벤트가 먼저 끝날 수 있어요.'));
+      h('p', { class: 'ev-note' }, eventState === 'off' ? '바나나우유 이벤트 참여는 11월 19일(목)부터 참여 가능합니다.' : '선착순이 마감되면 이벤트가 먼저 끝날 수 있어요.'));
     if (eventState === 'closed') return h('p', { class: 'event-closed' }, h('b', null, '이벤트가 마감되었어요'), '진단과 결과 확인은 그대로 이용할 수 있어요.');
     return null;
   }
