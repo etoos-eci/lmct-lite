@@ -233,8 +233,8 @@ button { cursor: pointer; }
 .sechead h3 { margin: 0; font-size: 22px; font-weight: 900; letter-spacing: -.5px; line-height: 1.3; }
 .kicker.dark { background: var(--grad-bi); border: 0; color: #fff; margin: 0; align-self: flex-start; }
 .gapcard { border-color: #F0E4B8; background: linear-gradient(160deg, #FFFDF3 0%, #fff 60%); }
-.gap { padding: 12px 0 4px; border-top: 1px solid var(--line-soft); }
-.gap:first-of-type { border-top: 0; }
+.gap { margin-top: 14px; padding: 16px 0 4px; border-top: 2px solid var(--line); }
+.gap:first-of-type { margin-top: 0; padding-top: 12px; border-top: 0; }
 .basis { margin: 14px 0 0; font-size: 13px; line-height: 1.5; opacity: .9; }
 .why { margin: 6px 0 0; font-size: 15px; line-height: 1.5; font-weight: 700; }
 .why.strong { color: var(--teal-deep); }
@@ -325,28 +325,28 @@ button { cursor: pointer; }
   };
   function unitsFor(a) { return (takesIntegrated(a) && UNITS_PRE[a.weak]) || UNITS[a.weak] || UNITS.kor; }
   var UNIT_POINT = {
-    kor_read: '하루 지문 3개, 근거 문장 표시',
-    kor_poem: '화자, 상황, 정서부터 잡기',
-    kor_novel: '인물 관계도와 시점 변화 표시',
-    kor_gram: '음운, 형태소, 문장 성분 표 정리 후 기출',
-    kor_na: '오답을 독서, 문학, 문법으로 나눠 세기',
-    math_su1: '지수로그 식 변형, 삼각함수 그래프 손으로',
-    math_su2: '극한과 미분 정의 설명 후 3점 기출',
-    math_prob: '경우의 수 유형 분류, 풀이 틀 암기',
-    math_calc: '2028은 선택과목 없음, 공통 세 과목에 집중',
-    math_calc_old: '선택과목 기출을 유형별로 정리',
-    math_na: '틀린 문항의 단원 적어 보기',
-    eng_vocab: '하루 50개, 다음 날 아침 복습',
-    eng_gram: '출제 포인트 20개, 예문으로 정리',
-    eng_blank: '연결어와 반복 핵심어 먼저',
-    eng_order: '대명사, 연결어, 관사로 고리 찾기',
-    eng_topic: '첫 문장과 끝 문장 먼저, 듣기 매일 한 회',
-    eng_na: '어휘부터 점검',
-    inq_soc_concept: '단원마다 핵심 개념 10개 빈칸 채우기',
-    inq_soc_data: '축과 단위 먼저, 선지를 자료에 대입',
-    inq_sci_concept: '그림과 그래프 직접 그려 설명',
-    inq_sci_calc: '공식보다 단위와 비례 관계',
-    inq_na: '기출 한 회로 개념 오답과 자료 오답 나누기'
+    kor_read: '하루에 지문 3개를 읽고 근거 문장에 표시해요.',
+    kor_poem: '화자, 상황, 정서부터 먼저 잡아요.',
+    kor_novel: '인물 관계도와 시점 변화를 표시해요.',
+    kor_gram: '음운, 형태소, 문장 성분을 표로 정리한 뒤 기출을 풀어요.',
+    kor_na: '오답을 독서, 문학, 문법으로 나눠 세어 보세요.',
+    math_su1: '지수로그 식을 변형하고 삼각함수 그래프를 손으로 그려요.',
+    math_su2: '극한과 미분의 정의를 설명해 본 뒤 3점 기출을 풀어요.',
+    math_prob: '경우의 수를 유형별로 나누고 풀이 틀을 익혀요.',
+    math_calc: '2028 수능은 선택과목이 없어요. 공통 세 과목에 집중하세요.',
+    math_calc_old: '선택과목 기출을 유형별로 정리해요.',
+    math_na: '틀린 문항이 어느 단원인지 적어 보세요.',
+    eng_vocab: '하루에 50개를 외우고 다음 날 아침에 복습해요.',
+    eng_gram: '출제 포인트 20개를 예문으로 정리해요.',
+    eng_blank: '연결어와 반복되는 핵심어를 먼저 찾아요.',
+    eng_order: '대명사, 연결어, 관사로 문장 사이의 고리를 찾아요.',
+    eng_topic: '첫 문장과 끝 문장을 먼저 읽고, 듣기는 매일 한 회 풀어요.',
+    eng_na: '어휘부터 점검해 보세요.',
+    inq_soc_concept: '단원마다 핵심 개념 10개를 빈칸으로 채워 봐요.',
+    inq_soc_data: '축과 단위를 먼저 보고, 선지를 자료에 대입해요.',
+    inq_sci_concept: '그림과 그래프를 직접 그려 설명해 보세요.',
+    inq_sci_calc: '공식보다 단위와 비례 관계를 먼저 따져요.',
+    inq_na: '기출 한 회를 풀고 개념 오답과 자료 오답을 나눠요.'
   };
 
   var TAMGU = [
@@ -449,15 +449,15 @@ button { cursor: pointer; }
     care: { icon: 'heart-handshake', color: '#FFA3B8', name: '풀케어형', one: '옆에서 잡아 주면 더 잘하는 타입', traits: ['설명을 들을 때 이해가 잘 됨', '혼자 하면 계획이 흔들리기 쉬움', '매일 점검받을 때 공부가 잘 이어짐'], method: '현장 강의 위주, 매일 점검받는 구조(담임, 1:1 클리닉)부터.' }
   };
   var STYLE_TEXT = {
-    concept: '개념서 한 바퀴 뒤 문제로. 문제부터 밀어붙이지 않기.',
-    problem: '기출 먼저, 틀린 개념만 돌아가서 보기.',
-    error: '오답 노트 중심, 같은 유형 사흘 뒤 다시 풀기.',
-    memor: '단원마다 정리표 한 장, 반복 주기 1일 → 3일 → 7일.'
+    concept: '개념서를 한 바퀴 본 뒤 문제로 넘어가요. 문제부터 밀어붙이지 않아요.',
+    problem: '기출을 먼저 풀고, 틀린 개념만 돌아가서 봐요.',
+    error: '오답 노트를 중심으로, 같은 유형을 사흘 뒤에 다시 풀어요.',
+    memor: '단원마다 정리표를 한 장 만들고 1일, 3일, 7일 뒤에 반복해요.'
   };
   function sdlBand(sdl) {
     if (sdl >= 18) return { name: '습관이 잡힌 단계', tip: '주 1회 스스로 점검해 보세요.' };
     if (sdl >= 13) return { name: '습관을 만드는 단계', tip: '못 지킨 계획을 다음 날 1번으로 두세요.' };
-    return { name: '습관을 세우기 전 단계', tip: '매일 같은 시각에 시작하는 것부터. 점검해 주는 사람이 필요해요.' };
+    return { name: '습관을 세우기 전 단계', tip: '매일 같은 시각에 시작해 보세요. 점검해 주는 사람이 있으면 좋아요.' };
   }
   function score(a) {
     var tools = ['tool_kor', 'tool_math', 'tool_eng', 'tool_inq'].map(function (k) { return a[k]; }).filter(Boolean);
@@ -470,16 +470,16 @@ button { cursor: pointer; }
   }
 
   var GAPS = {
-    gram: { subj: 'kor', title: '국어 언어(문법)', tag: '새로 공부', why: '화작으로 봤다면 문법이 빈틈이에요. 2028 국어는 문법 포함 공통.', lines: [['음운 변동', '교체, 탈락, 첨가, 축약부터'], ['단어와 문장', '형태소와 단어, 이어서 문장 구조'], ['매체', '출제 범위 밖, 화작은 이어서 점검', 'tip']] },
-    kor_none: { subj: 'kor', title: '국어 전체', tag: '새로 공부', why: '국어를 안 봤다면 2028 국어(화법과 언어, 독서와 작문, 문학) 전체를 새로 준비해야 해요.', lines: [['기출 한 회', '문학, 독서로 현재 위치 확인'], ['문법 개념', '음운, 형태소, 문장부터'], ['매일 루틴', '지문 2개 + 문법 1단원', 'tip']] },
-    gram_na: { subj: 'kor', title: '국어 언어(문법)', tag: '확인 필요', why: '작년 국어 선택과목을 확인하세요. 화작이었다면 문법이 새 범위.', lines: [['화작이면', '음운 변동부터 시작'], ['언매면', '복습만'], ['선택 없음', '2028 국어는 공통', 'tip']] },
-    prob: { subj: 'math', title: '수학 확률과 통계', tag: '새로 공부', why: '미적분, 기하로 봤다면 확통이 빈틈이에요. 2028 수학은 확통 포함 공통.', lines: [['경우의 수', '순열, 조합부터'], ['확률, 통계', '경우의 수 다음 차례로'], ['시간 옮기기', '미적분, 기하 시간을 확통으로', 'tip']] },
-    math_none: { subj: 'math', title: '수학 전체', tag: '새로 공부', why: '수학을 안 봤다면 2028 수학(대수, 미적분Ⅰ, 확률과 통계) 전체를 새로 준비해야 해요.', lines: [['대수', '지수로그, 삼각함수, 수열부터'], ['미적분Ⅰ', '극한, 미분, 적분'], ['확률과 통계', '경우의 수부터, 마지막에']] },
-    prob_na: { subj: 'math', title: '수학 확률과 통계', tag: '확인 필요', why: '작년 수학 선택과목을 확인하세요. 미적분, 기하였다면 확통이 새 범위.', lines: [['미적, 기하면', '경우의 수부터'], ['확통이면', '공백 없음'], ['세 과목 공통', '대수, 미적분Ⅰ, 확통', 'tip']] },
-    sci: { subj: 'sci', title: '통합과학', tag: '새로 공부', why: '과탐을 안 봤다면 통합과학을 새로 준비해야 해요.', lines: [['과학의 기초', '물질과 규칙성까지 먼저'], ['시스템과 상호작용', '이어서 변화와 다양성, 환경과 에너지'], ['주 1단원', '물화생지 번갈아 개념 + 기출 10문항', 'tip']] },
-    soc: { subj: 'soc', title: '통합사회', tag: '새로 공부', why: '사탐을 안 봤다면 통합사회를 새로 준비해야 해요.', lines: [['통합적 관점', '행복까지 먼저(전체의 틀)'], ['인권과 헌법', '이어서 시장 경제, 정의와 불평등'], ['자료 읽기', '단원마다 개념 10개 + 자료 5문항', 'tip']] },
-    inq_na: { subj: 'base', title: '통합사회, 통합과학', tag: '확인 필요', why: '수능에서 본 탐구 과목을 확인하세요. 안 본 영역이 새로 준비할 범위예요.', lines: [['과목 확인', '응시한 탐구 과목부터'], ['단원 이름', '교과서 목차로 범위 훑기', 'tip']] },
-    inq_none: { subj: 'base', title: '통합사회, 통합과학', tag: '둘 다 새로 공부', why: '탐구를 안 봤다면 두 과목 모두 새로 준비해야 해요.', lines: [['첫 단원부터', '통합사회는 통합적 관점, 통합과학은 과학의 기초'], ['요일 나누기', '한 과목씩 개념 1단원 + 기출 10문항', 'tip'], ['단원 이름', '기출이 없으니 교과서 목차부터', 'tip']] }
+    gram: { subj: 'kor', title: '국어 언어(문법)', tag: '새로 공부', why: '화작으로 봤다면 문법이 빈틈이에요. 2028 국어는 문법까지 공통으로 봐요.', lines: [['음운 변동', '교체, 탈락, 첨가, 축약부터 시작해요.'], ['단어와 문장', '형태소와 단어를 본 뒤 문장 구조로 넘어가요.'], ['매체', '출제 범위 밖이에요. 화작은 이어서 점검하세요.', 'tip']] },
+    kor_none: { subj: 'kor', title: '국어 전체', tag: '새로 공부', why: '국어를 안 봤다면 2028 국어(화법과 언어, 독서와 작문, 문학) 전체를 새로 준비해야 해요.', lines: [['기출 한 회', '문학과 독서로 지금 위치를 확인해요.'], ['문법 개념', '음운, 형태소, 문장부터 시작해요.'], ['매일 루틴', '지문 2개와 문법 1단원을 공부해요.', 'tip']] },
+    gram_na: { subj: 'kor', title: '국어 언어(문법)', tag: '확인 필요', why: '작년 국어 선택과목을 확인하세요. 화작이었다면 문법이 새 범위예요.', lines: [['화작이면', '음운 변동부터 시작해요.'], ['언매면', '기출로 점검해요.'], ['선택 없음', '2028 국어는 모두 공통으로 봐요.', 'tip']] },
+    prob: { subj: 'math', title: '수학 확률과 통계', tag: '새로 공부', why: '미적분, 기하로 봤다면 확통이 빈틈이에요. 2028 수학은 확통까지 공통으로 봐요.', lines: [['경우의 수', '순열, 조합부터 시작해요.'], ['확률, 통계', '경우의 수 다음에 이어서 공부해요.'], ['시간 옮기기', '미적분, 기하에 쓰던 시간을 확통으로 옮겨요.', 'tip']] },
+    math_none: { subj: 'math', title: '수학 전체', tag: '새로 공부', why: '수학을 안 봤다면 2028 수학(대수, 미적분Ⅰ, 확률과 통계) 전체를 새로 준비해야 해요.', lines: [['대수', '지수로그, 삼각함수, 수열부터 시작해요.'], ['미적분Ⅰ', '극한, 미분, 적분 순서로 공부해요.'], ['확률과 통계', '경우의 수부터 시작해 마지막에 공부해요.']] },
+    prob_na: { subj: 'math', title: '수학 확률과 통계', tag: '확인 필요', why: '작년 수학 선택과목을 확인하세요. 미적분, 기하였다면 확통이 새 범위예요.', lines: [['미적, 기하면', '경우의 수부터 시작해요.'], ['확통이면', '기출로 점검해요.'], ['세 과목 공통', '대수, 미적분Ⅰ, 확통을 모두 봐요.', 'tip']] },
+    sci: { subj: 'sci', title: '통합과학', tag: '새로 공부', why: '과탐을 안 봤다면 통합과학을 새로 준비해야 해요.', lines: [['과학의 기초', '물질과 규칙성까지 먼저 공부해요.'], ['시스템과 상호작용', '이어서 변화와 다양성, 환경과 에너지를 공부해요.'], ['주 1단원', '물화생지를 번갈아 개념과 기출 10문항을 풀어요.', 'tip']] },
+    soc: { subj: 'soc', title: '통합사회', tag: '새로 공부', why: '사탐을 안 봤다면 통합사회를 새로 준비해야 해요.', lines: [['통합적 관점', '행복 단원까지 먼저 공부해요.'], ['인권과 헌법', '이어서 시장 경제, 정의와 불평등을 공부해요.'], ['자료 읽기', '단원마다 개념 10개와 자료 5문항을 풀어요.', 'tip']] },
+    inq_na: { subj: 'base', title: '통합사회, 통합과학', tag: '확인 필요', why: '수능에서 본 탐구 과목을 확인하세요. 안 본 영역이 새로 준비할 범위예요.', lines: [['과목 확인', '응시한 탐구 과목부터 확인해요.'], ['단원 이름', '교과서 목차로 범위를 훑어봐요.', 'tip']] },
+    inq_none: { subj: 'base', title: '통합사회, 통합과학', tag: '둘 다 새로 공부', why: '탐구를 안 봤다면 두 과목 모두 새로 준비해야 해요.', lines: [['첫 단원부터', '통합사회는 통합적 관점, 통합과학은 과학의 기초부터 시작해요.'], ['요일 나누기', '한 과목씩 개념 1단원과 기출 10문항을 풀어요.', 'tip'], ['단원 이름', '기출이 없으니 교과서 목차부터 확인해요.', 'tip']] }
   };
   function syncInq(a) {
     if (!isPost(a) || !a.inq1) { delete a.inq_subj; return; }
@@ -511,10 +511,10 @@ button { cursor: pointer; }
       subj: kind, title: subject, tag: missing.length ? '일부 공백' : '많이 겹침',
       why: takenNames + ' 기준: ' + (missing.length ? missing.join(', ') + ' 영역이 빈틈이에요.' : '겹치는 범위가 많아요.'),
       lines: missing.length ? [
-        [missing.length + '개 영역', missing.join(', ') + ' 먼저'],
-        [order[0], order.length > 1 ? '다음 ' + order[1] + (order.length > 2 ? ' 등 ' + (order.length - 1) + '개' : '') : '이 단원만 새로'],
-        ['기출 점검', covered.join(', ') + ' 영역은 기출로 점검', 'tip']
-      ] : [['전 영역', '기출 한 회로 점검'], ['틀린 단원', '개념만 복습'], ['예시 문항', '기출이 없으니 평가원 기준', 'tip']]
+        [missing.length + '개 영역', missing.join(', ') + ' 영역을 먼저 공부해요.'],
+        [order[0], order.length > 1 ? '다음은 ' + order[1] + (order.length > 2 ? ' 등 ' + (order.length - 1) + '개 단원이에요.' : ' 단원이에요.') : '이 단원만 새로 공부해요.'],
+        ['기출 점검', covered.join(', ') + ' 영역은 기출로 점검해요.', 'tip']
+      ] : [['전 영역', '기출 한 회로 점검해요.'], ['틀린 단원', '개념만 다시 복습해요.'], ['예시 문항', '기출이 없으니 평가원 예시 문항을 기준으로 삼아요.', 'tip']]
     };
   }
   function gaps(a) {
@@ -969,15 +969,15 @@ button { cursor: pointer; }
       overview,
 
       h('div', { class: 'sechead' }, h('span', { class: 'kicker dark' }, '개정 수능 대비'), h('h3', null, post ? '2028 수능에서 새로 공부할 부분' : (ex ? ex.suneung : 2028) + (ex && ex.done ? ' 수능 이후, 이렇게 준비해요' : ' 수능, 이렇게 준비해요'))),
-      post ? h('div', { class: 'card gapcard' },
+      post ? [h('div', { class: 'card gapcard' },
         gapBars(rows),
+        h('p', { class: 'note', style: 'text-align:left;margin-top:12px' }, '대수, 미적분Ⅰ은 수학Ⅰ, Ⅱ와 범위가 많이 겹쳐요. 약한 단원은 다시 점검해 보세요.'))].concat(
         gapList.map(function (g) {
-          return h('div', { class: 'gap subj-' + g.subj },
+          return h('div', { class: 'card gapcard subj-' + g.subj },
             h('div', { class: 'course-top' }, subjBadge(g.subj, g.title), h('span', { class: 'badge-soft' + (/새로 공부/.test(g.tag) ? ' hot' : '') }, g.tag)),
             h('p', { class: 'why' }, g.why),
             stepCards(g.lines));
-        }),
-        h('p', { class: 'note', style: 'text-align:left;margin-top:12px' }, '대수, 미적분Ⅰ은 수학Ⅰ, Ⅱ와 범위가 많이 겹쳐요. 약한 단원은 다시 점검해 보세요.'))
+        }))
       : preCards(ex, rows, unitId, unitName),
 
       h('div', { class: 'card locked' },
@@ -1169,7 +1169,7 @@ button { cursor: pointer; }
     ['광주/전라', ['광주남구', '광주동구', '광주북구', '광주수완', '목포', '익산']],
     ['부산/대구/경상', ['대구달서', '대구수성 1관', '대구수성 2관', '부산교대', '부산대', '부산북구', '부산서면', '부산해운대', '울산남구', '진주', '창원']],
     ['제주', ['제주']],
-    ['기숙학원', ['안성기숙', '이천기숙', '독학기숙']]
+    ['기숙학원', ['이천기숙', '독학기숙', '안성기숙']]
   ];
   var BRANCH_UNKNOWN = '아직 모름';
   var BRANCH_REGION = {};
@@ -1240,9 +1240,9 @@ button { cursor: pointer; }
   var leadBranch = '';
   var STYLE_NAME = { concept: '개념부터 이해하는 나', problem: '문제부터 푸는 나', error: '틀린 문제 다시 보는 나', memor: '외우고 반복하는 나' };
   function planLines(months) {
-    if (months >= 20) return [['지금', '빈틈 단원 메우기, 공부 습관 만들기'], ['고2까지', '대수, 미적분Ⅰ, 확률과 통계 개념 완성'], ['고3', '통합사회, 통합과학까지 전 범위 실전']];
-    if (months >= 9) return [['지금~2월', '빈틈 단원 메우기, 통합 과목 개념 1회독'], ['3~6월', '전 범위 1회독, 6월 모의평가로 점검'], ['7~11월', '실전 모의고사와 오답, 시간 관리']];
-    return [['지금', '빈틈 단원과 자주 틀리는 유형만'], ['매주', '실전 모의고사 1회와 오답'], ['시험 전 한 달', '시간 관리와 컨디션']];
+    if (months >= 20) return [['지금', '빈틈 단원을 메우고 공부 습관을 만들어요.'], ['고2까지', '대수, 미적분Ⅰ, 확률과 통계 개념을 완성해요.'], ['고3', '통합사회, 통합과학까지 전 범위를 실전처럼 풀어요.']];
+    if (months >= 9) return [['지금~2월', '빈틈 단원을 메우고 통합 과목 개념을 1회독해요.'], ['3~6월', '전 범위를 1회독하고 6월 모의평가로 점검해요.'], ['7~11월', '실전 모의고사와 오답, 시간 관리에 집중해요.']];
+    return [['지금', '빈틈 단원과 자주 틀리는 유형만 공부해요.'], ['매주', '실전 모의고사 1회를 풀고 오답을 정리해요.'], ['시험 전 한 달', '시간 관리와 컨디션을 챙겨요.']];
   }
   function preCards(ex, rows, unitId, unitName) {
     var out = [];
@@ -1268,7 +1268,7 @@ button { cursor: pointer; }
         return h('div', { class: 'gap subj-' + r.subj },
           h('div', { class: 'course-top' }, subjBadge(r.subj, r.name), h('span', { class: 'badge-soft' + (r.n * 2 >= r.total ? ' hot' : '') }, r.n + '개 영역')),
           h('p', { class: 'why' }, r.n >= r.total ? '전 영역이 빈틈이에요. 개념 1회독부터 시작하세요.' : r.areas.map(label).join(', ') + ' 영역부터 메우세요.'),
-          stepCards(r.areas.slice(0, 3).map(function (k) { return [label(k), AREAS[k].join(', ')]; }).concat(i === weakRows.length - 1 ? [['평가원 예시 문항', '기출이 없으니 모의고사와 함께', 'tip']] : [])));
+          stepCards(r.areas.slice(0, 3).map(function (k) { return [label(k), AREAS[k].join(', ')]; }).concat(i === weakRows.length - 1 ? [['평가원 예시 문항', '기출이 없으니 모의고사와 함께 풀어요.', 'tip']] : [])));
       }),
       known.length && !weakRows.length ? h('p', { class: 'note', style: 'text-align:left;margin-top:12px' }, '모두 자신 있다고 골랐어요. 평가원 예시 문항으로 실제 실력을 확인해 보세요.') : null));
     var subj = answers.weak === 'kor' || answers.weak === 'math' ? answers.weak : 'base';
@@ -1276,8 +1276,8 @@ button { cursor: pointer; }
     out.push(h('div', { class: 'card gapcard subj-' + subj },
       h('div', { class: 'course-top' }, subjBadge(subj, SUBJECT[answers.weak] + ' 가장 큰 빈틈'), h('span', { class: 'badge-soft hot' }, '여기부터')),
       h('p', { class: 'why' }, h('b', null, /_na$/.test(unitId) ? SUBJECT[answers.weak] + ' 전반' : unitName), ': ' + (point || '')),
-      stepCards([['이번 주부터', point || '틀린 문항의 단원 적어 보기'], ['같은 유형 기출 10문항', '틀린 문제만 사흘 뒤 다시'],
-        [STYLE_NAME[answers.style] || '나에게 맞는 방식', STYLE_TEXT[answers.style] || '개념과 문제를 번갈아', 'tip']])));
+      stepCards([['이번 주부터', point || '틀린 문항이 어느 단원인지 적어 보세요.'], ['같은 유형 기출 10문항', '틀린 문제만 사흘 뒤에 다시 풀어요.'],
+        [STYLE_NAME[answers.style] || '나에게 맞는 방식', STYLE_TEXT[answers.style] || '개념과 문제를 번갈아 공부해요.', 'tip']])));
     return out;
   }
 
@@ -1330,7 +1330,7 @@ button { cursor: pointer; }
       submit);
     return h('div', { class: 'gate' },
       evOpen ? h('div', { class: 'stamp', 'aria-hidden': 'true' }, h('span', null, 'EVENT'), h('span', null, '무료 공개')) : null,
-      h('h3', { class: 'gate-title' }, h('span', null, '\u2018' + (gapCount ? '내 빈틈 ' + gapCount + '곳, 어디인지 궁금하죠?' : post ? '잠깐! 진짜 결과는 지금부터예요' : weak + ' 빈틈, 어디부터 메울지 궁금하죠?') + '\u2019'), h('em', null, evOpen ? '이벤트 참여하고 전체 결과 보기' : '전체 결과 보기')),
+      h('h3', { class: 'gate-title' }, h('span', null, '\u2018' + (gapCount ? '내 빈틈 ' + gapCount + '곳, 어디인지 궁금하죠?' : post ? '잠깐! 진짜 결과는 지금부터예요' : weak + ' 빈틈, 어디부터 메울지 궁금하죠?') + '\u2019')),
       h('p', { class: 'gate-sub' }, post && gapCount ? '2028 수능에서 새로 공부할 부분 ' + gapCount + '곳과 무엇부터 할지, 이름과 휴대폰 번호를 남기면 바로 열려요.'
         : post ? '빈틈 과목별 처방까지, 이름과 휴대폰 번호를 남기면 바로 열려요.'
         : '수능까지 남은 기간별 계획과 ' + weak + ' 빈틈부터 메우는 순서까지, 이름과 휴대폰 번호를 남기면 바로 열려요.'),
@@ -1355,12 +1355,19 @@ button { cursor: pointer; }
     var name = h('input', { class: 'input', type: 'text', id: 'f-name', autocomplete: 'name', maxlength: '20', placeholder: '학생 이름' });
     var phone = phoneInput('f-phone');
     if (gate) { name.value = gate.name; phone.value = gate.phone.slice(0, 3) + '-' + gate.phone.slice(3, gate.phone.length - 4) + '-' + gate.phone.slice(-4); }
-    var branch = h('select', { class: 'input', id: 'f-branch' }, h('option', { value: '' }, '희망 지점을 골라 주세요'),
-      BRANCH_GROUPS.map(function (g) { return h('optgroup', { label: g[0] }, g[1].map(function (b) { return h('option', { value: b }, b); })); }),
-      h('option', { value: BRANCH_UNKNOWN }, BRANCH_UNKNOWN));
+    var branch = h('select', { class: 'input', id: 'f-branch', disabled: '' }, h('option', { value: '' }, '희망 형태를 먼저 골라 주세요'));
+    function fillBranches(m) {
+      var groups = BRANCH_GROUPS.filter(function (g) { return m === '기숙' ? g[0] === '기숙학원' : m === '통학' ? g[0] !== '기숙학원' : true; });
+      branch.replaceChildren(h('option', { value: '' }, '희망 지점을 골라 주세요'));
+      groups.forEach(function (g) { branch.appendChild(h('optgroup', { label: g[0] }, g[1].map(function (b) { return h('option', { value: b }, b); }))); });
+      branch.appendChild(h('option', { value: BRANCH_UNKNOWN }, BRANCH_UNKNOWN));
+      branch.removeAttribute('disabled');
+      branch.value = '';
+    }
     var segBtns = ['통학', '기숙', '아직 모름'].map(function (m) {
       return h('button', { type: 'button', 'aria-pressed': 'false', on: { click: function (ev) {
         mode = m; segBtns.forEach(function (b) { b.setAttribute('aria-pressed', String(b === ev.currentTarget)); });
+        fillBranches(m);
       } } }, m);
     });
     var agree = h('input', { type: 'checkbox', id: 'f-agree' });
@@ -1372,6 +1379,7 @@ button { cursor: pointer; }
       var digits = phone.value.replace(/\D/g, '');
       var msg = !name.value.trim() ? '이름을 적어 주세요.'
         : !/^01[016789]\d{7,8}$/.test(digits) ? '휴대폰 번호를 확인해 주세요.'
+        : !mode ? '희망 형태를 골라 주세요.'
         : !branch.value ? '희망 지점을 골라 주세요.'
         : !agree.checked ? '개인정보 수집과 이용에 동의해 주세요.' : '';
       if (msg) { err.textContent = msg; err.hidden = false; postHeight(); return; }
@@ -1384,8 +1392,8 @@ button { cursor: pointer; }
       gate ? h('p', { class: 'who' }, h('b', null, gate.name), ' · ' + phone.value) : null,
       gate ? null : h('div', { class: 'field' }, h('label', { for: 'f-name' }, '이름'), name),
       gate ? null : h('div', { class: 'field' }, h('label', { for: 'f-phone' }, '휴대폰 번호'), phone),
-      h('div', { class: 'field' }, h('label', { for: 'f-branch' }, '희망 지점'), branch),
       h('div', { class: 'field' }, h('span', { class: 'lbl' }, '희망 형태'), h('div', { class: 'seg' }, segBtns)),
+      h('div', { class: 'field' }, h('label', { for: 'f-branch' }, '희망 지점'), branch),
       h('details', { class: 'consent' },
         h('summary', null, '개인정보 수집과 이용 안내 (필수)'),
         h('ul', null,
