@@ -1,5 +1,4 @@
 <!doctype html>
-<!-- 이투스247 웹 방문자용 1분 학습진단(LMCT 라이트)과 응답 로그 전송 -->
 <html lang="ko">
 <head>
 <meta charset="utf-8">
@@ -8,12 +7,10 @@
 <meta name="description" content="공부 빈틈 3분 진단. 2028 수능에서 새로 공부할 부분과 나의 학습 유형을 바로 확인하세요.">
 <style>
 @font-face { font-family: 'Pretendard'; src: url('fonts/PretendardVariable.woff2') format('woff2-variations'), url('fonts/PretendardVariable.woff2') format('woff2'); font-weight: 45 920; font-display: swap; }
-/* 이천기숙 LMCT(/quick)와 같은 BI: 청록에서 연두로 이어지는 그라데이션, 흰 카드, 모바일 우선 */
 :root {
   color-scheme: light;
   --teal-deep: #0A5F5C; --teal: #0E7C77; --teal-bright: #13A89E; --green: #7CC242; --lime: #A5D34A;
   --ink: #1F2325; --ink-soft: #1F2325; --ink-mute: #1F2325;
-  /* 강조색: 청록, 연두와 어울리는 따뜻한 골드 한 가지(레퍼런스: 청록 중심 + 따뜻한 포인트 하나). 노랑 위 글자는 진한 청록 */
   --hot: #FFC845; --hot-deep: #E9A21B; --hot-ink: #0B3B39; --mark: rgba(255, 200, 69, .6);
   --line: #E4EBE8; --line-soft: #EFF4F1; --paper: #F6F8F7;
   --grad-bi: linear-gradient(135deg, #0E7C77 0%, #13A89E 45%, #7CC242 100%);
@@ -148,16 +145,13 @@ button { cursor: pointer; }
 
 .actions { display: flex; flex-direction: column; gap: 9px; }
 .actions .two { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
-/* 결과 이미지: 모달 대신 버튼 바로 아래에 펼친다(247 페이지 iframe 안에서도 보이도록) */
 .shot { margin-top: 13px; }
-/* 결과 중간 입력(lite-10): 캐릿 방식. 다음 카드가 흐려지며 끊기고, 물결선, 도장, 혼잣말 제목 */
 .peek { position: relative; max-height: 190px; overflow: hidden; pointer-events: none; user-select: none;
   -webkit-mask-image: linear-gradient(to bottom, #000 35%, transparent 100%); mask-image: linear-gradient(to bottom, #000 35%, transparent 100%); }
 .peek .card { margin-bottom: 0; }
 .wave { margin: 2px -16px 18px; overflow: hidden; }
 .wave svg { display: block; width: 100%; height: 40px; overflow: visible; }
 .wave path { fill: none; stroke-linecap: round; vector-effect: non-scaling-stroke; }
-/* 두 물결이 서로 다른 속도와 방향으로 천천히 흘러 액체처럼 보이게 한다 */
 .wave .lw-a { animation: lw-drift 16s linear infinite; }
 .wave .lw-b { animation: lw-drift 24s linear infinite reverse; }
 @keyframes lw-drift { from { transform: translateX(0); } to { transform: translateX(-320px); } }
@@ -206,7 +200,6 @@ button { cursor: pointer; }
 .check input { width: 20px; height: 20px; margin-top: 1px; accent-color: var(--teal); flex: none; }
 .err { margin: 0; font-size: 15.5px; font-weight: 800; color: #B23A2A; }
 .toast { position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 20px); transform: translateX(-50%); padding: 11px 18px; border-radius: 999px; background: rgba(46, 50, 51, .92); color: #fff; font-size: 16px; font-weight: 700; z-index: 50; max-width: calc(100% - 32px); }
-/* 보조 글씨도 회색 대신 검정으로 진하고 굵게 (사용자 요청) */
 .card-sub, .hint, .q-desc, .value p, .reco-v.tip, .reco-v small, .course-desc, .reason, .note, .foot, .consent, .consent summary, .field label, .field .lbl, .opt .lb, .opt .num, .brand .sys, .progress-top, .loading, .locked .over span, .badge-soft { color: var(--ink); font-weight: 700; }
 .value p b, .reco-v, .card-head, .q-text, .opt[aria-pressed="true"] .lb { font-weight: 900; }
 .hint::before { border-width: 2px; }
@@ -219,7 +212,6 @@ button { cursor: pointer; }
 .basis { margin: 14px 0 0; font-size: 13px; line-height: 1.5; opacity: .9; }
 .why { margin: 6px 0 0; font-size: 15px; line-height: 1.5; font-weight: 700; }
 .why.strong { color: var(--teal-deep); }
-/* 처방 3단계: 가로 카드 3장, 키워드는 크게 형광펜 강조, 보조 문장은 작게 */
 .steps { margin: 12px 0 4px; padding: 0; list-style: none; counter-reset: s; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 .steps li { counter-increment: s; display: flex; flex-direction: column; gap: 7px; min-width: 0; padding: 11px 9px 12px; border-radius: 14px; background: #fff; border: 1px solid var(--line); box-shadow: var(--sh-sm); }
 .steps li::before { content: counter(s); width: 22px; height: 22px; border-radius: 50%; background: var(--s-ink, var(--teal)); color: #fff; font-size: 12px; font-weight: 900; display: grid; place-items: center; }
@@ -229,7 +221,6 @@ button { cursor: pointer; }
 .subjlist { display: flex; flex-direction: column; gap: 10px; }
 .subj { padding: 12px 14px; border-radius: 14px; border: 1.5px solid var(--line); background: #fff; }
 .subj.weak { border-color: #D9EDE3; background: linear-gradient(150deg, #F2FAF7 0%, #F7FCF3 100%); }
-/* 차트: 한 가지 청록 색조, 글자는 글자색 토큰, 격자는 연하게 */
 .chart { width: 100%; height: auto; display: block; margin: 6px 0 4px; }
 .chart .ring, .chart .spoke { fill: none; stroke: var(--line); stroke-width: 1; }
 .chart .ring { fill: rgba(14, 124, 119, .03); }
@@ -246,9 +237,7 @@ button { cursor: pointer; }
 .bars .val { font-size: 13px; font-weight: 800; opacity: 1; }
 .bars .cnt { font-size: 15px; font-weight: 900; }
 .bars .of { font-size: 12px; font-weight: 700; }
-/* 후킹 강조색(주황): 완전히 새로 공부할 범위, 가장 큰 빈틈 */
 .chart .bar[class*="subj-"] { fill: var(--s); }
-/* 과목 색(색약 시뮬레이션으로 네 과목이 서로 구분되는 조합): 막대, 배지, 번호, 형광펜, 카드 윗선. 골드는 '새로 공부'와 상단 띠에만 */
 .subj-kor { --s: #B8325A; --s-tint: #FBEAF0; --s-ink: #8A1F42; --s-mark: rgba(184, 50, 90, .18); }
 .subj-math { --s: #2563EB; --s-tint: #EAF1FE; --s-ink: #1D4CB8; --s-mark: rgba(37, 99, 235, .16); }
 .subj-soc { --s: #A1459C; --s-tint: #F8EBF7; --s-ink: #7A2F76; --s-mark: rgba(161, 69, 156, .18); }
@@ -285,38 +274,30 @@ button { cursor: pointer; }
 (function () {
   'use strict';
 
-  // 구글 시트 Apps Script 웹 앱 주소. 비워 두면 콘솔에만 기록한다.
   var LOG_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwBafA6ArZ5F7BrEiO75X--v5eWabawv8bG8Ilq4uONYPAiPTia2UntAkCy3UWjTPQUyw/exec';
-  // 로컬 미리보기(파일 열기, localhost, 127.0.0.1)는 실제 시트에 테스트 기록이 쌓이지 않게 콘솔에만 남긴다.
   var IS_LOCAL = /^(|localhost|127(\.\d+){3}|\[::1\])$|\.(localhost|local|test)$/.test(location.hostname);
   var VERSION = 'lite-12';
   var HOME_URL = 'https://247.etoos.com/index.do';
 
-  // 대상: N수 이상(2015 교육과정 수능을 보고 2028 개정 수능을 다시 봄)과 고3 이하 재학생(2022 개정 과정, 2027년부터 고3도 포함).
-  // 재학생은 선택과목 문항 없이 최근 모의고사 기준으로 묻는다.
   var SUBJECT = { kor: '국어', math: '수학', eng: '영어', inq: '탐구' };
   var GRADE_OPTS = [['12', '1~2등급'], ['34', '3~4등급'], ['56', '5~6등급'], ['79', '7등급 이하'], ['na', '잘 모르겠어요']];
   var GRADE_LABEL = { '12': '1~2등급', '34': '3~4등급', '56': '5~6등급', '79': '7등급 이하', 'na': '등급 모름' };
   var TOOL_OPTS = [['self', '혼자 공부'], ['online', '인강'], ['offline', '현장 강의'], ['tutoring', '1:1 클리닉']];
   var TOOL_LABEL = { self: '혼자 공부', online: '인강', offline: '현장 강의', tutoring: '1:1 클리닉' };
   var SDL_IDS = ['sdl1', 'sdl2', 'sdl3', 'sdl4', 'sdl5'];
-  // 값(5~1)은 점수 계산과 로그에 그대로 쓰고, 화면에는 점수 표현 없이 말만 보인다.
   var SDL_OPTS = [['5', '매우 그렇다'], ['4', '그렇다'], ['3', '보통이다'], ['2', '아니다'], ['1', '전혀 아니다']];
 
-  // 과목별 빈틈 단원 선택지. 단원 묶음은 V1.1 단원표(04_대시보드/engine.js)를 라이트용으로 줄인 것
   var UNITS = {
     kor: [['kor_read', '독서 (비문학 지문)'], ['kor_poem', '현대시와 고전시가'], ['kor_novel', '현대소설과 고전소설'], ['kor_gram', '언어(문법)와 화법, 작문'], ['kor_na', '잘 모르겠어요']],
     math: [['math_su1', '수학Ⅰ (지수로그, 삼각함수, 수열)'], ['math_su2', '수학Ⅱ (극한, 미분, 적분)'], ['math_prob', '확률과 통계'], ['math_calc', '미적분, 기하 (선택과목)'], ['math_na', '잘 모르겠어요']],
     eng: [['eng_vocab', '어휘와 숙어'], ['eng_gram', '어법'], ['eng_blank', '빈칸 추론'], ['eng_order', '글의 순서와 문장 넣기'], ['eng_topic', '주제, 요지 찾기와 듣기'], ['eng_na', '잘 모르겠어요']],
     inq: [['inq_soc_concept', '사회탐구 개념 암기'], ['inq_soc_data', '사회탐구 자료, 도표 분석'], ['inq_sci_concept', '과학탐구 개념 이해'], ['inq_sci_calc', '과학탐구 계산과 그래프'], ['inq_na', '잘 모르겠어요']]
   };
-  // 고2 이하(2022 개정 과정, 2028 수능부터)는 단원 이름이 다르다. 올해 수능을 보는 고3은 이전 과정 이름을 쓴다. 값(id)은 같아서 학습 포인트와 로그는 공유한다.
   var UNITS_PRE = {
     math: [['math_su1', '대수 (지수로그, 삼각함수, 수열)'], ['math_su2', '미적분Ⅰ (극한, 미분, 적분)'], ['math_prob', '확률과 통계'], ['math_na', '잘 모르겠어요']],
     inq: [['inq_soc_concept', '통합사회 개념'], ['inq_soc_data', '통합사회 자료, 도표 분석'], ['inq_sci_concept', '통합과학 개념 이해'], ['inq_sci_calc', '통합과학 계산과 그래프'], ['inq_na', '잘 모르겠어요']]
   };
   function unitsFor(a) { return (takesIntegrated(a) && UNITS_PRE[a.weak]) || UNITS[a.weak] || UNITS.kor; }
-  // 빈틈 단원별 학습 포인트 한 줄
   var UNIT_POINT = {
     kor_read: '하루 지문 3개, 근거 문장 표시',
     kor_poem: '화자, 상황, 정서부터 잡기',
@@ -342,7 +323,6 @@ button { cursor: pointer; }
     inq_na: '기출 한 회로 개념 오답과 자료 오답 나누기'
   };
 
-  // 작년(2027 수능, 2015 교육과정) 탐구 과목과 그 과목이 덮는 통합사회, 통합과학 영역
   var TAMGU = [
     ['saeyun', '생활과 윤리', 'soc', '윤리'], ['yunsa', '윤리와 사상', 'soc', '윤리'], ['hanji', '한국지리', 'soc', '지리'], ['seji', '세계지리', 'soc', '지리'],
     ['dongasa', '동아시아사', 'soc', '역사'], ['sesa', '세계사', 'soc', '역사'], ['gyeongje', '경제', 'soc', '경제'], ['jeongbeop', '정치와 법', 'soc', '정치와 법'], ['samun', '사회문화', 'soc', '사회문화'],
@@ -351,26 +331,20 @@ button { cursor: pointer; }
   ];
   var TAMGU_BY = {}; TAMGU.forEach(function (r) { TAMGU_BY[r[0]] = r; });
   var TAMGU_OPTS = TAMGU.map(function (r) { return [r[0], r[1]]; }).concat([['none', '탐구는 안 봤어요'], ['na', '잘 모르겠어요']]);
-  // 통합과학 영역별 대단원(2022 개정 통합과학1, 2)
   var SCI_AREAS = { '물리': ['시스템과 상호작용의 역학 시스템', '환경과 에너지의 발전과 신재생 에너지'], '화학': ['물질과 규칙성의 원소와 화학 결합', '변화와 다양성의 산화 환원과 산 염기'], '생명': ['시스템과 상호작용의 생명 시스템', '변화와 다양성의 진화와 생물 다양성'], '지구': ['물질과 규칙성의 우주와 지구의 원소', '시스템과 상호작용의 지구 시스템', '환경과 에너지의 기후 변화'] };
-  // 통합사회 영역별 대단원(2022 개정 통합사회1, 2)
   var SOC_AREAS = { '윤리': ['인간, 사회, 환경과 행복', '사회 정의와 불평등(정의론)'], '지리': ['자연환경과 인간', '생활공간과 사회'], '사회문화': ['문화와 다양성', '사회 정의와 불평등(불평등 현상)'], '정치와 법': ['인권 보장과 헌법'], '경제': ['시장 경제와 지속 가능 발전'], '역사': ['세계화와 평화'] };
 
-  // 고3 이하 학년. 학년도는 3월에 바뀌므로 지금 학년으로 응시할 수능 해를 계산한다(고3은 올해 11월, 고2는 내년 11월).
   var YEAR_OPTS_BASE = [['g3', '고3', 0], ['g2', '고2', 1], ['g1', '고1', 2], ['m3', '중3 이하', 3]];
   function schoolYear() { var d = new Date(); return d.getMonth() >= 2 ? d.getFullYear() : d.getFullYear() - 1; }
   function examOf(yearId) {
     var row = YEAR_OPTS_BASE.filter(function (r) { return r[0] === yearId; })[0];
     if (!row) return null;
     var examYear = schoolYear() + row[2], d = new Date();
-    // 수능은 11월 셋째 목요일. 그날 저녁부터는 시험을 마친 것으로 보고 안내 문구를 바꾼다.
     var thu = 1 + (11 - new Date(examYear, 10, 1).getDay()) % 7 + 14;
     return { examYear: examYear, suneung: examYear + 1, months: Math.max(0, (examYear - d.getFullYear()) * 12 + (10 - d.getMonth())), done: d >= new Date(examYear, 10, thu, 18) };
   }
   var AREA_NONE = [['none', '모두 자신 있어요'], ['na', '잘 모르겠어요']];
-  // 통합사회, 통합과학은 2028 수능부터. 올해 수능(지금 고3)을 보는 학생에게는 묻지 않는다.
   function takesIntegrated(a) { var ex = examOf(a.year); return !isPost(a) && (!ex || ex.suneung >= 2028); }
-  // 자가 체크 결과로 만든 빈틈 막대(고3 이하). 답하지 않았거나 모르면 null
   function preRows(a) {
     function r(name, subj, ans, AREAS) {
       var total = Object.keys(AREAS).length;
@@ -381,7 +355,6 @@ button { cursor: pointer; }
     return [r('통합사회', 'soc', a.soc_weak, SOC_AREAS), r('통합과학', 'sci', a.sci_weak, SCI_AREAS)];
   }
 
-  // N수 이상은 수능 기준, 고3 이하 재학생은 최근 모의고사 기준
   function isPost(a) { return a.status !== 'pre'; }
   function gradePhase(a) { return isPost(a) ? '수능 등급' : '최근 모의고사 등급'; }
   var QUESTIONS = [
@@ -416,7 +389,6 @@ button { cursor: pointer; }
   function applies(q, a) { return !q.when || q.when(a); }
   function activeQuestions(a) { return QUESTIONS.filter(function (q) { return applies(q, a); }); }
 
-  // 국어, 수학, 영어 등급의 평균으로 등급 구간을 정한다. 모두 모름이면 'na'
   var GRADE_MID = { '12': 1.5, '34': 3.5, '56': 5.5, '79': 7.5 };
   function gradeBucket(a) {
     var vals = ['grade_kor', 'grade_math', 'grade_eng'].map(function (k) { return GRADE_MID[a[k]]; }).filter(function (v) { return v; });
@@ -425,16 +397,12 @@ button { cursor: pointer; }
     return avg <= 2.5 ? '12' : avg <= 4.5 ? '34' : avg <= 6.5 ? '56' : '79';
   }
 
-  // 학습 유형: 공부 방법 답(혼자 공부, 인강 = 독립 / 현장 강의, 1:1 = 가이드) × 자기주도역량(25점 만점, 18점 이상 = 강)
-  // icon, color는 결과 첫 카드의 유형별 강조(원장 피드백: 색이 단조롭고 후킹이 약함)
-  // 유형 아이콘: 이모지 대신 선 아이콘(Lucide v0.460.0, ISC 라이선스)의 경로를 그대로 넣는다.
   var ICON_PATHS = {
     compass: '<path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/><circle cx="12" cy="12" r="10"/>',
     zap: '<path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>',
     footprints: '<path d="M4 16v-2.38C4 11.5 2.97 10.5 3 8c.03-2.72 1.49-6 4.5-6C9.37 2 10 3.8 10 5.5c0 3.11-2 5.66-2 8.68V16a2 2 0 1 1-4 0Z"/><path d="M20 20v-2.38c0-2.12 1.03-3.12 1-5.62-.03-2.72-1.49-6-4.5-6C14.63 6 14 7.8 14 9.5c0 3.11 2 5.66 2 8.68V20a2 2 0 1 0 4 0Z"/><path d="M16 17h4"/><path d="M4 13h4"/>',
     'heart-handshake': '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.79 0l2.96 2.66"/><path d="m18 15-2-2"/><path d="m15 18-2-2"/>'
   };
-  // 과목, 전략 아이콘(같은 Lucide 세트)
   ICON_PATHS['book-open'] = '<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>';
   ICON_PATHS.sigma = '<path d="M18 7V5a1 1 0 0 0-1-1H6.5a.5.5 0 0 0-.4.8l4.5 6a2 2 0 0 1 0 2.4l-4.5 6a.5.5 0 0 0 .4.8H17a1 1 0 0 0 1-1v-2"/>';
   ICON_PATHS.globe = '<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>';
@@ -454,7 +422,6 @@ button { cursor: pointer; }
     error: '오답 노트 중심, 같은 유형 사흘 뒤 다시 풀기.',
     memor: '단원마다 정리표 한 장, 반복 주기 1일 → 3일 → 7일.'
   };
-  // 자기주도역량 점수(5~25) 구간별 한 줄 설명. 18점 이상이 '강'(학습 유형 기준)과 같은 경계
   function sdlBand(sdl) {
     if (sdl >= 18) return { name: '습관이 잡힌 단계', tip: '주 1회 스스로 점검해 보세요.' };
     if (sdl >= 13) return { name: '습관을 만드는 단계', tip: '못 지킨 계획을 다음 날 1번으로 두세요.' };
@@ -470,8 +437,6 @@ button { cursor: pointer; }
     return { type: type, sdl: sdl, grade: gradeBucket(a), independent: independent, indepCount: indep, toolCount: tools.length };
   }
 
-  // 2028 수능(2022 개정 교육과정)에서 새로 공부할 부분. 작년 선택과목으로 정한다.
-  // 2028 수능: 국어는 화법과 언어, 독서와 작문, 문학 공통 / 수학은 대수, 미적분Ⅰ, 확률과 통계 공통 / 탐구는 통합사회와 통합과학 공통
   var GAPS = {
     gram: { subj: 'kor', title: '국어 언어(문법)', tag: '새로 공부', why: '화작으로 봤다면 문법이 빈틈이에요. 2028 국어는 문법 포함 공통.', lines: [['음운 변동', '교체, 탈락, 첨가, 축약부터'], ['단어와 문장', '형태소와 단어, 이어서 문장 구조'], ['매체', '출제 범위 밖, 화작은 이어서 점검', 'tip']] },
     kor_none: { subj: 'kor', title: '국어 전체', tag: '새로 공부', why: '국어를 안 봤다면 2028 국어(화법과 언어, 독서와 작문, 문학) 전체를 새로 준비해야 해요.', lines: [['기출 한 회', '문학, 독서로 현재 위치 확인'], ['문법 개념', '음운, 형태소, 문장부터'], ['매일 루틴', '지문 2개 + 문법 1단원', 'tip']] },
@@ -485,7 +450,6 @@ button { cursor: pointer; }
     inq_na: { subj: 'base', title: '통합사회, 통합과학', tag: '확인 필요', why: '수능에서 본 탐구 과목을 확인하세요. 안 본 영역이 새로 준비할 범위예요.', lines: [['과목 확인', '응시한 탐구 과목부터'], ['단원 이름', '교과서 목차로 범위 훑기', 'tip']] },
     inq_none: { subj: 'base', title: '통합사회, 통합과학', tag: '둘 다 새로 공부', why: '탐구를 안 봤다면 두 과목 모두 새로 준비해야 해요.', lines: [['첫 단원부터', '통합사회는 통합적 관점, 통합과학은 과학의 기초'], ['요일 나누기', '한 과목씩 개념 1단원 + 기출 10문항', 'tip'], ['단원 이름', '기출이 없으니 교과서 목차부터', 'tip']] }
   };
-  // 탐구1, 탐구2 답을 기존 형식(inq_subj 배열: 과목 id 최대 2개, 또는 ['none'], ['na'])으로 합친다. 계산과 로그는 이 값을 쓴다.
   function syncInq(a) {
     if (!isPost(a) || !a.inq1) { delete a.inq_subj; return; }
     a.inq_subj = TAMGU_BY[a.inq1] && TAMGU_BY[a.inq2] ? [a.inq1, a.inq2] : [a.inq1];
@@ -495,9 +459,7 @@ button { cursor: pointer; }
     var taken = ids.map(function (v) { return TAMGU_BY[v]; });
     return { none: !ids.length, names: taken.map(function (r) { return r[1]; }), socAreas: taken.filter(function (r) { return r[2] === 'soc'; }).map(function (r) { return r[3]; }), sciAreas: taken.filter(function (r) { return r[2] === 'sci'; }).map(function (r) { return r[3]; }) };
   }
-  // 받침 유무로 조사를 고른다 (을/를, 은/는)
   function hasBatchim(word) {
-    // 괄호나 기호로 끝나면 마지막 한글 글자로 판단한다
     var m = String(word).match(/[가-힣](?=[^가-힣]*$)/);
     if (!m) return false;
     var code = m[0].charCodeAt(0) - 0xac00;
@@ -526,7 +488,7 @@ button { cursor: pointer; }
   }
   function gaps(a) {
     var out = [];
-    if (!isPost(a)) return out; // 재학생은 개정 과정으로 배우는 중이라 선택과목 공백이 없다
+    if (!isPost(a)) return out;
     if (a.kor_sel === 'hwajak') out.push(GAPS.gram); else if (a.kor_sel === 'none') out.push(GAPS.kor_none); else if (a.kor_sel === 'na') out.push(GAPS.gram_na);
     if (a.math_sel === 'calc' || a.math_sel === 'geo') out.push(GAPS.prob); else if (a.math_sel === 'none') out.push(GAPS.math_none); else if (a.math_sel === 'na') out.push(GAPS.prob_na);
     var info = inqInfo(a);
@@ -534,10 +496,8 @@ button { cursor: pointer; }
     else { out.push(areaGap('soc', info)); out.push(areaGap('sci', info)); }
     return out;
   }
-  // 작년 선택과목 답을 사람이 읽는 문장으로 (판단 근거 표시용)
   var SEL_LABEL = { kor_sel: { hwajak: '화법과 작문', eonmae: '언어와 매체', none: '미응시', na: '모름' }, math_sel: { prob: '확률과 통계', calc: '미적분', geo: '기하', none: '미응시', na: '모름' } };
 
-  // 과목별 학습 추천: 등급 구간 × 효과가 좋았던 방법
   var GRADE_PLAN = {
     '12': '유지. 기출 실전 + 틀리는 유형만 보완.',
     '34': '기출을 유형별로 분류, 새는 유형의 개념 되짚기.',
@@ -552,19 +512,14 @@ button { cursor: pointer; }
     tutoring: '1:1 클리닉 주 1회, 막힌 문제 모아 가기.'
   };
 
-  // ---- 로그 ----
   var params = new URLSearchParams(location.search);
-  // 로컬 개발에서만 ?endpoint= 로 시험용 기록 서버를 지정할 수 있다(dev_mock_server.js). 운영 주소에서는 무시한다.
   var ENDPOINT = (IS_LOCAL && params.get('endpoint')) || LOG_ENDPOINT;
   var SEND = !!ENDPOINT && (!IS_LOCAL || !!params.get('endpoint'));
 
-  // ---- 참여형 이벤트 (가맹마케팅지원팀 요청, 2026-11-10) ----
-  // 선착순과 중복 판정은 기록 서버(로거 v11)가 한다. 여기 값은 화면 안내용이고, 날짜는 서버 응답이 없을 때의 기본 판단에만 쓴다.
   var EVENT = {
     title: 'LMCT 체험하고 바나나우유 GET!', start: '2026-11-19T00:00:00+09:00', end: '2026-12-31T23:59:59+09:00', prize: 'GS 바나나우유 모바일 상품권',
     lines: [['기간', '11.19(목) ~ 12.31(목)'], ['대상', '진단을 마치고 연락처를 남긴 분'], ['선정', '선착순 1,000명 (1인 1회)'], ['상품', 'GS 바나나우유 모바일 상품권'], ['지급', '11.30(월) 1차, 이후 12.31(목)까지 문자 발송']]
   };
-  // open 진행 중, closed 마감(선착순, 기간 끝, 수동 종료), off 시작 전. ?event=open|closed|off 는 화면 미리보기용(참여 인정은 서버가 따로 판단)
   var eventState = (function () {
     var forced = params.get('event');
     if (forced === 'open' || forced === 'closed' || forced === 'off') return forced;
@@ -575,7 +530,7 @@ button { cursor: pointer; }
     if (!SEND || params.get('event')) return;
     try {
       fetch(ENDPOINT).then(function (r) { return r.json(); }).then(function (d) {
-        if (!d || !d.state) return; // 옛 로거(v10 이하)는 상태를 알려 주지 않는다
+        if (!d || !d.state) return;
         var next = d.state === 'open' ? 'open' : d.state === 'before' ? 'off' : 'closed';
         if (next === eventState) return;
         eventState = next;
@@ -603,7 +558,6 @@ button { cursor: pointer; }
   function log(event, data) {
     var payload = Object.assign({}, common, { event: event, ts: new Date().toISOString(), t_ms: Date.now() - t0 }, data || {});
     if (!SEND) { console.info('[LMCT-lite log]', payload); return; }
-    // text/plain이라야 Apps Script로 보낼 때 CORS 사전 요청이 생기지 않는다.
     var body = JSON.stringify(payload);
     var sent = false;
     try { sent = navigator.sendBeacon && navigator.sendBeacon(ENDPOINT, new Blob([body], { type: 'text/plain;charset=utf-8' })); } catch (e) {}
@@ -611,7 +565,6 @@ button { cursor: pointer; }
       try { fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', keepalive: true, headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: body }); } catch (e) {}
     }
   }
-  // 저장을 확인해야 하는 기록(이벤트 참여가 걸린 gate)에 쓴다. 응답을 읽고, 실패하면 두 번 더 보낸다. 끝내 실패하면 null
   function sendConfirmed(event, data) {
     var payload = Object.assign({}, common, { event: event, ts: new Date().toISOString(), t_ms: Date.now() - t0 }, data || {});
     if (!SEND) { console.info('[LMCT-lite log]', payload); return Promise.resolve({ r: 'ok', event: eventState === 'open' ? 'in' : eventState }); }
@@ -634,14 +587,12 @@ button { cursor: pointer; }
     return attempt();
   }
 
-  // ---- 화면 ----
   var app = document.getElementById('app');
   var backBtn = document.getElementById('back');
   var answers = {};
   var step = -1;
   var result = null;
   var leadSent = false;
-  // 결과 중간에서 받은 이름과 휴대폰(lite-10). 상담실 기기 하나로 여러 학생이 할 수 있어 새 진단마다 다시 받는다.
   var gate = null;
   function resetRun() { answers = {}; gate = null; leadSent = false; t0 = Date.now(); }
   var finishTimer = 0;
@@ -686,7 +637,6 @@ button { cursor: pointer; }
     return d.getFullYear() + '.' + String(d.getMonth() + 1).padStart(2, '0') + '.' + String(d.getDate()).padStart(2, '0');
   }
 
-  // ---- 차트 (SVG, 외부 라이브러리 없음) ----
   var SVG_NS = 'http://www.w3.org/2000/svg';
   function s(tag, attrs, text) {
     var el = document.createElementNS(SVG_NS, tag);
@@ -694,11 +644,8 @@ button { cursor: pointer; }
     if (text != null) el.textContent = text;
     return el;
   }
-  // 등급 구간을 0~100 점수로 (레이더용). 모름은 null
   var GRADE_SCORE = { '12': 90, '34': 70, '56': 45, '79': 25 };
-  // 과목별 현재 위치 레이더: 국어, 수학, 영어, 탐구, 공부체력(자기주도역량)
   function radarChart(items) {
-    // 왼쪽 축 이름(공부체력)이 잘리지 않도록 좌우 여백을 넉넉히 둔다
     var W = 380, H = 300, cx = 190, cy = 150, R = 100, n = items.length;
     var svg = s('svg', { viewBox: '0 0 ' + W + ' ' + H, class: 'chart radar', role: 'img', 'aria-label': '과목별 현재 위치 레이더' });
     var ang = function (i) { return -Math.PI / 2 + i * 2 * Math.PI / n; };
@@ -717,13 +664,11 @@ button { cursor: pointer; }
       var lq = pt(i, R + 26);
       var anchor = Math.abs(Math.cos(ang(i))) < 0.2 ? 'middle' : (Math.cos(ang(i)) > 0 ? 'start' : 'end');
       svg.appendChild(s('text', { x: lq[0].toFixed(1), y: (lq[1] - 4).toFixed(1), 'text-anchor': anchor, class: 'lbl' }, it.name));
-      // 축 이름 아래 한 줄 설명(공부체력 아래 '(자기주도역량)')이 있으면 값은 한 줄 더 내려 쓴다.
       if (it.sub) svg.appendChild(s('text', { x: lq[0].toFixed(1), y: (lq[1] + 11).toFixed(1), 'text-anchor': anchor, class: 'sub' }, it.sub));
       svg.appendChild(s('text', { x: lq[0].toFixed(1), y: (lq[1] + (it.sub ? 26 : 12)).toFixed(1), 'text-anchor': anchor, class: 'val' }, it.label));
     });
     return svg;
   }
-  // 2028 빈틈 막대: 과목마다 'M개 (전체 N개 단원 중)'. null은 선택과목을 모를 때
   function gapBars(rows) {
     var W = 320, rowH = 46, top = 4, barH = 12;
     var H = top + rows.length * rowH;
@@ -731,7 +676,6 @@ button { cursor: pointer; }
     rows.forEach(function (r, i) {
       var y = top + i * rowH, yb = y + 22;
       svg.appendChild(s('text', { x: 0, y: y + 14, class: 'lbl' }, r.name));
-      // 퍼센트는 빼고 개수만: 100%가 긍정적으로 읽히는 것을 피한다(사용자 피드백).
       var val = s('text', { x: W, y: y + 14, 'text-anchor': 'end', class: 'val' }, r.v == null ? (r.nullLabel || '선택과목 모름') : r.v === 0 && r.zeroLabel ? r.zeroLabel : null);
       if (r.v != null && !(r.v === 0 && r.zeroLabel)) {
         val.appendChild(s('tspan', { class: 'cnt' }, r.n + '개'));
@@ -744,14 +688,12 @@ button { cursor: pointer; }
     });
     return svg;
   }
-  // 막대에 쓰는 단원 목록(교과 강사 검수 전 초안). 통합사회, 통합과학은 위 영역별 대단원표에서 만든다.
   var GAP_UNITS = {
     gram: ['음운', '단어', '문장', '담화', '국어의 역사'],
     korAll: ['화법과 언어', '독서와 작문', '문학'],
     prob: ['경우의 수', '확률', '통계'],
     mathAll: ['지수함수와 로그함수', '삼각함수', '수열', '함수의 극한과 연속', '미분', '적분', '경우의 수', '확률', '통계']
   };
-  // 영역별 대단원표를 단원 기준으로 뒤집는다. 같은 단원을 두 영역이 나눠 맡으면(괄호) 하나로 합친다.
   function unitsByName(AREAS) {
     var out = {};
     Object.keys(AREAS).forEach(function (area) {
@@ -782,7 +724,6 @@ button { cursor: pointer; }
     ].map(function (r, i) { r.subj = ['kor', 'math', 'soc', 'sci'][i]; r.zeroLabel = '수능에서 본 범위'; return r; });
   }
 
-  // 처방: 순서는 번호 붙은 가로 카드(키워드 크게), 전략('tip')은 그 아래 전구 아이콘 띠로 따로 보여 준다.
   function stepCards(lines) {
     var steps = lines.filter(function (l) { return l[2] !== 'tip'; });
     var tips = lines.filter(function (l) { return l[2] === 'tip'; });
@@ -796,7 +737,6 @@ button { cursor: pointer; }
       })) : null
     ];
   }
-  // 과목 배지: 과목 아이콘 + 이름, 색은 과목 색(.subj-*)을 따른다
   var SUBJ_ICON = { kor: 'book-open', math: 'sigma', soc: 'globe', sci: 'flask-conical', base: 'layers' };
   function subjBadge(subj, text) { return h('span', { class: 'subj-badge', html: iconSvg(SUBJ_ICON[subj]) }, text); }
 
@@ -819,7 +759,6 @@ button { cursor: pointer; }
     ));
   }
 
-  // 첫 화면 이벤트 안내. 진행 중과 시작 전에는 개요(시작 전에는 참여 시작일을 덧붙임), 마감이면 종료 안내.
   function eventCard() {
     if (eventState === 'open' || eventState === 'off') return h('div', { class: 'card event-card' },
       h('span', { class: 'ev-kicker' }, 'EVENT'),
@@ -849,12 +788,10 @@ button { cursor: pointer; }
     var qOpts = typeof q.opts === 'function' ? q.opts(answers) : q.opts;
     var picked = q.multi ? (answers[q.id] || []).slice() : null;
     var nextBtn = q.multi ? h('button', { class: 'btn btn-primary', type: 'button', disabled: '', style: 'margin-top:14px', on: { click: function () { if (picked.length) choose(q, picked.slice(), null); } } }, '다음 →') : null;
-    // 자기주도역량 문항은 번호 동그라미가 점수처럼 읽혀서 숨긴다.
     var opts = qOpts.map(function (o, idx) {
       var on = q.multi ? picked.indexOf(o[0]) >= 0 : answers[q.id] === o[0];
       return h('button', { class: 'opt', type: 'button', 'aria-pressed': String(on), on: { click: function (ev) {
         if (!q.multi) return choose(q, o[0], ev.currentTarget);
-        // 다중 선택: '안 봤어요'와 '모름'은 단독 선택, 나머지는 최대 max개
         var exclusive = o[0] === 'none' || o[0] === 'na';
         var i = picked.indexOf(o[0]);
         if (i >= 0) picked.splice(i, 1);
@@ -884,17 +821,13 @@ button { cursor: pointer; }
     if (choosing) return;
     choosing = true;
     answers[q.id] = value;
-    // 빈틈 과목을 바꾸면 이전에 고른 단원은 맞지 않으므로 지운다.
     if (q.id === 'weak' && answers.unit && answers.unit.indexOf(value + '_') !== 0) delete answers.unit;
-    // 탐구1을 바꾸면 같은 과목이거나 과목이 아닌 답이 된 탐구2는 지운다.
     if (q.id === 'inq1' && (answers.inq2 === value || !TAMGU_BY[value])) delete answers.inq2;
     syncInq(answers);
     if (answers.inq_subj && answers.inq_subj[0] === 'none') delete answers.grade_inq;
-    // 재학생으로 바꾸면 앞서 고른 선택과목 답은 쓰지 않으므로 지운다.
     if (q.id === 'status' && value === 'pre') ['kor_sel', 'math_sel', 'inq1', 'inq2', 'inq_subj'].forEach(function (k) { delete answers[k]; });
     if (q.id === 'status' && value === 'post') ['year', 'soc_weak', 'sci_weak'].forEach(function (k) { delete answers[k]; });
     if (q.id === 'year' && !takesIntegrated(answers)) ['soc_weak', 'sci_weak'].forEach(function (k) { delete answers[k]; });
-    // 학년에 따라 단원 선택지가 달라지므로 학년을 바꾸면 고른 단원은 지운다.
     if (q.id === 'year') delete answers.unit;
     if (btn) btn.parentNode.querySelectorAll('.opt').forEach(function (b) { b.setAttribute('aria-pressed', String(b === btn)); });
     log('answer', { qid: q.id, value: Array.isArray(value) ? value.join('+') : value, q_no: activeQuestions(answers).indexOf(q) + 1 });
@@ -905,7 +838,6 @@ button { cursor: pointer; }
     }, 220);
   }
 
-  // 로고: 언제든 첫 화면으로. 문항을 푸는 중이면 고른 답이 지워진다고 먼저 묻는다.
   document.getElementById('home').addEventListener('click', function () {
     if (step === -1) return;
     if (step >= 0 && step < QUESTIONS.length && Object.keys(answers).length && !window.confirm('첫 화면으로 갈까요? 지금까지 고른 답은 지워져요.')) return;
@@ -948,7 +880,6 @@ button { cursor: pointer; }
     var band = sdlBand(result.sdl);
     var rows = post ? gapRows(answers) : takesIntegrated(answers) ? preRows(answers) : [];
     var ex = post ? null : examOf(answers.year);
-    // N수는 선택과목을 모르는 과목도 빈틈으로 센다. 고3 이하는 자신 없다고 고른 과목만 센다.
     var gapCount = rows.filter(function (r) { return post ? (r.v == null || r.v > 0) : r.v > 0; }).length;
 
     var hero = h('div', { class: 'res-hero', style: '--accent:' + t.color },
@@ -964,7 +895,6 @@ button { cursor: pointer; }
           h('p', { class: 'axis-note' }, h('b', null, result.sdl + '점, ' + band.name + '.'), ' ' + band.tip)),
         h('div', { class: 'hook' }, h('span', { class: 'n' }, post ? String(gapCount) : '!'), h('span', null, post ? (gapCount ? '2028 수능에서 새로 공부할 부분 ' + gapCount + '곳. 아래에서 확인하세요' : '2028 수능 범위와 많이 겹쳐요. 아래에서 확인하세요') : '가장 큰 빈틈은 ' + weak + '. 아래에서 처방을 확인하세요')),
         h('p', { class: 'basis' }, '근거: 혼자 공부, 인강 ' + result.indepCount + '/' + result.toolCount + ' (' + (result.independent ? '독립형' : '가이드형') + '), 자기주도역량 ' + result.sdl + '/25'));
-    // 히어로 카드까지만 먼저 보여 주고, 나머지는 이름과 휴대폰을 받은 뒤에 연다(lite-10).
 
     var overview = h('div', { class: 'card' },
         h('h3', { class: 'card-head' }, '한눈에 보기'),
@@ -976,7 +906,6 @@ button { cursor: pointer; }
           { name: '탐구', v: GRADE_SCORE[answers.grade_inq] || null, label: answers.grade_inq ? GRADE_LABEL[answers.grade_inq] : '안 봄' },
           { name: '공부체력', sub: '(자기주도역량)', v: sdlPct, label: result.sdl + '/25' }
         ]));
-    // 캐릿 방식: 다음 카드 첫 부분이 흐려지며 끊기고, 물결선 아래에서 이름과 휴대폰을 받는다.
     if (!gate) {
       show(h('section', { class: 'screen' }, hero,
         h('div', { class: 'peek', 'aria-hidden': 'true', inert: '' }, overview),
@@ -1025,7 +954,6 @@ button { cursor: pointer; }
     try { var u = new URL(location.href); u.search = ''; u.searchParams.set('utm_source', 'share'); url = u.toString(); } catch (e) {}
     var text = '나는 ' + TYPES[result.type].name + '! 이투스247 LMCT 학습진단으로 2028 수능 공백 찾기';
     var copy = function () { copyText(text + ' ' + url, '링크를 복사했어요'); };
-    // 247 페이지 iframe 안에서는 공유 창이 막힐 수 있어(NotAllowedError) 그때는 링크 복사로 넘어간다. 사용자가 닫은 경우(AbortError)는 그대로 둔다.
     if (navigator.share) { navigator.share({ title: '이투스247 LMCT 학습진단', text: text, url: url }).catch(function (e) { if (!e || e.name !== 'AbortError') copy(); }); return; }
     copy();
   }
@@ -1044,8 +972,6 @@ button { cursor: pointer; }
     }
   }
 
-  // ---- 결과 이미지 (canvas로 직접 그림, 외부 라이브러리 없음) ----
-  // 1080x1350(4:5). 화면 캡처 대신 요약 카드를 그려서 기기, 글꼴, iframe과 상관없이 같은 결과가 나온다.
   var shotUrl = '';
   function showImage() {
     log('cta', { value: 'image' });
@@ -1054,7 +980,6 @@ button { cursor: pointer; }
     drawResult().then(function (blob) {
       if (shotUrl) URL.revokeObjectURL(shotUrl);
       shotUrl = URL.createObjectURL(blob);
-      // 한글 파일 이름은 일부 브라우저에서 'download'로 바뀌어 영문으로 둔다.
       var name = 'LMCT_result_' + today().replace(/\./g, '') + '.png';
       var file = null;
       try { file = new File([blob], name, { type: 'image/png' }); } catch (e) {}
@@ -1091,10 +1016,8 @@ button { cursor: pointer; }
       function text(str, tx, ty, font, color, align) { x.font = font; x.fillStyle = color; x.textAlign = align || 'left'; x.textBaseline = 'alphabetic'; x.fillText(str, tx, ty); return x.measureText(str).width; }
       function glow(gx, gy, r, color) { var g = x.createRadialGradient(gx, gy, 0, gx, gy, r); g.addColorStop(0, color); g.addColorStop(1, 'rgba(0,0,0,0)'); x.fillStyle = g; x.fillRect(gx - r, gy - r, r * 2, r * 2); }
 
-      // 배경
       x.fillStyle = '#F6F8F7'; x.fillRect(0, 0, W, H);
 
-      // 위: 유형 카드 (결과 화면 상단과 같은 색)
       var hy = P, hh = 620;
       x.save(); rr(P, hy, W - P * 2, hh, 44); x.clip();
       var g = x.createLinearGradient(P, hy, W - P, hy + hh); g.addColorStop(0, '#0A5F5C'); g.addColorStop(.55, '#0E7C77'); g.addColorStop(1, '#127F6E');
@@ -1106,7 +1029,6 @@ button { cursor: pointer; }
       text(today(), R, hy + 82, f(700, 30), 'rgba(255,255,255,.82)', 'right');
       text('나의 학습 유형은', L, hy + 178, f(700, 38), 'rgba(255,255,255,.9)');
       var tg = x.createLinearGradient(L, 0, L + 520, 0); tg.addColorStop(0, '#C6F07E'); tg.addColorStop(1, '#7CC242');
-      // 유형 이름이 길면(페이스메이커형) 아이콘과 겹치지 않게 글자를 줄인다.
       var nameMax = R - 150 - 28 - L, namePx = 104;
       x.font = f(900, namePx);
       while (namePx > 64 && x.measureText(t.name).width > nameMax) { namePx -= 4; x.font = f(900, namePx); }
@@ -1116,7 +1038,6 @@ button { cursor: pointer; }
         x.drawImage(icon, R - 150 + 33, hy + 150 + 33, 84, 84);
       }
       text(t.one, L, hy + 360, f(700, 34), '#fff');
-      // 특징 3줄
       var py = hy + 400;
       t.traits.forEach(function (tr) {
         x.font = f(700, 29);
@@ -1128,7 +1049,6 @@ button { cursor: pointer; }
       });
       x.restore();
 
-      // 아래: 2028 빈틈 요약
       var cy = hy + hh + 36, ch = H - cy - 150;
       x.fillStyle = '#fff'; rr(P, cy, W - P * 2, ch, 40); x.fill();
       x.strokeStyle = '#E4EBE8'; x.lineWidth = 2; x.stroke();
@@ -1160,7 +1080,6 @@ button { cursor: pointer; }
       } else {
         var unitId = answers.unit || (answers.weak + '_na');
         var unitRow = unitsFor(answers).filter(function (u) { return u[0] === unitId; })[0];
-        // 단원을 '잘 모르겠어요'로 고르면 과목 이름으로 대신한다.
         var unitName = unitRow && !/_na$/.test(unitId) ? unitRow[1] : SUBJECT[answers.weak] + ' 전반';
         text('가장 큰 빈틈', L, cy + 160, f(700, 32), '#1F2325');
         var unitPx = 52; x.font = f(900, unitPx);
@@ -1171,7 +1090,6 @@ button { cursor: pointer; }
         text(!old ? '지금 배우는 과정 그대로가 시험 범위예요.' : '2028 수능 준비는 \u2018N수 이상\u2019으로 진단해 보세요.', L, cy + 356, f(700, 30), '#1F2325');
       }
 
-      // 맨 아래: 브랜드
       var by = H - 72;
       var bw1 = text('ETOOS', P + 8, by, f(900, 44), '#1F2325');
       text('247', P + 8 + bw1 + 10, by, f(900, 44), '#0E7C77');
@@ -1184,7 +1102,6 @@ button { cursor: pointer; }
     });
   }
 
-  // 유형 아이콘(선 아이콘 SVG)을 흰색 이미지로. 실패하면 아이콘 없이 그린다.
   function loadIcon(name) {
     return new Promise(function (resolve) {
       var img = new Image();
@@ -1194,7 +1111,6 @@ button { cursor: pointer; }
     });
   }
 
-  // 희망 지점(2026-10-29 사용자 제공 목록, 받은 순서 유지). 지점을 고르면 지역(region)도 함께 기록해서 지점별, 지역별로 나눠 볼 수 있게 한다.
   var BRANCH_GROUPS = [
     ['서울', ['대치', '강북', '노량진', '마포', '목동', '목동오목교', '서울강동', '서울강서', '서울광진', '서울대점', '서울도봉', '서울성동', '서울성북', '서울송파', '은평서대문']],
     ['인천/경기', ['광명', '다산', '김포', '동탄', '부천', '분당정자', '수원시청', '수원영통', '수원정자', '안산', '용인수지', '의정부', '일산동구', '일산서구', '파주', '평택', '하남', '인천부평', '인천송도', '인천인하대', '인천청라']],
@@ -1208,7 +1124,6 @@ button { cursor: pointer; }
   var BRANCH_UNKNOWN = '아직 모름';
   var BRANCH_REGION = {};
   BRANCH_GROUPS.forEach(function (g) { g[1].forEach(function (b) { BRANCH_REGION[b] = g[0]; }); });
-  // 지점 연락처(2026-10-14 지점 데이터, 사용자 제공): [전화, 홈페이지, 주소]. 상담 신청을 마치면 고른 지점으로 바로 전화하거나 홈페이지로 갈 수 있게 한다.
   var BRANCH_INFO = {
     '원주': ['033-761-0247', 'https://wonju247.etoos.com', '강원 원주시 남원로 570(개운동) 이투스247'],
     '춘천': ['033-262-0247', 'https://chuncheon247.etoos.com', '강원 춘천시 동내면 춘천순환로 131 3층 중 우측'],
@@ -1273,7 +1188,6 @@ button { cursor: pointer; }
     '청주': ['043-234-0247', 'https://cheongju247.etoos.com', '충북 청주시 흥덕구 대농로 70 801호(복대동)']
   };
   var leadBranch = '';
-  // 고3 이하 리포트(lite-10): 남은 기간과 시기별 할 일, 통합사회·통합과학 빈틈 영역, 가장 큰 빈틈 단원
   var STYLE_NAME = { concept: '개념부터 이해하는 나', problem: '문제부터 푸는 나', error: '틀린 문제 다시 보는 나', memor: '외우고 반복하는 나' };
   function planLines(months) {
     if (months >= 20) return [['지금', '빈틈 단원 메우기, 공부 습관 만들기'], ['고2까지', '대수, 미적분Ⅰ, 확률과 통계 개념 완성'], ['고3', '통합사회, 통합과학까지 전 범위 실전']];
@@ -1305,12 +1219,10 @@ button { cursor: pointer; }
         return h('div', { class: 'gap subj-' + r.subj },
           h('div', { class: 'course-top' }, subjBadge(r.subj, r.name), h('span', { class: 'badge-soft' + (r.n * 2 >= r.total ? ' hot' : '') }, r.n + '개 영역')),
           h('p', { class: 'why' }, r.n >= r.total ? '전 영역이 빈틈이에요. 개념 1회독부터 시작하세요.' : r.areas.map(label).join(', ') + ' 영역부터 메우세요.'),
-          // 공부 전략 띠는 두 과목에 같으므로 마지막 카드에만 붙인다.
           stepCards(r.areas.slice(0, 3).map(function (k) { return [label(k), AREAS[k].join(', ')]; }).concat(i === weakRows.length - 1 ? [['평가원 예시 문항', '기출이 없으니 모의고사와 함께', 'tip']] : [])));
       }),
       known.length && !weakRows.length ? h('p', { class: 'note', style: 'text-align:left;margin-top:12px' }, '모두 자신 있다고 골랐어요. 평가원 예시 문항으로 실제 실력을 확인해 보세요.') : null));
     var subj = answers.weak === 'kor' || answers.weak === 'math' ? answers.weak : 'base';
-    // 올해 수능(선택과목 있음)을 보는 고3에게는 선택과목 단원의 안내를 따로 쓴다.
     var point = (unitId === 'math_calc' && ex && ex.suneung < 2028 && UNIT_POINT.math_calc_old) || UNIT_POINT[unitId];
     out.push(h('div', { class: 'card gapcard subj-' + subj },
       h('div', { class: 'course-top' }, subjBadge(subj, SUBJECT[answers.weak] + ' 가장 큰 빈틈'), h('span', { class: 'badge-soft hot' }, '여기부터')),
@@ -1320,12 +1232,10 @@ button { cursor: pointer; }
     return out;
   }
 
-  // 결과 중간 입력: 이벤트 참여 + 이름, 휴대폰. 이벤트 내용(경품, 기간, 발표)은 확정 전 자리 표시.
   function gateCard(post, gapCount, weak) {
     var name = h('input', { class: 'input', type: 'text', id: 'g-name', autocomplete: 'name', maxlength: '20', placeholder: '학생 이름' });
     var phone = phoneInput('g-phone');
     var agree = h('input', { type: 'checkbox', id: 'g-agree' });
-    // 만 14세 미만은 법정대리인 동의가 필요하다(개인정보보호법 제22조의2). 보호자 동의 절차가 없어 만 14세 이상만 받는다(법무 확인 전 기본값).
     var age = h('input', { type: 'checkbox', id: 'g-age' });
     var evOpen = eventState === 'open';
     var err = h('p', { class: 'err', role: 'alert', hidden: '' });
@@ -1341,7 +1251,6 @@ button { cursor: pointer; }
       err.hidden = true;
       submit.disabled = true; submit.textContent = '저장하는 중…';
       var entered = { name: name.value.trim(), phone: digits };
-      // 이벤트 참여가 걸려 있어 저장이 확인된 뒤에 결과를 연다. 실패하면 다시 누를 수 있게 둔다.
       sendConfirmed('gate', { name: entered.name, phone: entered.phone, consent: true, age14: true, type: result.type }).then(function (res) {
         if (!res || res.r !== 'ok') {
           submit.disabled = false; submit.textContent = '전체 결과 보기';
@@ -1351,7 +1260,6 @@ button { cursor: pointer; }
         gate = { name: entered.name, phone: entered.phone, entry: res.event };
         if (res.event === 'closed') eventState = 'closed';
         renderResult();
-        // 히어로 다음, 방금 열린 내용으로 내려 준다.
         var next = app.querySelector('.res-hero');
         if (next && next.nextElementSibling) try { next.nextElementSibling.scrollIntoView({ block: 'start' }); } catch (e) {}
       });
@@ -1382,7 +1290,6 @@ button { cursor: pointer; }
       h('div', { class: 'card' }, form));
   }
 
-  // 휴대폰 입력: 숫자만 받고 010-0000-0000 모양으로 맞춘다.
   function phoneInput(id) {
     var phone = h('input', { class: 'input', type: 'tel', id: id, autocomplete: 'tel', inputmode: 'numeric', maxlength: '13', placeholder: '010-0000-0000' });
     phone.addEventListener('input', function () {
@@ -1398,7 +1305,6 @@ button { cursor: pointer; }
     var mode = '';
     var name = h('input', { class: 'input', type: 'text', id: 'f-name', autocomplete: 'name', maxlength: '20', placeholder: '학생 이름' });
     var phone = phoneInput('f-phone');
-    // 결과 중간에서 이미 받았으면 이름과 휴대폰은 다시 묻지 않고, 희망 지점과 형태만 받는다.
     if (gate) { name.value = gate.name; phone.value = gate.phone.slice(0, 3) + '-' + gate.phone.slice(3, gate.phone.length - 4) + '-' + gate.phone.slice(-4); }
     var branch = h('select', { class: 'input', id: 'f-branch' }, h('option', { value: '' }, '희망 지점을 골라 주세요'),
       BRANCH_GROUPS.map(function (g) { return h('optgroup', { label: g[0] }, g[1].map(function (b) { return h('option', { value: b }, b); })); }),
