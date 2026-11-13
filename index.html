@@ -362,7 +362,9 @@ button { cursor: pointer; }
     var row = YEAR_OPTS_BASE.filter(function (r) { return r[0] === yearId; })[0];
     if (!row) return null;
     var examYear = schoolYear() + row[2], d = new Date();
-    return { examYear: examYear, suneung: examYear + 1, months: Math.max(0, (examYear - d.getFullYear()) * 12 + (10 - d.getMonth())) };
+    // 수능은 11월 셋째 목요일. 그날 저녁부터는 시험을 마친 것으로 보고 안내 문구를 바꾼다.
+    var thu = 1 + (11 - new Date(examYear, 10, 1).getDay()) % 7 + 14;
+    return { examYear: examYear, suneung: examYear + 1, months: Math.max(0, (examYear - d.getFullYear()) * 12 + (10 - d.getMonth())), done: d >= new Date(examYear, 10, thu, 18) };
   }
   var AREA_NONE = [['none', '모두 자신 있어요'], ['na', '잘 모르겠어요']];
   // 통합사회, 통합과학은 2028 수능부터. 올해 수능(지금 고3)을 보는 학생에게는 묻지 않는다.
@@ -983,7 +985,7 @@ button { cursor: pointer; }
       entryNote(),
       overview,
 
-      h('div', { class: 'sechead' }, h('span', { class: 'kicker dark' }, '개정 수능 대비'), h('h3', null, post ? '2028 수능에서 새로 공부할 부분' : (ex ? ex.suneung : 2028) + ' 수능, 이렇게 준비해요')),
+      h('div', { class: 'sechead' }, h('span', { class: 'kicker dark' }, '개정 수능 대비'), h('h3', null, post ? '2028 수능에서 새로 공부할 부분' : (ex ? ex.suneung : 2028) + (ex && ex.done ? ' 수능 이후, 이렇게 준비해요' : ' 수능, 이렇게 준비해요'))),
       post ? h('div', { class: 'card gapcard' },
         gapBars(rows),
         gapList.map(function (g) {
@@ -1129,7 +1131,7 @@ button { cursor: pointer; }
       var post = isPost(answers);
       var pre = takesIntegrated(answers) ? preRows(answers) : [], preKnown = pre.some(function (r) { return r.v != null; });
       var ex = post ? null : examOf(answers.year);
-      text(post ? '2028 수능에서 새로 공부할 부분' : preKnown ? '통합사회, 통합과학 빈틈 영역' : (ex ? ex.suneung : 2028) + ' 수능, 이렇게 준비해요', L, cy + 76, f(900, 40), '#0A5F5C');
+      text(post ? '2028 수능에서 새로 공부할 부분' : preKnown ? '통합사회, 통합과학 빈틈 영역' : (ex ? ex.suneung : 2028) + (ex && ex.done ? ' 수능 이후, 이렇게 준비해요' : ' 수능, 이렇게 준비해요'), L, cy + 76, f(900, 40), '#0A5F5C');
       if (post || preKnown) {
         var COLORS = { kor: '#B8325A', math: '#2563EB', soc: '#A1459C', sci: '#5B9A2E' };
         var rows = post ? gapRows(answers) : pre, ry = cy + 124, rowH = (ch - 150) / Math.max(rows.length, 3), bw = R - L;
@@ -1160,8 +1162,9 @@ button { cursor: pointer; }
         var unitPx = 52; x.font = f(900, unitPx);
         while (unitPx > 34 && x.measureText(unitName).width > R - L) { unitPx -= 2; x.font = f(900, unitPx); }
         text(unitName, L, cy + 230, f(900, unitPx), '#0E7C77');
-        text('국어, 수학, 탐구 모두 공통인 첫 개정 수능.', L, cy + 310, f(700, 30), '#1F2325');
-        text('지금 배우는 과정 그대로가 시험 범위예요.', L, cy + 356, f(700, 30), '#1F2325');
+        var old = ex && ex.suneung < 2028;
+        text(!old ? '국어, 수학, 탐구 모두 공통인 첫 개정 수능.' : ex.done ? '올해 수능은 끝났어요.' : '올해 수능은 지금 교육과정으로 치러요.', L, cy + 310, f(700, 30), '#1F2325');
+        text(!old ? '지금 배우는 과정 그대로가 시험 범위예요.' : '2028 수능 준비는 \u2018N수 이상\u2019으로 진단해 보세요.', L, cy + 356, f(700, 30), '#1F2325');
       }
 
       // 맨 아래: 브랜드
@@ -1277,8 +1280,8 @@ button { cursor: pointer; }
     var out = [];
     if (ex && ex.suneung < 2028) {
       out.push(h('div', { class: 'card gapcard subj-base' },
-        h('div', { class: 'course-top' }, subjBadge('base', ex.suneung + ' 수능'), h('span', { class: 'badge-soft hot' }, '올해 11월')),
-        h('p', { class: 'why' }, '올해 수능은 지금 교육과정(선택과목 있음)으로 치러요. 2028 수능을 다시 준비한다면 처음 화면에서 \u2018N수 이상\u2019으로 진단해 보세요.')));
+        h('div', { class: 'course-top' }, subjBadge('base', ex.suneung + ' 수능'), h('span', { class: 'badge-soft hot' }, ex.done ? '시험 종료' : '올해 11월')),
+        h('p', { class: 'why' }, (ex.done ? '올해 수능은 끝났어요.' : '올해 수능은 지금 교육과정(선택과목 있음)으로 치러요.') + ' 2028 수능을 다시 준비한다면 처음 화면에서 \u2018N수 이상\u2019으로 진단해 보세요.')));
     } else if (ex) {
       out.push(h('div', { class: 'card gapcard subj-base' },
         h('div', { class: 'course-top' }, subjBadge('base', ex.suneung + ' 수능까지'), h('span', { class: 'badge-soft hot' }, ex.months ? '약 ' + ex.months + '개월' : '이번 달')),
