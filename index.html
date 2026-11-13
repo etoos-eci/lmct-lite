@@ -628,7 +628,7 @@ button { cursor: pointer; }
   var result = null;
   var leadSent = false;
   var gate = null;
-  function resetRun() { answers = {}; gate = null; leadSent = false; t0 = Date.now(); }
+  function resetRun() { answers = {}; gate = null; leadSent = false; shareFile = null; t0 = Date.now(); }
   var finishTimer = 0;
 
   function h(tag, attrs) {
@@ -999,20 +999,29 @@ button { cursor: pointer; }
       h('p', { class: 'foot' }, '더 자세한 안내는 가까운 247 지점 상담과 정밀진단(LMTI, LMAT)에서 받아 보세요.')
     ));
     if (leadSent) app.querySelector('.btn-primary').disabled = true;
+    prepareShare();
   }
 
+  var shareFile = null;
+  function prepareShare() {
+    if (shareFile) return;
+    drawResult().then(function (blob) {
+      try { shareFile = new File([blob], 'LMCT_result_' + today().replace(/\./g, '') + '.png', { type: 'image/png' }); } catch (e) {}
+    }, function () {});
+  }
   function share() {
     log('cta', { value: 'share' });
     var url = HOME_URL;
     try { var u = new URL(location.href); u.search = ''; u.searchParams.set('utm_source', 'share'); url = u.toString(); } catch (e) {}
     var text = '나는 ' + TYPES[result.type].name + '! 이투스247 LMCT 학습진단으로 2028 수능 공백 찾기';
-    var copy = function () { copyText(text + ' ' + url, '링크를 복사했어요'); };
-    if (navigator.share) { navigator.share({ title: '이투스247 LMCT 학습진단', text: text, url: url }).catch(function (e) { if (!e || e.name !== 'AbortError') copy(); }); return; }
-    copy();
+    var fallback = function () { showImage(); copyText(text + ' ' + url, '링크를 복사했어요. 이미지는 아래에서 저장하세요', '아래 이미지를 저장해 공유하세요'); };
+    var canFile = !!(shareFile && navigator.share && navigator.canShare && navigator.canShare({ files: [shareFile] }));
+    if (!canFile) return fallback();
+    navigator.share({ files: [shareFile], title: '이투스247 LMCT 학습진단', text: text + ' ' + url }).catch(function (e) { if (!e || e.name !== 'AbortError') fallback(); });
   }
 
-  function copyText(text, okMsg) {
-    var fail = function () { toast('복사하지 못했어요'); };
+  function copyText(text, okMsg, failMsg) {
+    var fail = function () { toast(failMsg || '복사하지 못했어요'); };
     if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(function () { toast(okMsg); }, legacy); return; }
     legacy();
     function legacy() {
@@ -1285,7 +1294,7 @@ button { cursor: pointer; }
   }
 
   function gateCard(post, gapCount, weak) {
-    var name = h('input', { class: 'input', type: 'text', id: 'g-name', autocomplete: 'name', maxlength: '20', placeholder: '학생 이름' });
+    var name = nameInput('g-name');
     var phone = phoneInput('g-phone');
     var agree = h('input', { type: 'checkbox', id: 'g-agree' });
     var age = h('input', { type: 'checkbox', id: 'g-age' });
@@ -1296,6 +1305,7 @@ button { cursor: pointer; }
       ev.preventDefault();
       var digits = phone.value.replace(/\D/g, '');
       var msg = !name.value.trim() ? '이름을 적어 주세요.'
+        : /[A-Za-z]/.test(name.value) ? '이름은 한글로 적어 주세요.'
         : !/^01[016789]\d{7,8}$/.test(digits) ? '휴대폰 번호를 확인해 주세요.'
         : !age.checked ? '만 14세 미만은 보호자 동의가 필요해 전체 결과를 열 수 없어요.'
         : !agree.checked ? '개인정보 수집과 이용에 동의해 주세요.' : '';
@@ -1342,6 +1352,14 @@ button { cursor: pointer; }
       h('div', { class: 'card' }, form));
   }
 
+  function nameInput(id) {
+    var name = h('input', { class: 'input', type: 'text', id: id, autocomplete: 'name', maxlength: '20', placeholder: '학생 이름 (한글)', lang: 'ko' });
+    name.addEventListener('input', function () {
+      var v = name.value.replace(/[A-Za-z]/g, '');
+      if (v !== name.value) name.value = v;
+    });
+    return name;
+  }
   function phoneInput(id) {
     var phone = h('input', { class: 'input', type: 'tel', id: id, autocomplete: 'tel', inputmode: 'numeric', maxlength: '13', placeholder: '010-0000-0000' });
     phone.addEventListener('input', function () {
@@ -1355,7 +1373,7 @@ button { cursor: pointer; }
     backBtn.hidden = false;
     step = QUESTIONS.length + 1;
     var mode = '';
-    var name = h('input', { class: 'input', type: 'text', id: 'f-name', autocomplete: 'name', maxlength: '20', placeholder: '학생 이름' });
+    var name = nameInput('f-name');
     var phone = phoneInput('f-phone');
     if (gate) { name.value = gate.name; phone.value = gate.phone.slice(0, 3) + '-' + gate.phone.slice(3, gate.phone.length - 4) + '-' + gate.phone.slice(-4); }
     var branch = h('select', { class: 'input', id: 'f-branch', disabled: '' }, h('option', { value: '' }, '희망 형태를 먼저 골라 주세요'));
@@ -1381,6 +1399,7 @@ button { cursor: pointer; }
       ev.preventDefault();
       var digits = phone.value.replace(/\D/g, '');
       var msg = !name.value.trim() ? '이름을 적어 주세요.'
+        : /[A-Za-z]/.test(name.value) ? '이름은 한글로 적어 주세요.'
         : !/^01[016789]\d{7,8}$/.test(digits) ? '휴대폰 번호를 확인해 주세요.'
         : !mode ? '희망 형태를 골라 주세요.'
         : !branch.value ? '희망 지점을 골라 주세요.'
