@@ -1381,7 +1381,6 @@ button { cursor: pointer; }
       var groups = BRANCH_GROUPS.filter(function (g) { return m === '기숙' ? g[0] === '기숙학원' : m === '통학' ? g[0] !== '기숙학원' : true; });
       branch.replaceChildren(h('option', { value: '' }, '희망 지점을 골라 주세요'));
       groups.forEach(function (g) { branch.appendChild(h('optgroup', { label: g[0] }, g[1].map(function (b) { return h('option', { value: b }, b); }))); });
-      branch.appendChild(h('option', { value: BRANCH_UNKNOWN }, BRANCH_UNKNOWN));
       branch.removeAttribute('disabled');
       branch.value = '';
     }
