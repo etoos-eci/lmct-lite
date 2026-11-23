@@ -632,7 +632,7 @@ button { cursor: pointer; }
   var result = null;
   var leadSent = false;
   var gate = null;
-  function resetRun() { answers = {}; gate = null; leadSent = false; shareFile = null; quickSkip = false; t0 = Date.now(); }
+  function resetRun() { answers = {}; gate = null; leadSent = false; shareFile = null; quickSkip = false; leaveSent = false; t0 = Date.now(); }
   var finishTimer = 0;
 
   function h(tag, attrs) {
@@ -887,7 +887,6 @@ button { cursor: pointer; }
     if (q.id === 'year' && !takesIntegrated(answers)) ['soc_weak', 'sci_weak'].forEach(function (k) { delete answers[k]; });
     if (q.id === 'year') delete answers.unit;
     if (btn) btn.parentNode.querySelectorAll('.opt').forEach(function (b) { b.setAttribute('aria-pressed', String(b === btn)); });
-    log('answer', { qid: q.id, value: Array.isArray(value) ? value.join('+') : value, q_no: activeQuestions(answers).indexOf(q) + 1 });
     setTimeout(function () {
       choosing = false;
       var j = nextIndex(step, 1);
@@ -1510,6 +1509,15 @@ button { cursor: pointer; }
     ));
   }
 
+  var leaveSent = false;
+  function logLeave() {
+    if (leaveSent || step < 0 || step >= QUESTIONS.length) return;
+    leaveSent = true;
+    var q = QUESTIONS[step];
+    log('leave', { qid: q.id, q_no: activeQuestions(answers).indexOf(q) + 1 });
+  }
+  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') logLeave(); });
+  window.addEventListener('pagehide', logLeave);
   window.addEventListener('resize', postHeight);
   window.LMCTLite = { score: score, gaps: gaps, gradeBucket: gradeBucket, QUESTIONS: QUESTIONS, TYPES: TYPES, UNITS: UNITS, GAPS: GAPS };
   log('view');
