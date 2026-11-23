@@ -223,6 +223,10 @@ button { cursor: pointer; }
 .consent summary { cursor: pointer; font-weight: 800; color: var(--teal-deep); }
 .consent ul { margin: 8px 0 0; padding-left: 16px; }
 .check { display: flex; gap: 9px; align-items: flex-start; font-size: 16px; font-weight: 700; color: var(--ink); }
+.quick { border: 2px solid var(--teal); background: linear-gradient(160deg, #F1FAF8 0%, #fff 60%); }
+.quick .card-head { margin-bottom: 4px; }
+.quick .form { margin-top: 12px; }
+.quick-skip { display: block; margin: 10px auto 0; padding: 6px 4px; background: none; border: 0; font-size: 14.5px; font-weight: 700; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
 .check input { width: 20px; height: 20px; margin-top: 1px; accent-color: var(--teal); flex: none; }
 .err { margin: 0; font-size: 15.5px; font-weight: 800; color: #B23A2A; }
 .toast { position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 20px); transform: translateX(-50%); padding: 11px 18px; border-radius: 999px; background: rgba(46, 50, 51, .92); color: #fff; font-size: 16px; font-weight: 700; z-index: 50; max-width: calc(100% - 32px); }
@@ -628,7 +632,7 @@ button { cursor: pointer; }
   var result = null;
   var leadSent = false;
   var gate = null;
-  function resetRun() { answers = {}; gate = null; leadSent = false; shareFile = null; t0 = Date.now(); }
+  function resetRun() { answers = {}; gate = null; leadSent = false; shareFile = null; quickSkip = false; t0 = Date.now(); }
   var finishTimer = 0;
 
   function h(tag, attrs) {
@@ -969,6 +973,7 @@ button { cursor: pointer; }
 
     show(h('section', { class: 'screen' }, hero,
       entryNote(),
+      quickConsult(),
       overview,
 
       h('div', { class: 'sechead' }, h('span', { class: 'kicker dark' }, '개정 수능 대비'), h('h3', null, post ? '2028 수능에서 새로 공부할 부분' : (ex ? ex.suneung : 2028) + (ex && ex.done ? ' 수능 이후, 이렇게 준비해요' : ' 수능, 이렇게 준비해요'))),
@@ -1250,6 +1255,53 @@ button { cursor: pointer; }
     '청주': ['043-234-0247', 'https://cheongju247.etoos.com', '충북 청주시 흥덕구 대농로 70 801호(복대동)']
   };
   var leadBranch = '';
+  var quickSkip = false;
+  function quickConsult() {
+    if (!gate || leadSent || quickSkip) return null;
+    var mode = '';
+    var branch = h('select', { class: 'input', id: 'q-branch', disabled: '' }, h('option', { value: '' }, '희망 형태를 먼저 골라 주세요'));
+    var segBtns = ['통학', '기숙', '아직 모름'].map(function (m) {
+      return h('button', { type: 'button', 'aria-pressed': 'false', on: { click: function (ev) {
+        mode = m; segBtns.forEach(function (b) { b.setAttribute('aria-pressed', String(b === ev.currentTarget)); });
+        var groups = BRANCH_GROUPS.filter(function (g) { return m === '기숙' ? g[0] === '기숙학원' : m === '통학' ? g[0] !== '기숙학원' : true; });
+        branch.replaceChildren(h('option', { value: '' }, '희망 지점을 골라 주세요'));
+        groups.forEach(function (g) { branch.appendChild(h('optgroup', { label: g[0] }, g[1].map(function (b) { return h('option', { value: b }, b); }))); });
+        branch.removeAttribute('disabled'); branch.value = '';
+      } } }, m);
+    });
+    var agree = h('input', { type: 'checkbox', id: 'q-agree' });
+    var err = h('p', { class: 'err', role: 'alert', hidden: '' });
+    var submit = h('button', { class: 'btn btn-primary', type: 'submit' }, '무료 상담 받기');
+    var card = h('div', { class: 'card quick' },
+      h('h3', { class: 'card-head' }, '내 결과, 지점 선생님과 같이 보기'),
+      h('p', { class: 'card-sub' }, '지점만 고르면 선생님이 연락드려요.'),
+      h('form', { class: 'form', novalidate: '', on: { submit: function (ev) {
+        ev.preventDefault();
+        var msg = !mode ? '희망 형태를 골라 주세요.' : !branch.value ? '희망 지점을 골라 주세요.' : !agree.checked ? '지점에 연락처를 전달하는 데 동의해 주세요.' : '';
+        if (msg) { err.textContent = msg; err.hidden = false; postHeight(); return; }
+        submit.disabled = true;
+        log('cta', { value: 'quick_consult' });
+        log('lead', { name: gate.name, phone: gate.phone, branch: branch.value, region: BRANCH_REGION[branch.value] || BRANCH_UNKNOWN, mode: mode, consent: true, type: result.type, course: '' });
+        leadSent = true;
+        leadBranch = branch.value;
+        renderThanks();
+      } } },
+        h('div', { class: 'field' }, h('span', { class: 'lbl' }, '희망 형태'), h('div', { class: 'seg' }, segBtns)),
+        h('div', { class: 'field' }, h('label', { for: 'q-branch' }, '희망 지점'), branch),
+        h('details', { class: 'consent' },
+          h('summary', null, '지점 전달 안내 (필수)'),
+          h('ul', null,
+            h('li', null, '제공받는 곳: 선택한 이투스247학원 지점 (상담 연락 목적)'),
+            h('li', null, '제공 항목: 이름, 휴대폰 번호, 희망 형태, 학습 유형'),
+            h('li', null, '이용 목적: 학습 상담 연락과 정밀진단 안내'),
+            h('li', null, '보유 기간: 수집일로부터 1년, 이후 파기'),
+            h('li', null, '동의하지 않을 수 있으며, 이 경우 상담 신청이 어려워요.'))),
+        h('label', { class: 'check', for: 'q-agree' }, agree, '선택한 지점에 연락처를 전달하는 데 동의합니다.'),
+        err,
+        submit),
+      h('button', { class: 'quick-skip', type: 'button', on: { click: function () { log('cta', { value: 'quick_consult_skip' }); quickSkip = true; card.remove(); postHeight(); } } }, '괜찮아요, 결과만 볼게요'));
+    return card;
+  }
   var STYLE_NAME = { concept: '개념부터 이해하는 나', problem: '문제부터 푸는 나', error: '틀린 문제 다시 보는 나', memor: '외우고 반복하는 나' };
   function planLines(months) {
     if (months >= 20) return [['지금', '빈틈 단원을 메우고 공부 습관을 만들어요.'], ['고2까지', '대수, 미적분Ⅰ, 확률과 통계 개념을 완성해요.'], ['고3', '통합사회, 통합과학까지 전 범위를 실전처럼 풀어요.']];
