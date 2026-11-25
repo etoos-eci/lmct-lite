@@ -401,7 +401,8 @@ button { cursor: pointer; }
     { id: 'grade_kor', phase: gradePhase, text: function (a) { return isPost(a) ? '수능에서 국어 등급은?' : '최근 모의고사에서 국어 등급은?'; }, hint: function (a) { return isPost(a) ? '가장 최근에 본 수능 기준으로 골라 주세요.' : '대략적으로 골라도 괜찮아요.'; }, opts: GRADE_OPTS },
     { id: 'grade_math', phase: gradePhase, text: '수학 등급은?', opts: GRADE_OPTS },
     { id: 'grade_eng', phase: gradePhase, text: '영어 등급은?', opts: GRADE_OPTS },
-    { id: 'grade_inq', phase: gradePhase, when: function (a) { return !isPost(a) || !(a.inq_subj && a.inq_subj[0] === 'none'); }, text: function (a) { return takesIntegrated(a) ? '탐구 등급은? (통합사회, 통합과학 평균)' : '탐구 등급은? (두 과목이면 평균)'; }, opts: GRADE_OPTS },
+    { id: 'grade_inq1', phase: gradePhase, when: function (a) { return !isPost(a) || a.inq1 !== 'none'; }, text: function (a) { return inqLabel(a, 1) + ' 등급은?'; }, opts: GRADE_OPTS },
+    { id: 'grade_inq2', phase: gradePhase, when: function (a) { return !isPost(a) || (a.inq1 !== 'none' && a.inq2 !== 'one'); }, text: function (a) { return inqLabel(a, 2) + ' 등급은?'; }, opts: GRADE_OPTS },
     { id: 'soc_weak', phase: '통합사회', multi: true, max: 5, when: takesIntegrated, text: '통합사회에서 자신 없는 영역을 모두 골라 주세요.', hint: '여러 개 고를 수 있어요.',
       opts: function () { return Object.keys(SOC_AREAS).map(function (k) { return [k, k]; }).concat(AREA_NONE); } },
     { id: 'sci_weak', phase: '통합과학', multi: true, max: 4, when: takesIntegrated, text: '통합과학에서 자신 없는 영역을 모두 골라 주세요.', hint: '여러 개 고를 수 있어요.',
@@ -492,6 +493,12 @@ button { cursor: pointer; }
     if (!isPost(a) || !a.inq1) { delete a.inq_subj; return; }
     a.inq_subj = TAMGU_BY[a.inq1] && TAMGU_BY[a.inq2] ? [a.inq1, a.inq2] : [a.inq1];
   }
+  function inqSubName(a, n) {
+    if (takesIntegrated(a)) return n === 1 ? '통합사회' : '통합과학';
+    var r = isPost(a) && TAMGU_BY[a['inq' + n]];
+    return r ? r[1] : null;
+  }
+  function inqLabel(a, n) { var sub = inqSubName(a, n); return '탐구' + n + (sub ? '(' + sub + ')' : ''); }
   function inqInfo(a) {
     var ids = (a.inq_subj || []).filter(function (v) { return TAMGU_BY[v]; });
     var taken = ids.map(function (v) { return TAMGU_BY[v]; });
@@ -684,7 +691,7 @@ button { cursor: pointer; }
   }
   var GRADE_SCORE = { '12': 90, '34': 70, '56': 45, '79': 25 };
   function radarChart(items) {
-    var W = 380, H = 300, cx = 190, cy = 150, R = 100, n = items.length;
+    var W = 380, H = 318, cx = 190, cy = 150, R = 100, n = items.length;
     var svg = s('svg', { viewBox: '0 0 ' + W + ' ' + H, class: 'chart radar', role: 'img', 'aria-label': '과목별 현재 위치 레이더' });
     var ang = function (i) { return -Math.PI / 2 + i * 2 * Math.PI / n; };
     var pt = function (i, r) { return [cx + r * Math.cos(ang(i)), cy + r * Math.sin(ang(i))]; };
@@ -881,7 +888,7 @@ button { cursor: pointer; }
     if (q.id === 'weak' && answers.unit && answers.unit.indexOf(value + '_') !== 0) delete answers.unit;
     if (q.id === 'inq1' && (answers.inq2 === value || !TAMGU_BY[value])) delete answers.inq2;
     syncInq(answers);
-    if (answers.inq_subj && answers.inq_subj[0] === 'none') delete answers.grade_inq;
+    ['grade_inq1', 'grade_inq2'].forEach(function (k) { var gq = QUESTIONS.filter(function (x) { return x.id === k; })[0]; if (!gq.when(answers)) delete answers[k]; });
     if (q.id === 'status' && value === 'pre') ['kor_sel', 'math_sel', 'inq1', 'inq2', 'inq_subj'].forEach(function (k) { delete answers[k]; });
     if (q.id === 'status' && value === 'post') ['year', 'soc_weak', 'sci_weak'].forEach(function (k) { delete answers[k]; });
     if (q.id === 'year' && !takesIntegrated(answers)) ['soc_weak', 'sci_weak'].forEach(function (k) { delete answers[k]; });
@@ -913,7 +920,8 @@ button { cursor: pointer; }
     step = QUESTIONS.length;
     backBtn.hidden = true;
     result = score(answers);
-    var flat = Object.assign({}, answers, { inq_subj: (answers.inq_subj || []).join('+') });
+    var flat = Object.assign({}, answers, { inq_subj: (answers.inq_subj || []).join('+'), grade_inq: [answers.grade_inq1, answers.grade_inq2].filter(Boolean).join('+') || undefined });
+    delete flat.grade_inq1; delete flat.grade_inq2;
     ['soc_weak', 'sci_weak'].forEach(function (k) { if (answers[k]) flat[k] = answers[k].join('+'); });
     log('complete', { answers: flat, grade: result.grade, gaps: gaps(answers).map(function (g) { return g.title; }).join(','), type: result.type, sdl: result.sdl });
     show(h('section', { class: 'loading screen' },
@@ -931,7 +939,7 @@ button { cursor: pointer; }
     var unitName = unitRow ? unitRow[1] : weak + ' 전반';
     var gapList = gaps(answers);
     var info = inqInfo(answers);
-    var subjects = [['kor', 'grade_kor', 'tool_kor'], ['math', 'grade_math', 'tool_math'], ['eng', 'grade_eng', 'tool_eng'], ['inq', 'grade_inq', 'tool_inq']];
+    var subjects = [['kor', 'grade_kor', 'tool_kor'], ['math', 'grade_math', 'tool_math'], ['eng', 'grade_eng', 'tool_eng'], ['inq', 'grade_inq1', 'tool_inq']];
     var post = isPost(answers);
     var band = sdlBand(result.sdl);
     var rows = post ? gapRows(answers) : takesIntegrated(answers) ? preRows(answers) : [];
@@ -959,7 +967,8 @@ button { cursor: pointer; }
           { name: '국어', v: GRADE_SCORE[answers.grade_kor] || null, label: GRADE_LABEL[answers.grade_kor || 'na'] },
           { name: '수학', v: GRADE_SCORE[answers.grade_math] || null, label: GRADE_LABEL[answers.grade_math || 'na'] },
           { name: '영어', v: GRADE_SCORE[answers.grade_eng] || null, label: GRADE_LABEL[answers.grade_eng || 'na'] },
-          { name: '탐구', v: GRADE_SCORE[answers.grade_inq] || null, label: answers.grade_inq ? GRADE_LABEL[answers.grade_inq] : '안 봄' },
+          { name: '탐구1', sub: inqSubName(answers, 1), v: GRADE_SCORE[answers.grade_inq1] || null, label: answers.grade_inq1 ? GRADE_LABEL[answers.grade_inq1] : '안 봄' },
+          { name: '탐구2', sub: inqSubName(answers, 2), v: GRADE_SCORE[answers.grade_inq2] || null, label: answers.grade_inq2 ? GRADE_LABEL[answers.grade_inq2] : '안 봄' },
           { name: '공부체력', sub: '(자기주도역량)', v: sdlPct, label: result.sdl + '/25' }
         ]));
     if (!gate) {
